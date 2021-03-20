@@ -21,25 +21,24 @@
 class LargeUInt
 {
 private:
-
 	/// Split up data in nodes of N_LIMIT_LENGTH digits
-	std :: vector <unsigned int> _nList;
+	std ::vector<unsigned int> _nList;
 
-	LargeUInt& add(const unsigned int _x, const unsigned int _iPosition = 0);
+	/// Add unsigned value to specific positional node
+	LargeUInt &add(const unsigned int _x, const unsigned int _iPosition = 0);
 
 public:
-
 	/// Constructor default
 	LargeUInt();
 
 	/// Constructor with  unsigned integer
 	LargeUInt(const unsigned int _x);
 
-	/// Constructor with unsigned integer as string	
+	/// Constructor with unsigned integer as string
 	LargeUInt(const std::string _x);
 
 	/// Constructor with unsigned integer as large unsigned int
-	LargeUInt(const LargeUInt& _x);
+	LargeUInt(const LargeUInt &_x);
 
 	/// Destructor default
 	~LargeUInt();
@@ -47,21 +46,17 @@ public:
 	/// Get unsigned integer as string
 	std::string get();
 
-    /// This is the operator overloading function for assignment operator(=).
-	LargeUInt& operator = (const unsigned int _x);
+	/// This is the operator overloading function for assignment operator(=).
+	LargeUInt &operator=(const unsigned int _x);
 
 	/// This is the operator overloading function for assignment operator(=).
-	LargeUInt& operator = (const LargeUInt& _x);
-
-
-    /// This is the operator overloading function for assignment operator(+).
-	LargeUInt& operator += (const unsigned int _x);
+	LargeUInt &operator=(const LargeUInt &_x);
 
 	/// This is the operator overloading function for assignment operator(+).
-	LargeUInt& operator += (const LargeUInt& _x);
+	LargeUInt &operator+=(const unsigned int _x);
 
+	/// This is the operator overloading function for assignment operator(+).
+	LargeUInt &operator+=(const LargeUInt &_x);
 };
-
-
 
 #endif /* LargeUInt_H_ */

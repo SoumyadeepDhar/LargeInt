@@ -8,12 +8,12 @@
 #include "largeuint.h"
 #include <sstream>
 
-LargeUInt::LargeUInt() 
+LargeUInt::LargeUInt()
 {
 	_nList.push_back(0U);
 }
 
-LargeUInt::LargeUInt(const unsigned int _x) 
+LargeUInt::LargeUInt(const unsigned int _x)
 {
 	// Most significant digit
 	unsigned int _msd = _x / N_LIMIT_VALUE;
@@ -23,11 +23,11 @@ LargeUInt::LargeUInt(const unsigned int _x)
 
 	// Update nodes
 	_msd ? _nList.push_back(_aod)
-			: _nList.push_back(_aod)
-			, _nList.push_back(_msd);
+		 : _nList.push_back(_aod)
+		 , _nList.push_back(_msd);
 }
 
-LargeUInt::LargeUInt(const std::string _x) 
+LargeUInt::LargeUInt(const std::string _x)
 {
 	// accumulator value for any node
 	unsigned int value = 0;
@@ -39,40 +39,43 @@ LargeUInt::LargeUInt(const std::string _x)
 	unsigned int nDigit = _x.length();
 
 	// Fot all digits in the given string
-	for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++) {
+	for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
+	{
 
-		// Calculate positional significance within the  node 
+		// Calculate positional significance within the  node
 		int power = position - (_nList.size() * N_LIMIT_LENGTH);
 
 		// Find value for the desimal place
-		value += (_x[sIndex] - 48) * pow(10, power); 
+		value += (_x[sIndex] - 48) * pow(10, power);
 
-		// Keep only 'N_LIMIT_LENGTH' digits in any node 
-		if((power + 1) == N_LIMIT_LENGTH) {
+		// Keep only 'N_LIMIT_LENGTH' digits in any node
+		if ((power + 1) == N_LIMIT_LENGTH)
+		{
 
 			// Insert data in nodelist
 			_nList.push_back(value);
 
-			// Clear value accumulator 
+			// Clear value accumulator
 			value = 0;
 		}
 	}
 
 	// Append remaining digits
-	if(position % N_LIMIT_LENGTH) _nList.push_back(value);
+	if (position % N_LIMIT_LENGTH)
+		_nList.push_back(value);
 }
 
-LargeUInt::LargeUInt(const LargeUInt& _x) 
+LargeUInt::LargeUInt(const LargeUInt &_x)
 {
 	_nList = _x._nList;
 }
 
-LargeUInt::~LargeUInt() 
+LargeUInt::~LargeUInt()
 {
 	_nList.clear();
 }
 
-std::string LargeUInt::get() 
+std::string LargeUInt::get()
 {
 	int nIndex = 0;
 	std::ostringstream str;
@@ -81,12 +84,14 @@ std::string LargeUInt::get()
 	str << "[" << nIndex++ << "]" << std::to_string(*_nList.rbegin());
 
 	// Get all other nodes
-	for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i) {
+	for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
+	{
 
 		str << " [" << nIndex++ << "]";
 		std::string value(std::to_string(*i));
 
-		for (unsigned int x = N_LIMIT_LENGTH; x > value.length(); x--) {
+		for (unsigned int x = N_LIMIT_LENGTH; x > value.length(); x--)
+		{
 			str << "0";
 		}
 
@@ -96,7 +101,7 @@ std::string LargeUInt::get()
 	return str.str();
 }
 
-LargeUInt& LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
+LargeUInt &LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
 {
 	// Get positional value to add
 	auto _cPosition = _nList.begin() + _iPosition;
@@ -111,15 +116,19 @@ LargeUInt& LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
 	*_cPosition = _value - _carry * N_LIMIT_VALUE;
 
 	// If carry value present
-	if(_carry > 0) {
+	if (_carry > 0)
+	{
 
 		// Update next (if exist) node with carry value
-		if(std::next(_cPosition) != _nList.end()) {
+		if (std::next(_cPosition) != _nList.end())
+		{
 
 			// Add carry to next node position
 			add(_carry, (_iPosition + 1));
-		} else {
-			
+		}
+		else
+		{
+
 			// Append carry as last node
 			_nList.push_back(_carry);
 		}
@@ -129,7 +138,7 @@ LargeUInt& LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
 }
 
 /// This is the operator overloading function for assignment operator(+).
-LargeUInt& LargeUInt::operator = (const unsigned int _x)
+LargeUInt &LargeUInt::operator=(const unsigned int _x)
 {
 	// Clear previous data if any
 	_nList.clear();
@@ -139,17 +148,17 @@ LargeUInt& LargeUInt::operator = (const unsigned int _x)
 
 	// All other digits
 	unsigned int _aod = _x - _msd * N_LIMIT_VALUE;
-	
+
 	// Update nodes
-	_msd ? _nList.push_back(_aod)
-	     : _nList.push_back(_aod)
+	_msd ? _nList.push_back(_aod) 
+		 : _nList.push_back(_aod)
 		 , _nList.push_back(_msd);
 
 	return *this;
 }
 
 /// This is the operator overloading function for assignment operator(+).
-LargeUInt& LargeUInt::operator = (const LargeUInt &_x)
+LargeUInt &LargeUInt::operator=(const LargeUInt &_x)
 {
 	// Clear previous data if any
 	_nList.clear();
@@ -161,33 +170,30 @@ LargeUInt& LargeUInt::operator = (const LargeUInt &_x)
 }
 
 // This is the operator overloading function for assignment operator(+).
-LargeUInt& LargeUInt::operator += (const unsigned int _x)
+LargeUInt &LargeUInt::operator+=(const unsigned int _x)
 {
+	// Add given value
 	this->add(_x);
 	return *this;
 }
 
 // This is the operator overloading function for assignment operator(+).
-LargeUInt& LargeUInt::operator += (const LargeUInt& _x) {
-	unsigned int _sList1 =    _nList.size();
+LargeUInt &LargeUInt::operator+=(const LargeUInt &_x)
+{
+	unsigned int _sList1 = _nList.size();
 	unsigned int _sList2 = _x._nList.size();
 
-	// Make
-	unsigned int _minLength = std::min(_sList1, _sList2);
-
 	// Make sure current list has as many elements as the given list to add
-	for(auto nIndex = _minLength; nIndex < _sList2; ++nIndex) {
+	for (auto nIndex = _sList1; nIndex < _sList2; ++nIndex)
+	{
 		_nList.push_back(0U);
 	}
 
-	// Add successive elements one by one in proper positions
-	for(auto nIndex = 0U; nIndex < _sList2; ++nIndex)
+	// Add successive elements one by one in proper positions from given list
+	for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
 	{
 		this->add(*(_x._nList.begin() + nIndex), nIndex);
 	}
 
 	return *this;
 }
-
-
-
