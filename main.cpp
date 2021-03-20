@@ -22,5 +22,8 @@ int main()
   b += a;
   std::cout << "(b += a):b = " << b.get() << std::endl;
 
+  b <<= 12U;
+  std::cout << "(b <<=  12U):b = " << b.get() << std::endl;
+
   return 0;
 }

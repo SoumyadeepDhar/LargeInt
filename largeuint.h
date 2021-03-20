@@ -12,13 +12,13 @@
 #include <vector>
 #include <math.h>
 
-#define N_LIMIT_VALUE 1000000000U
-#define N_LIMIT_LENGTH 9U
+#define N_LIMIT_mVALUE 1000000000U
+#define N_LIMIT_mDIGIT 9U
 
 class LargeUInt
 {
 private:
-  /// Split up data in nodes of N_LIMIT_LENGTH digits
+  /// Split up data in nodes of N_LIMIT_mDIGIT
   std ::vector<unsigned int> _nList;
 
   /// Add unsigned value to specific positional node
@@ -54,6 +54,9 @@ public:
 
   /// This is the operator overloading function for assignment operator(+).
   LargeUInt &operator+=(const LargeUInt &_x);
+
+  /// This is the operator overloading function for assignment operator(<<).
+  LargeUInt &operator<<=(const unsigned int _x);
 };
 
 #endif /* LargeUInt_H_ */

@@ -16,10 +16,10 @@ LargeUInt::LargeUInt()
 LargeUInt::LargeUInt(const unsigned int _x)
 {
   // Most significant digit
-  unsigned int _msd = _x / N_LIMIT_VALUE;
+  unsigned int _msd = _x / N_LIMIT_mVALUE;
 
   // All other digits
-  unsigned int _aod = _x - _msd * N_LIMIT_VALUE;
+  unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
   _msd ? _nList.push_back(_aod)
@@ -29,26 +29,26 @@ LargeUInt::LargeUInt(const unsigned int _x)
 
 LargeUInt::LargeUInt(const std::string _x)
 {
-	// accumulator value for any node
-	unsigned int value = 0;
+  // accumulator value for any node
+  unsigned int value = 0;
 
-	// Right to left position of the digits in the string
-	unsigned int position = 0;
+  // Right to left position of the digits in the string
+  unsigned int position = 0;
 
-	// Input string length
+  // Input string length
   unsigned int nDigit = _x.length();
 
   // Fot all digits in the given string
   for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
   {
     // Calculate positional significance within the  node
-    int power = position - (_nList.size() * N_LIMIT_LENGTH);
+    int power = position - (_nList.size() * N_LIMIT_mDIGIT);
 
     // Find value for the desimal place
     value += (_x[sIndex] - 48) * pow(10, power);
 
-    // Keep only 'N_LIMIT_LENGTH' digits in any node
-    if ((power + 1) == N_LIMIT_LENGTH)
+    // Keep only 'N_LIMIT_mDIGIT' in any node
+    if ((power + 1) == N_LIMIT_mDIGIT)
     {
       // Insert data in nodelist
       _nList.push_back(value);
@@ -59,7 +59,7 @@ LargeUInt::LargeUInt(const std::string _x)
   }
 
   // Append remaining digits
-  if (position % N_LIMIT_LENGTH)
+  if (position % N_LIMIT_mDIGIT)
   {
     _nList.push_back(value);
   }
@@ -88,7 +88,7 @@ std::string LargeUInt::get()
     str << " [" << nIndex++ << "]";
     std::string value(std::to_string(*i));
 
-    for (unsigned int x = N_LIMIT_LENGTH; x > value.length(); x--)
+    for (unsigned int x = N_LIMIT_mDIGIT; x > value.length(); x--)
     {
       str << "0";
     }
@@ -108,10 +108,10 @@ LargeUInt &LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
   unsigned int _value = *_cPosition + _x;
 
   // Get carry
-  unsigned int _carry = _value / N_LIMIT_VALUE;
+  unsigned int _carry = _value / N_LIMIT_mVALUE;
 
   // Update node value
-  *_cPosition = _value - _carry * N_LIMIT_VALUE;
+  *_cPosition = _value - _carry * N_LIMIT_mVALUE;
 
   // If carry value present
   if (_carry > 0)
@@ -139,10 +139,10 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
   _nList.clear();
 
   // Most significant digit
-  unsigned int _msd = _x / N_LIMIT_VALUE;
+  unsigned int _msd = _x / N_LIMIT_mVALUE;
 
   // All other digits
-  unsigned int _aod = _x - _msd * N_LIMIT_VALUE;
+  unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
   _msd ? _nList.push_back(_aod)
@@ -188,6 +188,53 @@ LargeUInt &LargeUInt::operator+=(const LargeUInt &_x)
   for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
   {
     this->add(*(_x._nList.begin() + nIndex), nIndex);
+  }
+
+  return *this;
+}
+
+// This is the operator overloading function for assignment operator(<<).
+LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
+{
+  unsigned int _mCarry = 0U;
+
+  // New nodes tobe appended
+  unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
+
+  // Number of digits to be shifted
+  unsigned int _nDigit = _x - _nNodes * N_LIMIT_mDIGIT;
+
+  if (_nDigit > 0)
+  {
+    // Complement digits to be shifted
+    unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
+    unsigned int _cValue = pow(10, _cDigit);
+    unsigned int _nValue = pow(10, _nDigit);
+
+    // Shift succesive elements
+    for (auto i = _nList.begin(); i != _nList.end(); ++i)
+    {
+      // Find carry to be added tothe previous node
+      unsigned int _nCarry = *i / _cValue;
+
+      // Update current node
+      *i = (*i - (_nCarry * _cValue)) * _nValue + _mCarry;
+
+      // Update carry
+      _mCarry = _nCarry;
+    }
+
+    // If carry present add new node with carry
+    if (_mCarry > 0)
+    {
+      _nList.push_back(_mCarry);
+    }
+  }
+
+  // Append nodes at the beginging of the vector
+  if (_nNodes > 0)
+  {
+    _nList.insert(_nList.begin(), _nNodes, 0U);
   }
 
   return *this;
