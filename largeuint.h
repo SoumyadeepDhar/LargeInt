@@ -57,6 +57,9 @@ public:
 
   /// This is the operator overloading function for assignment operator(<<).
   LargeUInt &operator<<=(const unsigned int _x);
+
+  /// This is the operator overloading function for assignment operator(<<).
+  LargeUInt &operator>>=(const unsigned int _x);
 };
 
 #endif /* LargeUInt_H_ */

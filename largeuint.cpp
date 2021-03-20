@@ -239,3 +239,61 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 
   return *this;
 }
+
+// This is the operator overloading function for assignment operator(>>).
+LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
+{
+  unsigned int _mCarry = 0U;
+
+  // New nodes tobe appended
+  unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
+
+  // Number of digits to be shifted
+  unsigned int _nDigit = _x - _nNodes * N_LIMIT_mDIGIT;
+
+  // If given number is larger than shift length
+  if (_nNodes < _nList.size())
+  {
+
+    // Erase _nNodes nodes from begining
+    if (_nNodes > 0)
+    {
+      _nList.erase(_nList.begin(), _nList.begin() + _nNodes);
+    }
+
+    // Digits has to be shifted
+    if (_nDigit > 0)
+    {
+      // Complement digits to be shifted
+      unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
+      unsigned int _cValue = pow(10, _cDigit);
+      unsigned int _nValue = pow(10, _nDigit);
+
+      // Shift succesive elements
+      for (auto i = _nList.rbegin(); i != _nList.rend(); ++i)
+      {
+        // Find carry to be added tothe previous node
+        unsigned int _nCarry = *i - ((*i / _nValue) * _nValue);
+
+        // Update current node
+        *i = *i / _nValue + _mCarry;
+
+        // Update carry
+        _mCarry = (_nCarry * _cValue);
+      }
+
+      // If empty node present at theend remove it
+      if (_nList.back() == 0)
+      {
+        _nList.pop_back();
+      }
+    }
+  }
+  else
+  {
+    _nList.clear();
+    _nList.push_back(0U);
+  }
+
+  return *this;
+}
