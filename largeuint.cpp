@@ -23,8 +23,8 @@ LargeUInt::LargeUInt(const unsigned int _x)
 
 	// Update nodes
 	_msd ? _nList.push_back(_aod)
-		 : _nList.push_back(_aod)
-		 , _nList.push_back(_msd);
+		 : _nList.push_back(_aod),
+		_nList.push_back(_msd);
 }
 
 LargeUInt::LargeUInt(const std::string _x)
@@ -41,7 +41,6 @@ LargeUInt::LargeUInt(const std::string _x)
 	// Fot all digits in the given string
 	for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
 	{
-
 		// Calculate positional significance within the  node
 		int power = position - (_nList.size() * N_LIMIT_LENGTH);
 
@@ -51,7 +50,6 @@ LargeUInt::LargeUInt(const std::string _x)
 		// Keep only 'N_LIMIT_LENGTH' digits in any node
 		if ((power + 1) == N_LIMIT_LENGTH)
 		{
-
 			// Insert data in nodelist
 			_nList.push_back(value);
 
@@ -86,7 +84,6 @@ std::string LargeUInt::get()
 	// Get all other nodes
 	for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
 	{
-
 		str << " [" << nIndex++ << "]";
 		std::string value(std::to_string(*i));
 
@@ -118,17 +115,14 @@ LargeUInt &LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
 	// If carry value present
 	if (_carry > 0)
 	{
-
 		// Update next (if exist) node with carry value
 		if (std::next(_cPosition) != _nList.end())
 		{
-
 			// Add carry to next node position
 			add(_carry, (_iPosition + 1));
 		}
 		else
 		{
-
 			// Append carry as last node
 			_nList.push_back(_carry);
 		}
@@ -150,9 +144,9 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
 	unsigned int _aod = _x - _msd * N_LIMIT_VALUE;
 
 	// Update nodes
-	_msd ? _nList.push_back(_aod) 
-		 : _nList.push_back(_aod)
-		 , _nList.push_back(_msd);
+	_msd ? _nList.push_back(_aod)
+		 : _nList.push_back(_aod),
+		_nList.push_back(_msd);
 
 	return *this;
 }
