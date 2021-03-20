@@ -10,17 +10,17 @@
 #include "largeuint.h"
 int main()
 {
-	LargeUInt a("12345923456789");
-	std::cout << "a: " << a.get() << std::endl;
+  LargeUInt a("12345923456789");
+  std::cout << "a: " << a.get() << std::endl;
 
-	LargeUInt b("999999999923456789");
-	std::cout << "b: " << b.get() << std::endl;
+  LargeUInt b("999999999923456789");
+  std::cout << "b: " << b.get() << std::endl;
 
-	a += b;
-	std::cout << "(a += b):a = " << a.get() << std::endl;
+  a += b;
+  std::cout << "(a += b):a = " << a.get() << std::endl;
 
-	b += a;
-	std::cout << "(b += a):b = " << b.get() << std::endl;
+  b += a;
+  std::cout << "(b += a):b = " << b.get() << std::endl;
 
-	return 0;
+  return 0;
 }
