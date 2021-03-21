@@ -304,6 +304,32 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
   return *this;
 }
 
+/// This is the operator overloading function for shift operator(<<).
+LargeUInt LargeUInt::operator<<(const unsigned int _x) const
+{
+  // Create temporary storage 
+  LargeUInt _temp(*this);
+
+  // Shift _x times
+  _temp <<= _x;
+
+  // return newly computed value
+  return _temp;
+}
+
+/// This is the operator overloading function for shift operator(>>).
+LargeUInt LargeUInt::operator>>(const unsigned int _x) const
+{
+  // Create temporary storage 
+  LargeUInt _temp(*this);
+
+  // Shift _x times
+  _temp >>= _x;
+
+  // return newly computed value
+  return _temp;
+}
+
 /// This is the operator overloading function for comparator operator(<).
 bool LargeUInt::operator<(const unsigned int _x)
 {
@@ -425,9 +451,7 @@ bool LargeUInt::operator>=(const LargeUInt &_x)
 /// This is the operator overloading function for comparator operator(==).
 bool LargeUInt::operator==(const LargeUInt &_x)
 {
-  return digits() > _x.digits()
-             ? false
-         : digits() < _x.digits()
+  return digits() != _x.digits()
              ? false
              : _nList.back() == _x._nList.back();
 }
@@ -435,9 +459,7 @@ bool LargeUInt::operator==(const LargeUInt &_x)
 /// This is the operator overloading function for comparator operator(!=).
 bool LargeUInt::operator!=(const LargeUInt &_x)
 {
-  return digits() > _x.digits()
-             ? true
-         : digits() < _x.digits()
+  return digits() != _x.digits()
              ? true
              : _nList.back() != _x._nList.back();
 }

@@ -64,6 +64,12 @@ public:
   /// This is the operator overloading function for assignment operator(>>).
   LargeUInt &operator>>=(const unsigned int _x);
 
+  /// This is the operator overloading function for shift operator(<<).
+  LargeUInt operator<<(const unsigned int _x) const;
+
+  /// This is the operator overloading function for shift operator(>>).
+  LargeUInt operator>>(const unsigned int _x) const;
+
   /// This is the operator overloading function for comparator operator(<).
   bool operator<(const unsigned int _x);
 
