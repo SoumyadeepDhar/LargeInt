@@ -1,5 +1,5 @@
 /*
- * largeuInt.cpp
+ * largeuint.cpp
  *
  *  Created on: 03-Apr-2019
  *  Author: Soumyadeep Dhar
@@ -74,7 +74,7 @@ LargeUInt::~LargeUInt()
   _nList.clear();
 }
 
-std::string LargeUInt::get()
+std::string LargeUInt::get() const
 {
   int nIndex = 0;
   std::ostringstream str;
@@ -97,6 +97,12 @@ std::string LargeUInt::get()
   }
 
   return str.str();
+}
+
+/// Get number of digits
+unsigned int LargeUInt::digits() const
+{
+  return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
 }
 
 LargeUInt &LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
@@ -296,4 +302,142 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
   }
 
   return *this;
+}
+
+/// This is the operator overloading function for comparator operator(<).
+bool LargeUInt::operator<(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() < _digits
+             ? true
+         : digits() > _digits
+             ? false
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() < _x
+             : _nList.back() < (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(<=).
+bool LargeUInt::operator<=(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() < _digits
+             ? true
+         : digits() > _digits
+             ? false
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() <= _x
+             : _nList.back() <= (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(>).
+bool LargeUInt::operator>(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() > _digits
+             ? true
+         : digits() < _digits
+             ? false
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() > _x
+             : _nList.back() > (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(>=).
+bool LargeUInt::operator>=(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() > _digits
+             ? true
+         : digits() < _digits
+             ? false
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() >= _x
+             : _nList.back() >= (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(==).
+bool LargeUInt::operator==(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() > _digits
+             ? false
+         : digits() < _digits
+             ? false
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() == _x
+             : _nList.back() == (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(!=).
+bool LargeUInt::operator!=(const unsigned int _x)
+{
+  unsigned int _digits = floor(log10(_x)) + 1;
+  return digits() > _digits
+             ? true
+         : digits() < _digits
+             ? true
+         : (_x < N_LIMIT_mVALUE)
+             ? _nList.back() != _x
+             : _nList.back() != (_x - N_LIMIT_mVALUE + 1);
+}
+
+/// This is the operator overloading function for comparator operator(<).
+bool LargeUInt::operator<(const LargeUInt &_x)
+{
+  return digits() < _x.digits()
+             ? true
+         : digits() > _x.digits()
+             ? false
+             : _nList.back() < _x._nList.back();
+}
+
+/// This is the operator overloading function for comparator operator(<=).
+bool LargeUInt::operator<=(const LargeUInt &_x)
+{
+  return digits() < _x.digits()
+             ? true
+         : digits() > _x.digits()
+             ? false
+             : _nList.back() <= _x._nList.back();
+}
+
+/// This is the operator overloading function for comparator operator(>).
+bool LargeUInt::operator>(const LargeUInt &_x)
+{
+  return digits() > _x.digits()
+             ? true
+         : digits() < _x.digits()
+             ? false
+             : _nList.back() > _x._nList.back();
+}
+
+/// This is the operator overloading function for comparator operator(>=).
+bool LargeUInt::operator>=(const LargeUInt &_x)
+{
+  return digits() > _x.digits()
+             ? true
+         : digits() < _x.digits()
+             ? false
+             : _nList.back() >= _x._nList.back();
+}
+
+/// This is the operator overloading function for comparator operator(==).
+bool LargeUInt::operator==(const LargeUInt &_x)
+{
+  return digits() > _x.digits()
+             ? false
+         : digits() < _x.digits()
+             ? false
+             : _nList.back() == _x._nList.back();
+}
+
+/// This is the operator overloading function for comparator operator(!=).
+bool LargeUInt::operator!=(const LargeUInt &_x)
+{
+  return digits() > _x.digits()
+             ? true
+         : digits() < _x.digits()
+             ? true
+             : _nList.back() != _x._nList.back();
 }

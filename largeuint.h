@@ -38,10 +38,13 @@ public:
   LargeUInt(const LargeUInt &_x);
 
   /// Destructor default
-  ~LargeUInt();
+  virtual ~LargeUInt();
 
   /// Get unsigned integer as string
-  std::string get();
+  std::string get() const;
+
+  /// Get number of digits
+  unsigned int digits() const;
 
   /// This is the operator overloading function for assignment operator(=).
   LargeUInt &operator=(const unsigned int _x);
@@ -58,8 +61,44 @@ public:
   /// This is the operator overloading function for assignment operator(<<).
   LargeUInt &operator<<=(const unsigned int _x);
 
-  /// This is the operator overloading function for assignment operator(<<).
+  /// This is the operator overloading function for assignment operator(>>).
   LargeUInt &operator>>=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(<).
+  bool operator<(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(<=).
+  bool operator<=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(>).
+  bool operator>(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(>=).
+  bool operator>=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(==).
+  bool operator==(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(!=).
+  bool operator!=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(<).
+  bool operator<(const LargeUInt &_x);
+
+  /// This is the operator overloading function for comparator operator(<=).
+  bool operator<=(const LargeUInt &_x);
+
+  /// This is the operator overloading function for comparator operator(>).
+  bool operator>(const LargeUInt &_x);
+
+  /// This is the operator overloading function for comparator operator(>=).
+  bool operator>=(const LargeUInt &_x);
+
+  /// This is the operator overloading function for comparator operator(==).
+  bool operator==(const LargeUInt &_x);
+
+  /// This is the operator overloading function for comparator operator(!=).
+  bool operator!=(const LargeUInt &_x);
 };
 
 #endif /* LargeUInt_H_ */
