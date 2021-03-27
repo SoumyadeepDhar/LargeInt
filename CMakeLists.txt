@@ -10,6 +10,9 @@ project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
 include_directories(include)
 include_directories(library)
 
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 # Add source files
 set(SOURCES 
     source/largeuint.cpp)
@@ -17,15 +20,30 @@ set(SOURCES
 # Make Target
 add_library(largeuint SHARED ${SOURCES})
 
-# Install library
-install(TARGETS largeuint DESTINATION library)
-
 # Enable CTest
 enable_testing()
 
 # Add test source files
+set(GTESTS_SOURCES  
+    tests/gtests/tests_gtests.cpp
+    tests/gtests/tests_constructor.cpp
+    )
+
+# Make Gtest target
+add_executable(GTestLargeUInt ${GTESTS_SOURCES})
+
+# Links the executable to the LargeUInt C++ library.
+target_link_libraries (GTestLargeUInt LINK_PUBLIC largeuint)
+target_link_libraries (GTestLargeUInt PUBLIC gtest)
+target_link_libraries (GTestLargeUInt PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+
+# Add CTest
+add_test(GTest GTestLargeUInt)
+
+
+# Add test source files
 set(CTESTS_SOURCES  
-    tests/ctests/ctests.cpp)
+    tests/ctests/tests_ctests.cpp)
 
 # Make ctest target
 add_executable(CTestLargeUInt ${CTESTS_SOURCES})
