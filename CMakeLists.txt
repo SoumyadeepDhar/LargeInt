@@ -8,7 +8,9 @@ project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
 
 # Include directory for the project
 include_directories(include)
-include_directories(library)
+
+# GTest option
+option(GTEST_GIT_CI "GTest during git push" OFF)
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
@@ -51,5 +53,28 @@ add_executable(CTestLargeUInt ${CTESTS_SOURCES})
 # Links the executable to the LargeUInt C++ library.
 target_link_libraries (CTestLargeUInt LINK_PUBLIC largeuint)
 
-# Add CTest
+# Add CTest to CI
 add_test(CTest CTestLargeUInt)
+
+# Checks for GTest
+if(${GTEST_GIT_CI})
+
+    find_package(GTest REQUIRED)
+    include_directories(${GTEST_INCLUDE_DIRS})
+
+    # Add test source files
+    set(GTESTS_SOURCES  
+        tests/gtests/tests_gtests.cpp
+        tests/gtests/tests_constructor.cpp)
+
+    # Make Gtest target
+    add_executable(GTestLargeUInt ${GTESTS_SOURCES})
+
+    # Links the executable to the LargeUInt C++ library.
+    target_link_libraries (GTestLargeUInt LINK_PUBLIC largeuint)
+    target_link_libraries (GTestLargeUInt PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+
+    # Add GTest to CI
+    add_test(GTest GTestLargeUInt)
+endif()
+
