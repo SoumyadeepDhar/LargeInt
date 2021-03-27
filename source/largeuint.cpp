@@ -6,6 +6,7 @@
  */
 
 #include <sstream>
+#include <iostream>
 #include "largeuint.h"
 
 LargeUInt::LargeUInt()
@@ -436,7 +437,7 @@ bool LargeUInt::operator<(const LargeUInt &_x)
   }
   else
   {
-    for (int _s = _nd - 1; _s >= 0; --_s)
+    for (int _s = _nList.size() - 1; _s >= 0; --_s)
     {
       if (_nList[_s] < _x._nList[_s])
       {
@@ -468,7 +469,7 @@ bool LargeUInt::operator<=(const LargeUInt &_x)
   }
   else
   {
-    for (int _s = _nd - 1; _s >= 0; --_s)
+    for (int _s = _nList.size() - 1; _s >= 0; --_s)
     {
       if (_nList[_s] < _x._nList[_s])
       {
@@ -500,7 +501,7 @@ bool LargeUInt::operator>(const LargeUInt &_x)
   }
   else
   {
-    for (int _s = _nd - 1; _s >= 0; --_s)
+    for (int _s = _nList.size() - 1; _s >= 0; --_s)
     {
       if (_nList[_s] > _x._nList[_s])
       {
@@ -532,7 +533,7 @@ bool LargeUInt::operator>=(const LargeUInt &_x)
   }
   else
   {
-    for (int _s = _nd - 1; _s >= 0; --_s)
+    for (int _s = _nList.size() - 1; _s >= 0; --_s)
     {
       if (_nList[_s] > _x._nList[_s])
       {
@@ -559,14 +560,13 @@ bool LargeUInt::operator!=(const LargeUInt &_x)
 {
   unsigned int _nd = digits();
   unsigned int _md = _x.digits();
-
   if (_nd != _md)
   {
     return true;
   }
   else
   {
-    for (int _s = _nd - 1; _s >= 0; --_s)
+    for (int _s = _nList.size() - 1; _s >= 0; --_s)
     {
       if (_nList[_s] != _x._nList[_s])
       {
