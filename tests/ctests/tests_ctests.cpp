@@ -10,10 +10,10 @@
 #include "largeuint.h"
 int main()
 {
-  LargeUInt a("12345923456789");
+  ns::dn::lui::LargeUInt a("12345923456789");
   std::cout << "a: " << a.get() << std::endl;
 
-  LargeUInt b("999999999923456789");
+  ns::dn::lui::LargeUInt b("999999999923456789");
   std::cout << "b: " << b.get() << std::endl;
 
   a += b;

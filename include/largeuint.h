@@ -12,6 +12,16 @@
 #include <vector>
 #include <math.h>
 
+// Number ststem
+namespace ns
+{
+// Decimal Number
+namespace dn
+{
+// Large unsigned integer
+namespace lui
+{
+
 #define N_LIMIT_mVALUE 1000000000U
 #define N_LIMIT_mDIGIT 9U
 
@@ -106,5 +116,9 @@ public:
   /// This is the operator overloading function for comparator operator(!=).
   bool operator!=(const LargeUInt &_x);
 };
+
+} // namespace lui
+} // namespace ds
+} // namespace ns
 
 #endif /* LargeUInt_H_ */

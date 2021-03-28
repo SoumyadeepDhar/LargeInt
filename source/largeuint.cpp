@@ -9,6 +9,15 @@
 #include <iostream>
 #include "largeuint.h"
 
+namespace ns
+{
+// Decimal Number
+namespace dn
+{
+// Large unsigned integer
+namespace lui
+{
+
 LargeUInt::LargeUInt()
 {
   _nList.push_back(0U);
@@ -576,3 +585,7 @@ bool LargeUInt::operator!=(const LargeUInt &_x)
     return false;
   }
 }
+
+} // namespace lui
+} // namespace ds
+} // namespace ns
