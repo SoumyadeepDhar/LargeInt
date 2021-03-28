@@ -9,6 +9,7 @@
 #include <iostream>
 #include "largeuint.h"
 
+// Number ststem
 namespace ns
 {
 // Decimal Number
@@ -32,9 +33,8 @@ LargeUInt::LargeUInt(const unsigned int _x)
   unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
-  _msd ? _nList.push_back(_aod)
-       : _nList.push_back(_aod),
-      _nList.push_back(_msd);
+  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
+       : (_nList.push_back(_aod));
 }
 
 LargeUInt::LargeUInt(const std::string _x)
@@ -83,8 +83,8 @@ LargeUInt::~LargeUInt()
 {
   _nList.clear();
 }
-
-std::string LargeUInt::get() const
+// Get large unsigned integer as string for all the nodes
+std::string LargeUInt::getNodes() const
 {
   int nIndex = 0;
   std::ostringstream str;
@@ -96,6 +96,30 @@ std::string LargeUInt::get() const
   for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
   {
     str << " [" << nIndex++ << "]";
+    std::string value(std::to_string(*i));
+
+    for (unsigned int x = N_LIMIT_mDIGIT; x > value.length(); x--)
+    {
+      str << "0";
+    }
+
+    str << value;
+  }
+
+  return str.str();
+}
+
+// Get large unsigned integer as string for all the nodes
+std::string LargeUInt::getValue() const
+{
+  std::ostringstream str;
+
+  // Get most significant node
+  str << std::to_string(*_nList.rbegin());
+
+  // Get all other nodes
+  for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
+  {
     std::string value(std::to_string(*i));
 
     for (unsigned int x = N_LIMIT_mDIGIT; x > value.length(); x--)
@@ -161,9 +185,8 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
   unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
-  _msd ? _nList.push_back(_aod)
-       : _nList.push_back(_aod),
-      _nList.push_back(_msd);
+  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
+       : (_nList.push_back(_aod));
 
   return *this;
 }

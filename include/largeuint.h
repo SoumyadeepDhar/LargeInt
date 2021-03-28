@@ -5,8 +5,8 @@
  *  Author: soumyadeep dhar
  */
 
-#ifndef LargeUInt_H_
-#define LargeUInt_H_
+#ifndef LARGEUINT_H_
+#define LARGEUINT_H_
 
 #include <string>
 #include <vector>
@@ -50,8 +50,11 @@ public:
   /// Destructor default
   virtual ~LargeUInt();
 
-  /// Get unsigned integer as string
-  std::string get() const;
+  /// Get large unsigned integer as string for all the nodes
+  std::string getNodes() const;
+
+  /// Get large unsigned integer as string for all the nodes
+  std::string getValue() const;
 
   /// Get number of digits
   unsigned int digits() const;
@@ -121,4 +124,4 @@ public:
 } // namespace ds
 } // namespace ns
 
-#endif /* LargeUInt_H_ */
+#endif // LARGEUINT_H_

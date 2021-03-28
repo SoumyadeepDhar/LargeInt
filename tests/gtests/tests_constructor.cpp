@@ -1,41 +1,37 @@
-#include "gtest/gtest.h"
-#include <bits/stdc++.h>
-#include "largeuint.h"
+#include "gtests/tests_constructor.h"
 
-TEST(CheckTest, test1) {
-  ns::dn::lui::LargeUInt a("12345923456789");
-  std::cout << "a: " << a.get() << std::endl;
-
-  ns::dn::lui::LargeUInt b("999999999923456789");
-  std::cout << "b: " << b.get() << std::endl;
-
-  a += b;
-  std::cout << "(a += b):a = " << a.get() << std::endl;
-
-  b += a;
-  std::cout << "(b += a):b = " << b.get() << std::endl;
-
-  std::cout << "(a < b) = " << (a < b) << std::endl;
-  std::cout << "(a <= b) = " << (a <= b) << std::endl;
-  std::cout << "(a > b) = " << (a > b) << std::endl;
-  std::cout << "(a >= b) = " << (a >= b) << std::endl;
-  std::cout << "(a == b) = " << (a == b) << std::endl;
-  std::cout << "(a != b) = " << (a != b) << std::endl;
-
-  std::cout << "(a < 123) = " << (a < 123) << std::endl;
-  std::cout << "(a <= 123) = " << (a <= 123) << std::endl;
-  std::cout << "(a > 123) = " << (a > 123) << std::endl;
-  std::cout << "(a >= 123) = " << (a >= 123) << std::endl;
-  std::cout << "(a == 123) = " << (a == 123) << std::endl;
-  std::cout << "(a != 123) = " << (a != 123) << std::endl;
-
-  a = b;
-  std::cout << "(a = b):a = " << a.get() << std::endl;
-  b = a;
-  std::cout << "(b = a):b = " << b.get() << std::endl;
-
-  std::cout << "(a == b) = " << (a == b) << std::endl;
-  std::cout << "(a != b) = " << (a != b) << std::endl;
-
-    EXPECT_EQ(a.get(), b.get());
+// Number ststem
+namespace ns
+{
+// Decimal Number
+namespace dn
+{
+// Large unsigned integer
+namespace lui
+{
+// Testing module
+namespace testing
+{
+// Test constructors
+namespace test_constructor
+{
+TEST_F(TestConstructor, tests_default_constructor)
+{
+    LargeUInt a;
+    EXPECT_EQ(a.getValue(), std::string("0"));
 }
+
+TEST_F(TestConstructor, tests_arg_constructor_unsigned_int)
+{
+    LargeUInt a(10U);
+    EXPECT_EQ(a.getValue(), std::string("10"));
+
+    LargeUInt b(UINT32_MAX);
+    EXPECT_EQ(b.getValue(), std::to_string(UINT32_MAX).c_str());
+}
+
+} // namespace test_constructor
+} // namespace testing
+} // namespace lui
+} // namespace ds
+} // namespace ns

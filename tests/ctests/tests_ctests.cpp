@@ -11,16 +11,16 @@
 int main()
 {
   ns::dn::lui::LargeUInt a("12345923456789");
-  std::cout << "a: " << a.get() << std::endl;
+  std::cout << "a: " << a.getNodes() << std::endl;
 
   ns::dn::lui::LargeUInt b("999999999923456789");
-  std::cout << "b: " << b.get() << std::endl;
+  std::cout << "b: " << b.getNodes() << std::endl;
 
   a += b;
-  std::cout << "(a += b):a = " << a.get() << std::endl;
+  std::cout << "(a += b):a = " << a.getNodes() << std::endl;
 
   b += a;
-  std::cout << "(b += a):b = " << b.get() << std::endl;
+  std::cout << "(b += a):b = " << b.getNodes() << std::endl;
 
   std::cout << "(a < b) = " << (a < b) << std::endl;
   std::cout << "(a <= b) = " << (a <= b) << std::endl;
@@ -37,17 +37,17 @@ int main()
   std::cout << "(a != 123) = " << (a != 123) << std::endl;
 
   a = b;
-  std::cout << "(a = b):a = " << a.get() << std::endl;
+  std::cout << "(a = b):a = " << a.getNodes() << std::endl;
   b = a;
-  std::cout << "(b = a):b = " << b.get() << std::endl;
+  std::cout << "(b = a):b = " << b.getNodes() << std::endl;
 
   std::cout << "(a == b) = " << (a == b) << std::endl;
   std::cout << "(a != b) = " << (a != b) << std::endl;
 
   b <<= 12U;
-  std::cout << "(b <<=  12U):b = " << b.get() << std::endl;
+  std::cout << "(b <<=  12U):b = " << b.getNodes() << std::endl;
   a >>= 12U;
-  std::cout << "(a >>=  12U):a = " << a.get() << std::endl;
+  std::cout << "(a >>=  12U):a = " << a.getNodes() << std::endl;
 
   return 0;
 }

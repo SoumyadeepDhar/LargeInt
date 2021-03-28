@@ -23,6 +23,9 @@ option(GTEST_GIT_CI "GTest during git push" OFF)
 # Enable CTest
 enable_testing()
 
+# Include directory for the tests
+include_directories(tests/include)
+
 # Add test source files
 set(CTESTS_SOURCES  
     tests/ctests/tests_ctests.cpp)
@@ -52,7 +55,7 @@ if(${GTEST_GIT_CI})
 
     # Links the executable to the LargeUInt C++ library.
     target_link_libraries (GTestLargeUInt LINK_PUBLIC largeuint)
-    target_link_libraries (GTestLargeUInt PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+    target_link_libraries (GTestLargeUInt LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
     # Add GTest to CI
     add_test(GTest GTestLargeUInt)
