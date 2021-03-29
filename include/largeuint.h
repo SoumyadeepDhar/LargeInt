@@ -22,27 +22,26 @@ namespace dn
 namespace lui
 {
 
-#define N_LIMIT_mVALUE 1000000000U
-#define N_LIMIT_mDIGIT 9U
+#define N_LIMIT_mVALUE __UINT64_C(1000000000000000000)
+#define N_LIMIT_mDIGIT 18U
 
 class LargeUInt
 {
 private:
   /// Split up data in nodes of N_LIMIT_mDIGIT
-  std ::vector<unsigned int> _nList;
+  std ::vector<long long unsigned int> _nList;
 
   /// Add unsigned value to specific positional node
-  LargeUInt &add(const unsigned int _x, const unsigned int _iPosition = 0);
+  LargeUInt &add(const long long unsigned int _x,
+                 const unsigned int _iPosition = 0);
 
 public:
   /// Constructor default
   LargeUInt();
 
-  /// Constructor with  unsigned integer
-  LargeUInt(const unsigned int _x);
-
   /// Constructor with unsigned integer as string
-  LargeUInt(const std::string _x);
+  template <typename T>
+  LargeUInt(const T _x);
 
   /// Constructor with unsigned integer as large unsigned int
   LargeUInt(const LargeUInt &_x);

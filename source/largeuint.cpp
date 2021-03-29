@@ -6,7 +6,7 @@
  */
 
 #include <sstream>
-#include <iostream>
+#include <cstring>
 #include "largeuint.h"
 
 // Number ststem
@@ -24,23 +24,80 @@ LargeUInt::LargeUInt()
   _nList.push_back(0U);
 }
 
+// Generic function for any type to large unsigned int
+template <typename T>
+LargeUInt::LargeUInt(const T _x)
+{
+  _nList.push_back(reinterpret_cast<long long unsigned int>(_x));
+}
+
+// Specialized for unsigned int
+template <>
 LargeUInt::LargeUInt(const unsigned int _x)
 {
+  _nList.push_back(reinterpret_cast<unsigned int>(_x));
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt::LargeUInt(const long long unsigned int _x)
+{
   // Most significant digit
-  unsigned int _msd = _x / N_LIMIT_mVALUE;
+  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
 
   // All other digits
-  unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
+  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
   _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
        : (_nList.push_back(_aod));
 }
 
+// Specialized for const char *
+template <>
+LargeUInt::LargeUInt(const char *_x)
+{
+  // accumulator value for any node
+  long long unsigned int value = 0;
+
+  // Right to left position of the digits in the string
+  unsigned int position = 0;
+
+  // Input string length
+  unsigned int nDigit = strlen(_x);
+
+  // Fot all digits in the given string
+  for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
+  {
+    // Calculate positional significance within the  node
+    int power = position - (_nList.size() * N_LIMIT_mDIGIT);
+
+    // Find value for the desimal place
+    value += (_x[sIndex] - 48) * pow(10, power);
+
+    // Keep only 'N_LIMIT_mDIGIT' in any node
+    if ((power + 1) == N_LIMIT_mDIGIT)
+    {
+      // Insert data in nodelist
+      _nList.push_back(value);
+
+      // Clear value accumulator
+      value = 0;
+    }
+  }
+
+  // Append remaining digits
+  if (position % N_LIMIT_mDIGIT)
+  {
+    _nList.push_back(value);
+  }
+}
+
+template <>
 LargeUInt::LargeUInt(const std::string _x)
 {
   // accumulator value for any node
-  unsigned int value = 0;
+  long long unsigned int value = 0;
 
   // Right to left position of the digits in the string
   unsigned int position = 0;
@@ -139,16 +196,16 @@ unsigned int LargeUInt::digits() const
   return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
 }
 
-LargeUInt &LargeUInt::add(const unsigned int _x, const unsigned int _iPosition)
+LargeUInt &LargeUInt::add(const long long unsigned int _x, const unsigned int _iPosition)
 {
   // Get positional value to add
   auto _cPosition = _nList.begin() + _iPosition;
 
   // Get resultant
-  unsigned int _value = *_cPosition + _x;
+  long long unsigned int _value = *_cPosition + _x;
 
   // Get carry
-  unsigned int _carry = _value / N_LIMIT_mVALUE;
+  long long unsigned int _carry = _value / N_LIMIT_mVALUE;
 
   // Update node value
   *_cPosition = _value - _carry * N_LIMIT_mVALUE;
@@ -179,10 +236,10 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
   _nList.clear();
 
   // Most significant digit
-  unsigned int _msd = _x / N_LIMIT_mVALUE;
+  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
 
   // All other digits
-  unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
+  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
 
   // Update nodes
   _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
@@ -235,7 +292,7 @@ LargeUInt &LargeUInt::operator+=(const LargeUInt &_x)
 // This is the operator overloading function for assignment operator(<<).
 LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 {
-  unsigned int _mCarry = 0U;
+  long long unsigned int _mCarry = __UINT64_C(0);
 
   // New nodes tobe appended
   unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
@@ -247,14 +304,14 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
   {
     // Complement digits to be shifted
     unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
-    unsigned int _cValue = pow(10, _cDigit);
-    unsigned int _nValue = pow(10, _nDigit);
+    long long unsigned int _cValue = pow(10, _cDigit);
+    long long unsigned int _nValue = pow(10, _nDigit);
 
     // Shift succesive elements
     for (auto i = _nList.begin(); i != _nList.end(); ++i)
     {
       // Find carry to be added tothe previous node
-      unsigned int _nCarry = *i / _cValue;
+      long long unsigned int _nCarry = *i / _cValue;
 
       // Update current node
       *i = (*i - (_nCarry * _cValue)) * _nValue + _mCarry;
@@ -282,7 +339,7 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 // This is the operator overloading function for assignment operator(>>).
 LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
 {
-  unsigned int _mCarry = 0U;
+  long long unsigned int _mCarry = __UINT64_C(0);
 
   // New nodes tobe appended
   unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
@@ -305,14 +362,14 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
     {
       // Complement digits to be shifted
       unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
-      unsigned int _cValue = pow(10, _cDigit);
-      unsigned int _nValue = pow(10, _nDigit);
+      long long unsigned int _cValue = pow(10, _cDigit);
+      long long unsigned int _nValue = pow(10, _nDigit);
 
       // Shift succesive elements
       for (auto i = _nList.rbegin(); i != _nList.rend(); ++i)
       {
         // Find carry to be added tothe previous node
-        unsigned int _nCarry = *i - ((*i / _nValue) * _nValue);
+        long long unsigned int _nCarry = *i - ((*i / _nValue) * _nValue);
 
         // Update current node
         *i = *i / _nValue + _mCarry;

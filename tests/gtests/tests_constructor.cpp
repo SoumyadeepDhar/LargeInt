@@ -28,6 +28,8 @@ TEST_F(TestConstructor, tests_arg_constructor_unsigned_int)
 
     LargeUInt b(UINT32_MAX);
     EXPECT_EQ(b.getValue(), std::to_string(UINT32_MAX).c_str());
+
+    long long unsigned int m = UINT64_MAX;
 }
 
 } // namespace test_constructor
