@@ -5,6 +5,7 @@
  *  Author: Soumyadeep Dhar
  */
 
+#include <iostream>
 #include <sstream>
 #include <cstring>
 #include "largeuint.h"
@@ -28,14 +29,36 @@ LargeUInt::LargeUInt()
 template <typename T>
 LargeUInt::LargeUInt(const T _x)
 {
-  _nList.push_back(reinterpret_cast<long long unsigned int>(_x));
+  _nList.push_back(static_cast<long long unsigned int>(_x));
+}
+
+// Specialized for int
+template <>
+LargeUInt::LargeUInt(const int _x)
+{
+  _nList.push_back(static_cast<long long unsigned int>(_x));
 }
 
 // Specialized for unsigned int
 template <>
 LargeUInt::LargeUInt(const unsigned int _x)
 {
-  _nList.push_back(reinterpret_cast<unsigned int>(_x));
+  _nList.push_back(static_cast<long long unsigned int>(_x));
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt::LargeUInt(const long unsigned int _x)
+{
+  // Most significant digit
+  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
+
+  // All other digits
+  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
+
+  // Update nodes
+  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
+       : (_nList.push_back(_aod));
 }
 
 // Specialized for long long unsigned int
@@ -73,7 +96,7 @@ LargeUInt::LargeUInt(const char *_x)
     int power = position - (_nList.size() * N_LIMIT_mDIGIT);
 
     // Find value for the desimal place
-    value += (_x[sIndex] - 48) * pow(10, power);
+    value += (_x[sIndex] - 48) * powl(10, power);
 
     // Keep only 'N_LIMIT_mDIGIT' in any node
     if ((power + 1) == N_LIMIT_mDIGIT)
@@ -112,7 +135,7 @@ LargeUInt::LargeUInt(const std::string _x)
     int power = position - (_nList.size() * N_LIMIT_mDIGIT);
 
     // Find value for the desimal place
-    value += (_x[sIndex] - 48) * pow(10, power);
+    value += (_x[sIndex] - 48) * powl(10, power);
 
     // Keep only 'N_LIMIT_mDIGIT' in any node
     if ((power + 1) == N_LIMIT_mDIGIT)
@@ -121,7 +144,7 @@ LargeUInt::LargeUInt(const std::string _x)
       _nList.push_back(value);
 
       // Clear value accumulator
-      value = 0;
+      value = 0U;
     }
   }
 
@@ -131,6 +154,21 @@ LargeUInt::LargeUInt(const std::string _x)
     _nList.push_back(value);
   }
 }
+
+// Specialized for float
+template <>
+LargeUInt::LargeUInt(const float _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{}
+
+// Specialized for double
+template <>
+LargeUInt::LargeUInt(const double _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{}
+
+// Specialized for long double
+template <>
+LargeUInt::LargeUInt(const long double _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{}
 
 LargeUInt::LargeUInt(const LargeUInt &_x)
 {
