@@ -11,7 +11,8 @@ include_directories(include)
 
 # Add source files
 set(SOURCES 
-    source/largeuint.cpp)
+    source/largeuint.cpp
+    source/lui_assignment.cpp)
 
 # Make Target
 add_library(largeuint SHARED ${SOURCES})
@@ -48,7 +49,8 @@ if(${GTEST_GIT_CI})
     # Add test source files
     set(GTESTS_SOURCES  
         tests/gtests/tests_gtests.cpp
-        tests/gtests/tests_constructor.cpp)
+        tests/gtests/tests_constructor.cpp
+        tests/gtests/tests_assignment.cpp)
 
     # Make Gtest target
     add_executable(GTestLargeUInt ${GTESTS_SOURCES})

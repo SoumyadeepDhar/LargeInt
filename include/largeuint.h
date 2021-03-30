@@ -32,14 +32,16 @@ private:
   std ::vector<long long unsigned int> _nList;
 
   /// Add unsigned value to specific positional node
-  LargeUInt &add(const long long unsigned int _x,
-                 const unsigned int _iPosition = 0);
+  void add(const long long unsigned int _x, const unsigned int _iPosition = 0);
+
+  /// Multiply unsigned value to specific positional node
+  void mul(LargeUInt &_r, unsigned char _x, const unsigned int _iPosition = 0);
 
 public:
   /// Constructor default
   LargeUInt();
 
-  /// Constructor with unsigned integer as string
+  /// Constructor with argument
   template <typename T>
   LargeUInt(const T _x);
 
@@ -59,7 +61,8 @@ public:
   unsigned int digits() const;
 
   /// This is the operator overloading function for assignment operator(=).
-  LargeUInt &operator=(const unsigned int _x);
+  template <typename T>
+  LargeUInt &operator=(const T _x);
 
   /// This is the operator overloading function for assignment operator(=).
   LargeUInt &operator=(const LargeUInt &_x);

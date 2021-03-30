@@ -22,14 +22,7 @@ namespace lui
 
 LargeUInt::LargeUInt()
 {
-  _nList.push_back(0U);
-}
-
-// Generic function for any type to large unsigned int
-template <typename T>
-LargeUInt::LargeUInt(const T _x)
-{
-  _nList.push_back(static_cast<long long unsigned int>(_x));
+  _nList.push_back(0UL);
 }
 
 // Specialized for int
@@ -80,6 +73,8 @@ LargeUInt::LargeUInt(const long long unsigned int _x)
 template <>
 LargeUInt::LargeUInt(const char *_x)
 {
+  int sIndex, eIndex;
+
   // accumulator value for any node
   long long unsigned int value = 0;
 
@@ -90,94 +85,129 @@ LargeUInt::LargeUInt(const char *_x)
   unsigned int nDigit = strlen(_x);
 
   // Fot all digits in the given string
-  for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
+  eIndex = nDigit;
+  for (sIndex = 0; sIndex < nDigit; ++sIndex)
   {
-    // Calculate positional significance within the  node
-    int power = position - (_nList.size() * N_LIMIT_mDIGIT);
+    // Stop processing if not a digit
+    if (_x[sIndex] < 48 || _x[sIndex] > 57)
+      break;
 
-    // Find value for the desimal place
-    value += (_x[sIndex] - 48) * powl(10, power);
-
-    // Keep only 'N_LIMIT_mDIGIT' in any node
-    if ((power + 1) == N_LIMIT_mDIGIT)
-    {
-      // Insert data in nodelist
-      _nList.push_back(value);
-
-      // Clear value accumulator
-      value = 0;
-    }
+    // Update end index
+    eIndex = sIndex;
   }
 
-  // Append remaining digits
-  if (position % N_LIMIT_mDIGIT)
+  // If valid digits present
+  if (eIndex < nDigit)
   {
-    _nList.push_back(value);
+    // Fot all digits in the given string
+    for (sIndex = eIndex; sIndex >= 0; --sIndex)
+    {
+      // Calculate positional significance within the  node
+      int power = position - (_nList.size() * N_LIMIT_mDIGIT);
+
+      // Update position for next iteration
+      position++;
+
+      // Find value for the desimal place
+      value += (_x[sIndex] - 48) * powl(10, power);
+
+      // Keep only 'N_LIMIT_mDIGIT' in any node
+      if ((power + 1) == N_LIMIT_mDIGIT)
+      {
+        // Insert data in nodelist
+        _nList.push_back(value);
+
+        // Clear value accumulator
+        value = 0;
+      }
+    }
+
+    // Append remaining digits
+    if (position % N_LIMIT_mDIGIT)
+    {
+      _nList.push_back(value);
+    }
+  }
+  else
+  {
+    _nList.push_back(0UL);
   }
 }
 
 template <>
 LargeUInt::LargeUInt(const std::string _x)
+    : LargeUInt(_x.c_str())
 {
-  // accumulator value for any node
-  long long unsigned int value = 0;
-
-  // Right to left position of the digits in the string
-  unsigned int position = 0;
-
-  // Input string length
-  unsigned int nDigit = _x.length();
-
-  // Fot all digits in the given string
-  for (int sIndex = nDigit - 1; sIndex >= 0; --sIndex, position++)
-  {
-    // Calculate positional significance within the  node
-    int power = position - (_nList.size() * N_LIMIT_mDIGIT);
-
-    // Find value for the desimal place
-    value += (_x[sIndex] - 48) * powl(10, power);
-
-    // Keep only 'N_LIMIT_mDIGIT' in any node
-    if ((power + 1) == N_LIMIT_mDIGIT)
-    {
-      // Insert data in nodelist
-      _nList.push_back(value);
-
-      // Clear value accumulator
-      value = 0U;
-    }
-  }
-
-  // Append remaining digits
-  if (position % N_LIMIT_mDIGIT)
-  {
-    _nList.push_back(value);
-  }
 }
 
 // Specialized for float
 template <>
-LargeUInt::LargeUInt(const float _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
-{}
+LargeUInt::LargeUInt(const float _x)
+    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{
+}
 
 // Specialized for double
 template <>
-LargeUInt::LargeUInt(const double _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
-{}
+LargeUInt::LargeUInt(const double _x)
+    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{
+}
 
 // Specialized for long double
 template <>
-LargeUInt::LargeUInt(const long double _x) : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
-{}
+LargeUInt::LargeUInt(const long double _x)
+    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+{
+}
 
 LargeUInt::LargeUInt(const LargeUInt &_x)
 {
   _nList = _x._nList;
 }
+
 LargeUInt::~LargeUInt()
 {
   _nList.clear();
 }
+
+void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPosition)
+{
+  // Get positional value to add
+  auto _cPosition = _nList.begin() + _iPosition;
+
+  // Get resultant
+  long long unsigned int _value = *_cPosition + _x;
+
+  // Get carry
+  long long unsigned int _carry = _value / N_LIMIT_mVALUE;
+
+  // Update node value
+  *_cPosition = _value - _carry * N_LIMIT_mVALUE;
+
+  // If carry value present
+  if (_carry > 0)
+  {
+    // Update next (if exist) node with carry value
+    if (std::next(_cPosition) != _nList.end())
+    {
+      // Add carry to next node position
+      add(_carry, (_iPosition + 1));
+    }
+    else
+    {
+      // Append carry as last node
+      _nList.push_back(_carry);
+    }
+  }
+}
+
+void LargeUInt::mul(LargeUInt &_r, unsigned char _x, const unsigned int _iPosition)
+{
+  // Update result with given decimal positional value  
+  // _r += ((*this * _x) << _iPosition);
+}
+
 // Get large unsigned integer as string for all the nodes
 std::string LargeUInt::getNodes() const
 {
@@ -234,70 +264,6 @@ unsigned int LargeUInt::digits() const
   return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
 }
 
-LargeUInt &LargeUInt::add(const long long unsigned int _x, const unsigned int _iPosition)
-{
-  // Get positional value to add
-  auto _cPosition = _nList.begin() + _iPosition;
-
-  // Get resultant
-  long long unsigned int _value = *_cPosition + _x;
-
-  // Get carry
-  long long unsigned int _carry = _value / N_LIMIT_mVALUE;
-
-  // Update node value
-  *_cPosition = _value - _carry * N_LIMIT_mVALUE;
-
-  // If carry value present
-  if (_carry > 0)
-  {
-    // Update next (if exist) node with carry value
-    if (std::next(_cPosition) != _nList.end())
-    {
-      // Add carry to next node position
-      add(_carry, (_iPosition + 1));
-    }
-    else
-    {
-      // Append carry as last node
-      _nList.push_back(_carry);
-    }
-  }
-
-  return *this;
-}
-
-/// This is the operator overloading function for assignment operator(+).
-LargeUInt &LargeUInt::operator=(const unsigned int _x)
-{
-  // Clear previous data if any
-  _nList.clear();
-
-  // Most significant digit
-  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
-
-  // All other digits
-  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
-
-  // Update nodes
-  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
-       : (_nList.push_back(_aod));
-
-  return *this;
-}
-
-/// This is the operator overloading function for assignment operator(+).
-LargeUInt &LargeUInt::operator=(const LargeUInt &_x)
-{
-  // Clear previous data if any
-  _nList.clear();
-
-  // Update nodes
-  _nList = _x._nList;
-
-  return *this;
-}
-
 // This is the operator overloading function for assignment operator(+).
 LargeUInt &LargeUInt::operator+=(const unsigned int _x)
 {
@@ -315,7 +281,7 @@ LargeUInt &LargeUInt::operator+=(const LargeUInt &_x)
   // Make sure current list has as many elements as the given list to add
   for (auto nIndex = _sList1; nIndex < _sList2; ++nIndex)
   {
-    _nList.push_back(0U);
+    _nList.push_back(0UL);
   }
 
   // Add successive elements one by one in proper positions from given list
@@ -368,7 +334,7 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
   // Append nodes at the beginging of the vector
   if (_nNodes > 0)
   {
-    _nList.insert(_nList.begin(), _nNodes, 0U);
+    _nList.insert(_nList.begin(), _nNodes, 0UL);
   }
 
   return *this;
@@ -426,7 +392,7 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
   else
   {
     _nList.clear();
-    _nList.push_back(0U);
+    _nList.push_back(0UL);
   }
 
   return *this;

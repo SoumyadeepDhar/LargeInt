@@ -1,3 +1,11 @@
+/*
+ * tests_constructor.cpp
+ *
+ *  Created on: 03-Apr-2019
+ *  Modified on: 30-Mar-2021
+ *  Author: Soumyadeep Dhar
+ */
+
 #include "gtests/tests_constructor.h"
 
 // Number ststem
@@ -46,22 +54,63 @@ TEST_F(TestConstructor, tests_arg_constructor_UINT64_MAX)
     EXPECT_EQ(d.getValue(), "18446744073709551615");
 }
 
+TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr)
+{
+    LargeUInt e1("12345");
+    EXPECT_EQ(e1.getValue(), "12345");
+
+    LargeUInt e2("1844674407370955161518446744073709551615");
+    EXPECT_EQ(e2.getValue(), "1844674407370955161518446744073709551615");
+
+    LargeUInt e3("18446744073709551615.1844");
+    EXPECT_EQ(e3.getValue(), "18446744073709551615");
+
+    LargeUInt e4(".18446744073709551615");
+    EXPECT_EQ(e4.getValue(), "0");
+
+    LargeUInt e5("PQRST");
+    EXPECT_EQ(e5.getValue(), "0");
+
+    LargeUInt e6("PQRST12345");
+    EXPECT_EQ(e6.getValue(), "0");
+
+    LargeUInt e7("12345PQRST");
+    EXPECT_EQ(e7.getValue(), "12345");
+
+    LargeUInt e8("0012345PQRST");
+    EXPECT_EQ(e8.getValue(), "12345");
+}
+
+TEST_F(TestConstructor, tests_arg_constructor_string)
+{
+    std::string str("18446744073709551615");
+    LargeUInt f(str);
+    EXPECT_EQ(f.getValue(), "18446744073709551615");
+}
+
 TEST_F(TestConstructor, tests_arg_constructor_FLT_MAX)
 {
-    LargeUInt e(FLT_MAX);
-    EXPECT_EQ(e.getValue(), std::to_string(FLT_MAX).substr(0, std::to_string(FLT_MAX).find(".")).c_str());
+    LargeUInt g(FLT_MAX);
+    EXPECT_EQ(g.getValue(), std::to_string(FLT_MAX).substr(0, std::to_string(FLT_MAX).find(".")).c_str());
 }
 
 TEST_F(TestConstructor, tests_arg_constructor_DBL_MAX)
 {  
-    LargeUInt f(DBL_MAX);
-    EXPECT_EQ(f.getValue(), std::to_string(DBL_MAX).substr(0, std::to_string(DBL_MAX).find(".")).c_str());
+    LargeUInt h(DBL_MAX);
+    EXPECT_EQ(h.getValue(), std::to_string(DBL_MAX).substr(0, std::to_string(DBL_MAX).find(".")).c_str());
  }
 
 TEST_F(TestConstructor, tests_arg_constructor_LDBL_MAX)
 {   
-    LargeUInt g(LDBL_MAX);
-    EXPECT_EQ(g.getValue(), std::to_string(LDBL_MAX).substr(0, std::to_string(LDBL_MAX).find(".")).c_str());
+    LargeUInt i(LDBL_MAX);
+    EXPECT_EQ(i.getValue(), std::to_string(LDBL_MAX).substr(0, std::to_string(LDBL_MAX).find(".")).c_str());
+}
+
+TEST_F(TestConstructor, tests_copy_constructor)
+{   
+    LargeUInt m(UINT64_MAX);
+    LargeUInt n(m);
+    EXPECT_EQ(n.getValue(), m.getValue());
 }
 
 } // namespace test_constructor
