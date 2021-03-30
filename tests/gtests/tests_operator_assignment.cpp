@@ -6,7 +6,7 @@
  *  Author: Soumyadeep Dhar
  */
 
-#include "gtests/tests_assignment.h"
+#include "gtests/tests_largeuint.h"
 
 // Number ststem
 namespace ns
@@ -23,6 +23,9 @@ namespace testing
 // Test assignment
 namespace test_assignment
 {
+
+// Test suit name
+using TestAssignment = TestLargeUint;
 
 TEST_F(TestAssignment, tests_assignment_UINT8_MAX)
 {

@@ -6,7 +6,7 @@
  *  Author: Soumyadeep Dhar
  */
 
-#include "gtests/tests_constructor.h"
+#include "gtests/tests_largeuint.h"
 
 // Number ststem
 namespace ns
@@ -23,6 +23,9 @@ namespace testing
 // Test constructors
 namespace test_constructor
 {
+
+// Test suit name
+using TestConstructor = TestLargeUint;
 
 TEST_F(TestConstructor, tests_default_constructor)
 {

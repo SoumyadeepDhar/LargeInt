@@ -68,7 +68,8 @@ public:
   LargeUInt &operator=(const LargeUInt &_x);
 
   /// This is the operator overloading function for assignment operator(+).
-  LargeUInt &operator+=(const unsigned int _x);
+  template <typename T>
+  LargeUInt &operator+=(const T _x);
 
   /// This is the operator overloading function for assignment operator(+).
   LargeUInt &operator+=(const LargeUInt &_x);

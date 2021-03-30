@@ -264,35 +264,6 @@ unsigned int LargeUInt::digits() const
   return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
 }
 
-// This is the operator overloading function for assignment operator(+).
-LargeUInt &LargeUInt::operator+=(const unsigned int _x)
-{
-  // Add given value
-  this->add(_x);
-  return *this;
-}
-
-// This is the operator overloading function for assignment operator(+).
-LargeUInt &LargeUInt::operator+=(const LargeUInt &_x)
-{
-  unsigned int _sList1 = _nList.size();
-  unsigned int _sList2 = _x._nList.size();
-
-  // Make sure current list has as many elements as the given list to add
-  for (auto nIndex = _sList1; nIndex < _sList2; ++nIndex)
-  {
-    _nList.push_back(0UL);
-  }
-
-  // Add successive elements one by one in proper positions from given list
-  for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
-  {
-    this->add(*(_x._nList.begin() + nIndex), nIndex);
-  }
-
-  return *this;
-}
-
 // This is the operator overloading function for assignment operator(<<).
 LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 {
