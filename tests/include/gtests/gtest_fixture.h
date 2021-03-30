@@ -30,7 +30,7 @@ namespace testing
 class GTestFixture : public TestFixture, public ::testing::Test
 {
 public:
-    GTestFixture() : _largeUInt("9876543210123456789")
+    GTestFixture()
     {
         // initialization code here
     }
@@ -50,9 +50,6 @@ public:
     {
         // cleanup any pending stuff, but no exceptions allowed
     }
-
-protected:
-    LargeUInt _largeUInt;
 };
 
 } // namespace testing
