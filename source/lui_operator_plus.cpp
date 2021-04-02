@@ -60,49 +60,38 @@ LargeUInt LargeUInt::operator+(const long long unsigned int _x)
 template <>
 LargeUInt LargeUInt::operator+(const char *_x)
 {
-  LargeUInt _v(*this);
-  LargeUInt _temp = _x;
-  _v += _temp;
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 template <>
 LargeUInt LargeUInt::operator+(const std::string _x)
 {
-  LargeUInt _v(*this);
-  LargeUInt _temp = _x.c_str();
-  _v += _temp;
-  return _v;
+  return *this + _x.c_str();
 }
 
 // Specialized for float
 template <>
 LargeUInt LargeUInt::operator+(const float _x)
 {
-  LargeUInt _v(*this);
-  LargeUInt _temp = _x;
-  _v += _temp;
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for double
 template <>
 LargeUInt LargeUInt::operator+(const double _x)
 {
-  LargeUInt _v(*this);
-  LargeUInt _temp = _x;
-  _v += _temp;
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for long double
 template <>
 LargeUInt LargeUInt::operator+(const long double _x)
 {
-  LargeUInt _v(*this);
-  LargeUInt _temp = _x;
-  _v += _temp;
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // This is the operator overloading function for assignment operator(+).

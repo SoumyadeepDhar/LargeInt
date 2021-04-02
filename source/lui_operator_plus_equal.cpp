@@ -24,7 +24,6 @@ namespace lui
 template <>
 LargeUInt &LargeUInt::operator+=(const int _x)
 {
-  // Add given value
   this->add(static_cast<long long unsigned int>(_x));
   return *this;
 }
@@ -33,7 +32,6 @@ LargeUInt &LargeUInt::operator+=(const int _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const unsigned int _x)
 {
-  // Add given value
   this->add(static_cast<long long unsigned int>(_x));
   return *this;
 }
@@ -42,7 +40,6 @@ LargeUInt &LargeUInt::operator+=(const unsigned int _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const long unsigned int _x)
 {
-  // Add given value
   this->add(static_cast<long long unsigned int>(_x));
   return *this;
 }
@@ -51,7 +48,6 @@ LargeUInt &LargeUInt::operator+=(const long unsigned int _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const long long unsigned int _x)
 {
-  // Add given value
   this->add(_x);
   return *this;
 }
@@ -60,7 +56,7 @@ LargeUInt &LargeUInt::operator+=(const long long unsigned int _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const char *_x)
 {
-  LargeUInt _temp = _x;
+  LargeUInt _temp(_x);
   *this += _temp;
   return *this;
 }
@@ -77,7 +73,7 @@ LargeUInt &LargeUInt::operator+=(const std::string _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const float _x)
 {
-  LargeUInt _temp = _x;
+  LargeUInt _temp(_x);
   *this += _temp;
   return *this;
 }
@@ -86,7 +82,7 @@ LargeUInt &LargeUInt::operator+=(const float _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const double _x)
 {
-  LargeUInt _temp = _x;
+  LargeUInt _temp(_x);
   *this += _temp;
   return *this;
 }
@@ -95,7 +91,7 @@ LargeUInt &LargeUInt::operator+=(const double _x)
 template <>
 LargeUInt &LargeUInt::operator+=(const long double _x)
 {
-  LargeUInt _temp = _x;
+  LargeUInt _temp(_x);
   *this += _temp;
   return *this;
 }
