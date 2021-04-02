@@ -35,7 +35,7 @@ private:
   void add(const long long unsigned int _x, const unsigned int _iPosition = 0);
 
   /// Multiply unsigned value to specific positional node
-  void mul(LargeUInt &_r, unsigned char _x, const unsigned int _iPosition = 0);
+  void mul(const long long unsigned int _x, const unsigned int _iPosition = 0);
 
 public:
   /// Constructor default
@@ -80,6 +80,13 @@ public:
 
   /// This is the operator overloading function for operator(+).
   LargeUInt operator+(const LargeUInt &_x);
+
+  /// This is the operator overloading function for assignment operator(*).
+  template <typename T>
+  LargeUInt &operator*=(const T _x);
+
+  /// This is the operator overloading function for assignment operator(*).
+  LargeUInt &operator*=(const LargeUInt &_x);
 
   /// This is the operator overloading function for assignment operator(<<).
   LargeUInt &operator<<=(const unsigned int _x);

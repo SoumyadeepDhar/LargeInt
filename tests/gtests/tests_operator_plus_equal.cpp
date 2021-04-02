@@ -109,18 +109,23 @@ TEST_F(TestOperatorPlusEqual, tests_plus_equal_FLT_MAX)
     EXPECT_EQ(g.getValue(), "680564693277057719623408366969033850880");
 }
 
-// TEST_F(TestOperatorPlusEqual, tests_plus_equal_DBL_MAX)
-// {
-//     LargeUInt h = DBL_MAX;
-//     h += DBL_MAX;
-//     EXPECT_EQ(h.getValue(), std::to_string(DBL_MAX).substr(0, std::to_string(DBL_MAX).find(".")).c_str());
-//  }
+TEST_F(TestOperatorPlusEqual, tests_plus_equal_DBL_MAX)
+{
+    LargeUInt h = DBL_MAX;
+    h += DBL_MAX;
+    LargeUInt r = DBL_MAX;
+    r *= 2;
+    EXPECT_EQ(h.getValue(), r.getValue());
+ }
 
-// TEST_F(TestOperatorPlusEqual, tests_plus_equal_LDBL_MAX)
-// {
-//     LargeUInt i = LDBL_MAX;
-//     EXPECT_EQ(i.getValue(), std::to_string(LDBL_MAX).substr(0, std::to_string(LDBL_MAX).find(".")).c_str());
-// }
+TEST_F(TestOperatorPlusEqual, tests_plus_equal_LDBL_MAX)
+{
+    LargeUInt i = LDBL_MAX;
+    i += LDBL_MAX;
+    LargeUInt r = LDBL_MAX;
+    r *= 2;
+    EXPECT_EQ(i.getValue(), r.getValue());
+}
 
 TEST_F(TestOperatorPlusEqual, tests_plus_equal_largeuint)
 {
