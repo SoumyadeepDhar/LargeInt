@@ -34,9 +34,6 @@ private:
   /// Add unsigned value to specific positional node
   void add(const long long unsigned int _x, const unsigned int _iPosition = 0);
 
-  /// Multiply unsigned value to specific positional node
-  void mul(const long long unsigned int _x, const unsigned int _iPosition = 0);
-
 public:
   /// Constructor default
   LargeUInt();

@@ -202,61 +202,6 @@ void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPositi
   }
 }
 
-void LargeUInt::mul(const long long unsigned int _x, const unsigned int _iPosition)
-{
-  // If current value is zero or shift amount is zero then do nothing
-  if (*this == 0U || _x == 0U)
-  {
-    *this = 0U;
-  }
-  else
-  {
-
-    // Multiply all elements of the list with the given value
-    for (auto &_nValue : _nList)
-    {
-      _nValue *= _x;
-    }
-
-    // Adjust carry for all the elements in the list
-    std::size_t nIndex = 0;
-    while (nIndex != _nList.size())
-    {
-      // Get element to be processed
-      auto nElement = _nList.begin() + nIndex;
-
-      // Get carry
-      long long unsigned int _carry = *nElement / N_LIMIT_mVALUE;
-
-      // Update current value
-      *nElement = *nElement - _carry * N_LIMIT_mVALUE;
-
-      // If carry value present
-      if (_carry > 0)
-      {
-
-        // Update next (if exist) node with carry value
-        if (std::next(nElement) != _nList.end())
-        {
-          // Add carry to next node position
-          add(_carry, (nIndex + 1));
-        }
-        else
-        {
-          // Append carry as last node
-          _nList.push_back(_carry);
-        }
-      }
-
-      // Go to next element
-      ++nIndex;
-    }
-
-    // Update list with psotional multiplicator
-    *this <<= _iPosition;
-  }
-}
-
 // Get large unsigned integer as string for all the nodes
 std::string LargeUInt::getNodes() const
 {

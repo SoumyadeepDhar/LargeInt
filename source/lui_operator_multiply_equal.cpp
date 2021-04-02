@@ -131,12 +131,12 @@ LargeUInt &LargeUInt::operator*=(const LargeUInt &_x)
       // Most significant digits outside store range
       long long unsigned int _carry = _temp._nList[nIndex2] / N_LIMIT_mVALUE;
 
-      // Update nodes with all other digits
-      _temp._nList[nIndex2] = _temp._nList[nIndex2] - _carry * N_LIMIT_mVALUE;
-
       // If carry exits
       if (_carry > 0U)
       {
+        // Update nodes with all other digits
+        _temp._nList[nIndex2] = _temp._nList[nIndex2] - _carry * N_LIMIT_mVALUE;
+
         // Update next (if exist) node with carry value
         if (std::next(_temp._nList.begin() + nIndex2) != _temp._nList.end())
         {
