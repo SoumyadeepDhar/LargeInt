@@ -22,8 +22,8 @@ namespace dn
 namespace lui
 {
 
-#define N_LIMIT_mVALUE __UINT64_C(1000000000000000000)
-#define N_LIMIT_mDIGIT 18U
+#define N_LIMIT_mVALUE 1000000000U // __UINT64_C(1000000000000000000)
+#define N_LIMIT_mDIGIT 9U // 18U
 
 class LargeUInt
 {

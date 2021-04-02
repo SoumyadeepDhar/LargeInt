@@ -64,8 +64,8 @@ LargeUInt &LargeUInt::operator+=(const char *_x)
 template <>
 LargeUInt &LargeUInt::operator+=(const std::string _x)
 {
-  // Add new value
-  *this += _x.c_str();
+  LargeUInt _temp(_x);
+  *this += _temp;
   return *this;
 }
 

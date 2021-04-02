@@ -24,36 +24,32 @@ namespace lui
 template <>
 LargeUInt LargeUInt::operator+(const int _x)
 {
-  LargeUInt _v(*this);
-  _v.add(static_cast<long long unsigned int>(_x));
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for unsigned int
 template <>
 LargeUInt LargeUInt::operator+(const unsigned int _x)
 {
-  LargeUInt _v(*this);
-  _v.add(static_cast<long long unsigned int>(_x));
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for long long unsigned int
 template <>
 LargeUInt LargeUInt::operator+(const long unsigned int _x)
 {
-  LargeUInt _v(*this);
-  _v.add(static_cast<long long unsigned int>(_x));
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for long long unsigned int
 template <>
 LargeUInt LargeUInt::operator+(const long long unsigned int _x)
 {
-  LargeUInt _v(*this);
-  _v.add(_x);
-  return _v;
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for const char *
@@ -67,7 +63,8 @@ LargeUInt LargeUInt::operator+(const char *_x)
 template <>
 LargeUInt LargeUInt::operator+(const std::string _x)
 {
-  return *this + _x.c_str();
+  LargeUInt _temp(_x);
+  return *this + _temp;
 }
 
 // Specialized for float
