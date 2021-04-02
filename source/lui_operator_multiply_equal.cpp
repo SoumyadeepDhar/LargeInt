@@ -29,7 +29,7 @@ LargeUInt &LargeUInt::operator*=(const int _x)
   std::vector<int> mDigits;
 
   // Get number of digits in multiplier
-  for(int nValue = _x; nValue > 0; nValue /= 10)
+  for (int nValue = _x; nValue > 0; nValue /= 10)
   {
     mDigits.push_back(nValue - ((nValue / 10) * 10));
   }
@@ -61,7 +61,7 @@ LargeUInt &LargeUInt::operator*=(const unsigned int _x)
   std::vector<int> mDigits;
 
   // Get number of digits in multiplier
-  for(unsigned int nValue = _x; nValue > 0; nValue /= 10)
+  for (unsigned int nValue = _x; nValue > 0; nValue /= 10)
   {
     mDigits.push_back(nValue - ((nValue / 10) * 10));
   }
@@ -93,7 +93,7 @@ LargeUInt &LargeUInt::operator*=(const long unsigned int _x)
   std::vector<int> mDigits;
 
   // Get number of digits in multiplier
-  for(long unsigned int nValue = _x; nValue > 0; nValue /= 10)
+  for (long unsigned int nValue = _x; nValue > 0; nValue /= 10)
   {
     mDigits.push_back(nValue - ((nValue / 10) * 10));
   }
@@ -125,7 +125,7 @@ LargeUInt &LargeUInt::operator*=(const long long unsigned int _x)
   std::vector<int> mDigits;
 
   // Get number of digits in multiplier
-  for(long long unsigned int nValue = _x; nValue > 0; nValue /= 10)
+  for (long long unsigned int nValue = _x; nValue > 0; nValue /= 10)
   {
     mDigits.push_back(nValue - ((nValue / 10) * 10));
   }

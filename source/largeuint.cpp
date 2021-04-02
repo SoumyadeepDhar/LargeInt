@@ -204,40 +204,57 @@ void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPositi
 
 void LargeUInt::mul(const long long unsigned int _x, const unsigned int _iPosition)
 {
-  // Multiply all elemnts of the list with the given value
-  for (auto nElement = _nList.begin(); nElement != _nList.end(); ++nElement)
+  // If current value is zero or shift amount is zero then do nothing
+  if (*this == 0U || _x == 0U)
   {
-    *nElement *= _x;
+    *this = 0U;
   }
-
-  // Adjustcarry for all the elements in the list
-  for (auto nElement = _nList.begin(); nElement != _nList.end(); ++nElement)
+  else
   {
-    // Get carry
-    long long unsigned int _carry = *nElement / N_LIMIT_mVALUE;
 
-    // Update current value
-    *nElement = *nElement - _carry * N_LIMIT_mVALUE;
-
-    // If carry value present
-    if (_carry > 0)
+    // Multiply all elements of the list with the given value
+    for (auto &_nValue : _nList)
     {
-      // Update next (if exist) node with carry value
-      if (std::next(nElement) != _nList.end())
-      {
-        // Add carry to next node position
-        add(_carry, (nElement - _nList.begin() + 1));
-      }
-      else
-      {
-        // Append carry as last node
-        _nList.push_back(_carry);
-      }
+      _nValue *= _x;
     }
-  }
 
-  // Update list with psotional multiplicator
-  *this <<= _iPosition;
+    // Adjust carry for all the elements in the list
+    std::size_t nIndex = 0;
+    while (nIndex != _nList.size())
+    {
+      // Get element to be processed
+      auto nElement = _nList.begin() + nIndex;
+
+      // Get carry
+      long long unsigned int _carry = *nElement / N_LIMIT_mVALUE;
+
+      // Update current value
+      *nElement = *nElement - _carry * N_LIMIT_mVALUE;
+
+      // If carry value present
+      if (_carry > 0)
+      {
+
+        // Update next (if exist) node with carry value
+        if (std::next(nElement) != _nList.end())
+        {
+          // Add carry to next node position
+          add(_carry, (nIndex + 1));
+        }
+        else
+        {
+          // Append carry as last node
+          _nList.push_back(_carry);
+        }
+      }
+
+      // Go to next element
+      ++nIndex;
+    }
+
+    // Update list with psotional multiplicator
+    *this <<= _iPosition;
+  }
 }
 
 // Get large unsigned integer as string for all the nodes
@@ -299,6 +316,12 @@ unsigned int LargeUInt::digits() const
 // This is the operator overloading function for assignment operator(<<).
 LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 {
+  // If current value is zero or shift amount is zero then do nothing
+  if (*this == 0U || _x == 0U)
+  {
+    return *this;
+  }
+
   long long unsigned int _mCarry = __UINT64_C(0);
 
   // New nodes tobe appended
@@ -307,31 +330,28 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
   // Number of digits to be shifted
   unsigned int _nDigit = _x - _nNodes * N_LIMIT_mDIGIT;
 
-  if (_nDigit > 0)
+  // Complement digits to be shifted
+  unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
+  long long unsigned int _cValue = pow(10, _cDigit);
+  long long unsigned int _nValue = pow(10, _nDigit);
+
+  // Shift succesive elements
+  for (auto i = _nList.begin(); i != _nList.end(); ++i)
   {
-    // Complement digits to be shifted
-    unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
-    long long unsigned int _cValue = pow(10, _cDigit);
-    long long unsigned int _nValue = pow(10, _nDigit);
+    // Find carry to be added tothe previous node
+    long long unsigned int _nCarry = *i / _cValue;
 
-    // Shift succesive elements
-    for (auto i = _nList.begin(); i != _nList.end(); ++i)
-    {
-      // Find carry to be added tothe previous node
-      long long unsigned int _nCarry = *i / _cValue;
+    // Update current node
+    *i = (*i - (_nCarry * _cValue)) * _nValue + _mCarry;
 
-      // Update current node
-      *i = (*i - (_nCarry * _cValue)) * _nValue + _mCarry;
+    // Update carry
+    _mCarry = _nCarry;
+  }
 
-      // Update carry
-      _mCarry = _nCarry;
-    }
-
-    // If carry present add new node with carry
-    if (_mCarry > 0)
-    {
-      _nList.push_back(_mCarry);
-    }
+  // If carry present add new node with carry
+  if (_mCarry > 0)
+  {
+    _nList.push_back(_mCarry);
   }
 
   // Append nodes at the beginging of the vector
@@ -346,6 +366,13 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 // This is the operator overloading function for assignment operator(>>).
 LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
 {
+  // If current value is zero or shift amount is zero then do nothing
+  if (*this == 0U || _x == 0U)
+  {
+    return *this;
+  }
+
+  // Set default
   long long unsigned int _mCarry = __UINT64_C(0);
 
   // New nodes tobe appended
@@ -407,8 +434,12 @@ LargeUInt LargeUInt::operator<<(const unsigned int _x) const
   // Create temporary storage
   LargeUInt _temp(*this);
 
-  // Shift _x times
-  _temp <<= _x;
+  // If current value is not zero and shift amount is not zero then do operation
+  if (_temp != 0U && _x != 0U)
+  {
+    // Shift _x times
+    _temp <<= _x;
+  }
 
   // return newly computed value
   return _temp;
@@ -420,8 +451,12 @@ LargeUInt LargeUInt::operator>>(const unsigned int _x) const
   // Create temporary storage
   LargeUInt _temp(*this);
 
-  // Shift _x times
-  _temp >>= _x;
+  // If current value is not zero and shift amount is not zero then do operation
+  if (_temp != 0U && _x != 0U)
+  {
+    // Shift _x times
+    _temp >>= _x;
+  }
 
   // return newly computed value
   return _temp;

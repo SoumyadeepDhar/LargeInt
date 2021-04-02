@@ -45,7 +45,6 @@ LargeUInt LargeUInt::operator*(const int _x)
 
     // Update result
     _rV += _v;
-    //  std::cout << "_v: " << _v.getValue() << " _d: " << mDigits[nIndex] << " _r: " << this->getValue() << std::endl;
   }
   return _rV;
 }
