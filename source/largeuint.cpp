@@ -20,74 +20,96 @@ namespace dn
 namespace lui
 {
 
-LargeUInt::LargeUInt()
+LargeUInt::LargeUInt() : positive(true)
 {
-  _nList.push_back(0UL);
+  _nList.push_back(0U);
 }
 
 // Specialized for const char *
 template <>
 LargeUInt::LargeUInt(const char *_x)
+    : positive(true)
 {
-  int sIndex, eIndex;
-
-  // accumulator value for any node
-  long long unsigned int value = 0;
-
-  // Right to left position of the digits in the string
-  unsigned int position = 0;
-
-  // Input string length
-  unsigned int nDigit = strlen(_x);
-
-  // Fot all digits in the given string
-  eIndex = nDigit;
-  for (sIndex = 0; sIndex < nDigit; ++sIndex)
+  if (_x == NULL)
   {
-    // Stop processing if not a digit
-    if (_x[sIndex] < 48 || _x[sIndex] > 57)
-      break;
-
-    // Update end index
-    eIndex = sIndex;
-  }
-
-  // If valid digits present
-  if (eIndex < nDigit)
-  {
-    // Fot all digits in the given string
-    for (sIndex = eIndex; sIndex >= 0; --sIndex)
-    {
-      // Calculate positional significance within the  node
-      int power = position - (_nList.size() * N_LIMIT_mDIGIT);
-
-      // Update position for next iteration
-      position++;
-
-      // Find value for the desimal place
-      value += (_x[sIndex] - 48) * powl(10, power);
-
-      // Keep only 'N_LIMIT_mDIGIT' in any node
-      if ((power + 1) == N_LIMIT_mDIGIT)
-      {
-        // Insert data in nodelist
-        _nList.push_back(value);
-
-        // Clear value accumulator
-        value = 0;
-      }
-    }
-
-    // Append remaining digits
-    if (position % N_LIMIT_mDIGIT)
-    {
-      _nList.push_back(value);
-    }
+    _nList.push_back(0U);
   }
   else
   {
-    _nList.push_back(0UL);
+    int sIndex, stIndex, enIndex;
+
+    // Set sign information
+    positive = _x[0] != '-' ? true : false;
+
+    // Accumulator value for any node
+    long long unsigned int value = 0;
+
+    // Right to left position of the digits in the string
+    unsigned int position = 0;
+
+    // Input string length
+    unsigned int nDigit = strlen(_x);
+
+    // Fot all digits in the given string
+    enIndex = nDigit;
+    for (sIndex = positive ? 0U : 1U; sIndex < nDigit; ++sIndex)
+    {
+      // Stop processing if not a digit
+      if (_x[sIndex] < 48 || _x[sIndex] > 57)
+        break;
+
+      // Update end index
+      enIndex = sIndex;
+    }
+
+    // If valid digits present
+    if (enIndex < nDigit)
+    {
+      // Based on sign set start index
+      stIndex = positive ? 0U : 1U;
+
+      // Fot all digits in the given string
+      for (sIndex = enIndex; sIndex >= stIndex; --sIndex)
+      {
+        // Calculate positional significance within the  node
+        int power = position - (_nList.size() * N_LIMIT_mDIGIT);
+
+        // Update position for next iteration
+        position++;
+
+        // Find value for the desimal place
+        value += (_x[sIndex] - 48) * powl(10, power);
+
+        // Keep only 'N_LIMIT_mDIGIT' in any node
+        if ((power + 1) == N_LIMIT_mDIGIT)
+        {
+          // Insert data in nodelist
+          _nList.push_back(value);
+
+          // Clear value accumulator
+          value = 0;
+        }
+      }
+
+      // Append remaining digits
+      if (position % N_LIMIT_mDIGIT)
+      {
+        _nList.push_back(value);
+      }
+    }
+    else
+    {
+      positive = true;
+      _nList.push_back(0U);
+    }
   }
+}
+
+// Specialized for char *
+template <>
+LargeUInt::LargeUInt(char *_x)
+    : LargeUInt(static_cast<const char *>(_x))
+{
 }
 
 template <>
@@ -103,11 +125,13 @@ LargeUInt::LargeUInt(const long long unsigned int _x)
 {
 }
 
-// Specialized for int
+// Specialized for long long int
 template <>
-LargeUInt::LargeUInt(const int _x)
-    : LargeUInt(static_cast<long long unsigned int>(_x))
+LargeUInt::LargeUInt(const long long int _x)
+    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
 {
+  // Update sign information
+  positive = _x < 0 ? false : true;
 }
 
 // Specialized for unsigned int
@@ -117,11 +141,29 @@ LargeUInt::LargeUInt(const unsigned int _x)
 {
 }
 
-// Specialized for long long unsigned int
+// Specialized for int
+template <>
+LargeUInt::LargeUInt(const int _x)
+    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
+{
+  // Update sign information
+  positive = _x < 0 ? false : true;
+}
+
+// Specialized for long unsigned int
 template <>
 LargeUInt::LargeUInt(const long unsigned int _x)
     : LargeUInt(static_cast<long long unsigned int>(_x))
 {
+}
+
+// Specialized for long int
+template <>
+LargeUInt::LargeUInt(const long int _x)
+    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
+{
+  // Update sign information
+  positive = _x < 0 ? false : true;
 }
 
 // Specialized for float
@@ -147,6 +189,10 @@ LargeUInt::LargeUInt(const long double _x)
 
 LargeUInt::LargeUInt(const LargeUInt &_x)
 {
+  // Set sign information
+  positive = _x.positive;
+
+  // Set value
   _nList = _x._nList;
 }
 
@@ -221,6 +267,12 @@ void LargeUInt::sub(const long long unsigned int _x, const unsigned int _iPositi
   }
 }
 
+// Get large integer sign information as string
+std::string LargeUInt::getSign() const
+{
+  return positive ? "" : "-";
+}
+
 // Get large unsigned integer as string for all the nodes
 std::string LargeUInt::getNodes() const
 {
@@ -228,7 +280,7 @@ std::string LargeUInt::getNodes() const
   std::ostringstream str;
 
   // Get most significant node
-  str << "[" << nIndex++ << "]" << std::to_string(*_nList.rbegin());
+  str << "[" << nIndex++ << "]" << getSign() << std::to_string(*_nList.rbegin());
 
   // Get all other nodes
   for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
@@ -253,7 +305,7 @@ std::string LargeUInt::getValue() const
   std::ostringstream str;
 
   // Get most significant node
-  str << std::to_string(*_nList.rbegin());
+  str << getSign() << std::to_string(*_nList.rbegin());
 
   // Get all other nodes
   for (auto i = _nList.rbegin() + 1; i != _nList.rend(); ++i)
@@ -321,7 +373,7 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
   // Append nodes at the beginging of the vector
   if (_nNodes > 0)
   {
-    _nList.insert(_nList.begin(), _nNodes, 0UL);
+    _nList.insert(_nList.begin(), _nNodes, 0U);
   }
 
   return *this;
@@ -385,8 +437,9 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
   }
   else
   {
+    positive = true;
     _nList.clear();
-    _nList.push_back(0UL);
+    _nList.push_back(0U);
   }
 
   return *this;
@@ -431,17 +484,18 @@ bool LargeUInt::operator<(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
-  return (_nd < _md)
-             ? true
-         : (_nd > _md)
-             ? false
-         : (_x < N_LIMIT_mVALUE)
-             ? (_nList.back() < _x)
-         : (_nList.back() < (_x / N_LIMIT_mVALUE))
-             ? true
-         : (_nList.back() > (_x / N_LIMIT_mVALUE))
-             ? false
-             : *(_nList.rbegin() - 1) < (_x % N_LIMIT_mVALUE);
+  return positive ? (_nd < _md)
+                        ? true
+                    : (_nd > _md)
+                        ? false
+                    : (_x < N_LIMIT_mVALUE)
+                        ? (_nList.back() < _x)
+                    : (_nList.back() < (_x / N_LIMIT_mVALUE))
+                        ? true
+                    : (_nList.back() > (_x / N_LIMIT_mVALUE))
+                        ? false
+                        : *(_nList.rbegin() - 1) < (_x % N_LIMIT_mVALUE)
+                  : true;
 }
 
 /// This is the operator overloading function for comparator operator(<=).
@@ -449,17 +503,18 @@ bool LargeUInt::operator<=(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
-  return (_nd < _md)
-             ? true
-         : (_nd > _md)
-             ? false
-         : (_x < N_LIMIT_mVALUE)
-             ? (_nList.back() <= _x)
-         : (_nList.back() < (_x / N_LIMIT_mVALUE))
-             ? true
-         : (_nList.back() > (_x / N_LIMIT_mVALUE))
-             ? false
-             : *(_nList.rbegin() - 1) <= (_x % N_LIMIT_mVALUE);
+  return positive ? (_nd < _md)
+                        ? true
+                    : (_nd > _md)
+                        ? false
+                    : (_x < N_LIMIT_mVALUE)
+                        ? (_nList.back() <= _x)
+                    : (_nList.back() < (_x / N_LIMIT_mVALUE))
+                        ? true
+                    : (_nList.back() > (_x / N_LIMIT_mVALUE))
+                        ? false
+                        : *(_nList.rbegin() - 1) <= (_x % N_LIMIT_mVALUE)
+                  : true;
 }
 
 /// This is the operator overloading function for comparator operator(>).
@@ -467,17 +522,18 @@ bool LargeUInt::operator>(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
-  return (_nd > _md)
-             ? true
-         : (_nd < _md)
-             ? false
-         : (_x < N_LIMIT_mVALUE)
-             ? (_nList.back() > _x)
-         : (_nList.back() > (_x / N_LIMIT_mVALUE))
-             ? true
-         : (_nList.back() < (_x / N_LIMIT_mVALUE))
-             ? false
-             : *(_nList.rbegin() - 1) > (_x % N_LIMIT_mVALUE);
+  return positive ? (_nd > _md)
+                        ? true
+                    : (_nd < _md)
+                        ? false
+                    : (_x < N_LIMIT_mVALUE)
+                        ? (_nList.back() > _x)
+                    : (_nList.back() > (_x / N_LIMIT_mVALUE))
+                        ? true
+                    : (_nList.back() < (_x / N_LIMIT_mVALUE))
+                        ? false
+                        : *(_nList.rbegin() - 1) > (_x % N_LIMIT_mVALUE)
+                  : false;
 }
 
 /// This is the operator overloading function for comparator operator(>=).
@@ -485,17 +541,18 @@ bool LargeUInt::operator>=(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
-  return (_nd > _md)
-             ? true
-         : (_nd < _md)
-             ? false
-         : (_x < N_LIMIT_mVALUE)
-             ? (_nList.back() >= _x)
-         : (_nList.back() > (_x / N_LIMIT_mVALUE))
-             ? true
-         : (_nList.back() < (_x / N_LIMIT_mVALUE))
-             ? false
-             : *(_nList.rbegin() - 1) >= (_x % N_LIMIT_mVALUE);
+  return positive ? (_nd > _md)
+                        ? true
+                    : (_nd < _md)
+                        ? false
+                    : (_x < N_LIMIT_mVALUE)
+                        ? (_nList.back() >= _x)
+                    : (_nList.back() > (_x / N_LIMIT_mVALUE))
+                        ? true
+                    : (_nList.back() < (_x / N_LIMIT_mVALUE))
+                        ? false
+                        : *(_nList.rbegin() - 1) >= (_x % N_LIMIT_mVALUE)
+                  : false;
 }
 
 /// This is the operator overloading function for comparator operator(==).
@@ -508,139 +565,184 @@ bool LargeUInt::operator==(const unsigned int _x)
 bool LargeUInt::operator!=(const unsigned int _x)
 {
   unsigned int _digits = floor(log10(_x)) + 1;
-  return digits() != _digits
-             ? true
-         : (_x < N_LIMIT_mVALUE)
-             ? _nList.back() != _x
-             : ((*(_nList.rbegin()) != (_x / N_LIMIT_mVALUE)) ||
-                (*(_nList.rbegin() - 1) != (_x % N_LIMIT_mVALUE)));
+  return positive ? digits() != _digits
+                        ? true
+                    : (_x < N_LIMIT_mVALUE)
+                        ? _nList.back() != _x
+                        : ((*(_nList.rbegin()) != (_x / N_LIMIT_mVALUE)) ||
+                           (*(_nList.rbegin() - 1) != (_x % N_LIMIT_mVALUE)))
+                  : true;
 }
 
 /// This is the operator overloading function for comparator operator(<).
 bool LargeUInt::operator<(const LargeUInt &_x)
 {
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
-
-  if (_nd < _md)
+  if (!positive && _x.positive)
   {
     return true;
   }
-  else if (_nd > _md)
+  else if (positive && !_x.positive)
   {
     return false;
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
-    {
-      if (_nList[_s] < _x._nList[_s])
-      {
-        return true;
-      }
+    unsigned int _nd = digits();
+    unsigned int _md = _x.digits();
 
-      if (_nList[_s] > _x._nList[_s])
-      {
-        return false;
-      }
+    if (_nd < _md)
+    {
+      return positive ? true : false;
     }
-    return false;
+    else if (_nd > _md)
+    {
+      return positive ? false : true;
+    }
+    else
+    {
+      for (int _s = _nList.size() - 1; _s >= 0; --_s)
+      {
+        if (_nList[_s] < _x._nList[_s])
+        {
+          return positive ? true : false;
+        }
+
+        if (_nList[_s] > _x._nList[_s])
+        {
+          return positive ? false : true;
+        }
+      }
+      return false;
+    }
   }
 }
 
 /// This is the operator overloading function for comparator operator(<=).
 bool LargeUInt::operator<=(const LargeUInt &_x)
 {
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
-
-  if (_nd < _md)
+  if (!positive && _x.positive)
   {
     return true;
   }
-  else if (_nd > _md)
+  else if (positive && !_x.positive)
   {
     return false;
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
-    {
-      if (_nList[_s] < _x._nList[_s])
-      {
-        return true;
-      }
+    unsigned int _nd = digits();
+    unsigned int _md = _x.digits();
 
-      if (_nList[_s] > _x._nList[_s])
-      {
-        return false;
-      }
+    if (_nd < _md)
+    {
+      return positive ? true : false;
     }
-    return true;
+    else if (_nd > _md)
+    {
+      return positive ? false : true;
+    }
+    else
+    {
+      for (int _s = _nList.size() - 1; _s >= 0; --_s)
+      {
+        if (_nList[_s] < _x._nList[_s])
+        {
+          return positive ? true : false;
+        }
+
+        if (_nList[_s] > _x._nList[_s])
+        {
+          return positive ? false : true;
+        }
+      }
+      return true;
+    }
   }
 }
 
 /// This is the operator overloading function for comparator operator(>).
 bool LargeUInt::operator>(const LargeUInt &_x)
 {
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
-
-  if (_nd > _md)
+  if (positive && !_x.positive)
   {
     return true;
   }
-  else if (_nd < _md)
+  else if (!positive && _x.positive)
   {
     return false;
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
-    {
-      if (_nList[_s] > _x._nList[_s])
-      {
-        return true;
-      }
+    unsigned int _nd = digits();
+    unsigned int _md = _x.digits();
 
-      if (_nList[_s] < _x._nList[_s])
-      {
-        return false;
-      }
+    if (_nd > _md)
+    {
+      return positive ? true : false;
     }
-    return false;
+    else if (_nd < _md)
+    {
+      return positive ? false : true;
+    }
+    else
+    {
+      for (int _s = _nList.size() - 1; _s >= 0; --_s)
+      {
+        if (_nList[_s] > _x._nList[_s])
+        {
+          return positive ? true : false;
+        }
+
+        if (_nList[_s] < _x._nList[_s])
+        {
+          return positive ? false : true;
+        }
+      }
+      return false;
+    }
   }
 }
 
 /// This is the operator overloading function for comparator operator(>=).
 bool LargeUInt::operator>=(const LargeUInt &_x)
 {
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
-
-  if (_nd > _md)
+  if (positive && !_x.positive)
   {
     return true;
   }
-  else if (_nd < _md)
+  else if (!positive && _x.positive)
   {
     return false;
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
-    {
-      if (_nList[_s] > _x._nList[_s])
-      {
-        return true;
-      }
+    unsigned int _nd = digits();
+    unsigned int _md = _x.digits();
 
-      if (_nList[_s] < _x._nList[_s])
-      {
-        return false;
-      }
+    if (_nd > _md)
+    {
+      return positive ? true : false;
     }
-    return true;
+    else if (_nd < _md)
+    {
+      return positive ? false : true;
+    }
+    else
+    {
+      for (int _s = _nList.size() - 1; _s >= 0; --_s)
+      {
+        if (_nList[_s] > _x._nList[_s])
+        {
+          return positive ? true : false;
+        }
+
+        if (_nList[_s] < _x._nList[_s])
+        {
+          return positive ? false : true;
+        }
+      }
+      return true;
+    }
   }
 }
 
@@ -653,22 +755,33 @@ bool LargeUInt::operator==(const LargeUInt &_x)
 /// This is the operator overloading function for comparator operator(!=).
 bool LargeUInt::operator!=(const LargeUInt &_x)
 {
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
-  if (_nd != _md)
+  if (positive && !_x.positive)
+  {
+    return true;
+  }
+  else if (!positive && _x.positive)
   {
     return true;
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
+    unsigned int _nd = digits();
+    unsigned int _md = _x.digits();
+    if (_nd != _md)
     {
-      if (_nList[_s] != _x._nList[_s])
-      {
-        return true;
-      }
+      return true;
     }
-    return false;
+    else
+    {
+      for (int _s = _nList.size() - 1; _s >= 0; --_s)
+      {
+        if (_nList[_s] != _x._nList[_s])
+        {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 }
 

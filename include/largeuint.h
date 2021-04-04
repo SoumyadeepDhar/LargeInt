@@ -28,6 +28,9 @@ namespace lui
 class LargeUInt
 {
 private:
+  /// Sign info for the number
+  bool positive;
+
   /// Split up data in nodes of N_LIMIT_mDIGIT
   std ::vector<long long unsigned int> _nList;
 
@@ -50,6 +53,9 @@ public:
 
   /// Destructor default
   virtual ~LargeUInt();
+
+  /// Get large unsigned integer as string for all the nodes
+  std::string getSign() const;
 
   /// Get large unsigned integer as string for all the nodes
   std::string getNodes() const;

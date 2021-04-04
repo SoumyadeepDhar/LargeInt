@@ -57,31 +57,62 @@ TEST_F(TestConstructor, tests_arg_constructor_UINT64_MAX)
     EXPECT_EQ(d.getValue(), "18446744073709551615");
 }
 
+TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr_null)
+{
+    char *ptr = NULL;
+    LargeUInt a(ptr);
+    EXPECT_EQ(a.getValue(), std::string("0"));
+}
+
 TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr)
 {
-    LargeUInt e1("12345");
-    EXPECT_EQ(e1.getValue(), "12345");
+    LargeUInt e1a("12345");
+    EXPECT_EQ(e1a.getValue(), "12345");
 
-    LargeUInt e2("1844674407370955161518446744073709551615");
-    EXPECT_EQ(e2.getValue(), "1844674407370955161518446744073709551615");
+    LargeUInt e1b("-12345");
+    EXPECT_EQ(e1b.getValue(), "-12345");
 
-    LargeUInt e3("18446744073709551615.1844");
-    EXPECT_EQ(e3.getValue(), "18446744073709551615");
+    LargeUInt e2a("1844674407370955161518446744073709551615");
+    EXPECT_EQ(e2a.getValue(), "1844674407370955161518446744073709551615");
 
-    LargeUInt e4(".18446744073709551615");
-    EXPECT_EQ(e4.getValue(), "0");
+    LargeUInt e2b("-1844674407370955161518446744073709551615");
+    EXPECT_EQ(e2b.getValue(), "-1844674407370955161518446744073709551615");
 
-    LargeUInt e5("PQRST");
-    EXPECT_EQ(e5.getValue(), "0");
+    LargeUInt e3a("18446744073709551615.1844");
+    EXPECT_EQ(e3a.getValue(), "18446744073709551615");
 
-    LargeUInt e6("PQRST12345");
-    EXPECT_EQ(e6.getValue(), "0");
+    LargeUInt e3b("-18446744073709551615.1844");
+    EXPECT_EQ(e3b.getValue(), "-18446744073709551615");
 
-    LargeUInt e7("12345PQRST");
-    EXPECT_EQ(e7.getValue(), "12345");
+    LargeUInt e4a(".18446744073709551615");
+    EXPECT_EQ(e4a.getValue(), "0");
 
-    LargeUInt e8("0012345PQRST");
-    EXPECT_EQ(e8.getValue(), "12345");
+    LargeUInt e4b("-.18446744073709551615");
+    EXPECT_EQ(e4b.getValue(), "0");
+
+    LargeUInt e5a("PQRST");
+    EXPECT_EQ(e5a.getValue(), "0");
+
+    LargeUInt e5b("-PQRST");
+    EXPECT_EQ(e5b.getValue(), "0");
+
+    LargeUInt e6a("PQRST12345");
+    EXPECT_EQ(e6a.getValue(), "0");
+
+    LargeUInt e6b("-PQRST12345");
+    EXPECT_EQ(e6b.getValue(), "0");
+
+    LargeUInt e7a("12345PQRST");
+    EXPECT_EQ(e7a.getValue(), "12345");
+
+    LargeUInt e7b("-12345PQRST");
+    EXPECT_EQ(e7b.getValue(), "-12345");
+
+    LargeUInt e8a("0012345PQRST");
+    EXPECT_EQ(e8a.getValue(), "12345");
+
+    LargeUInt e8b("-0012345PQRST");
+    EXPECT_EQ(e8b.getValue(), "-12345");
 }
 
 TEST_F(TestConstructor, tests_arg_constructor_string)
