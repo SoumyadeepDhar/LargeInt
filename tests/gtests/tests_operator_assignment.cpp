@@ -23,7 +23,6 @@ namespace testing
 // Test assignment
 namespace test_assignment
 {
-
 // Test suit name
 using TestAssignment = TestLargeUint;
 

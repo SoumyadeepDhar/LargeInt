@@ -20,63 +20,6 @@ namespace dn
 namespace lui
 {
 
-// Specialized for int
-template <>
-LargeUInt &LargeUInt::operator=(const int _x)
-{
-  _nList.clear();
-  _nList.push_back(static_cast<long long unsigned int>(_x));
-  return *this;
-}
-
-// Specialized for unsigned int
-template <>
-LargeUInt &LargeUInt::operator=(const unsigned int _x)
-{
-  _nList.clear();
-  _nList.push_back(static_cast<long long unsigned int>(_x));
-  return *this;
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeUInt &LargeUInt::operator=(const long unsigned int _x)
-{
-  // Clear previous data if any
-  _nList.clear();
-
-  // Most significant digit
-  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
-
-  // All other digits
-  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
-
-  // Update nodes
-  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
-       : (_nList.push_back(_aod));
-
-  return *this;
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
-{
-  // Clear previous data if any
-  _nList.clear();
-
-  // Most significant digit
-  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
-
-  // All other digits
-  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
-
-  // Update nodes
-  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
-       : (_nList.push_back(_aod));
-
-  return *this;
-}
 
 // Specialized for const char *
 template <>
@@ -151,11 +94,39 @@ LargeUInt &LargeUInt::operator=(const char *_x)
 template <>
 LargeUInt &LargeUInt::operator=(const std::string _x)
 {
-  // Clear previous data if any
-  _nList.clear();
-
-  // Assigne new value
   *this = _x.c_str();
+  return *this;
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
+{
+  *this = std::to_string(_x);
+  return *this;
+}
+
+// Specialized for int
+template <>
+LargeUInt &LargeUInt::operator=(const int _x)
+{
+  *this = static_cast<long long unsigned int>(_x);
+  return *this;
+}
+
+// Specialized for unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const unsigned int _x)
+{
+  *this = static_cast<long long unsigned int>(_x);
+  return *this;
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const long unsigned int _x)
+{
+  *this = static_cast<long long unsigned int>(_x);
   return *this;
 }
 
@@ -163,10 +134,6 @@ LargeUInt &LargeUInt::operator=(const std::string _x)
 template <>
 LargeUInt &LargeUInt::operator=(const float _x)
 {
-  // Clear previous data if any
-  _nList.clear();
-
-  // Assigne new value
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
 }
@@ -175,10 +142,6 @@ LargeUInt &LargeUInt::operator=(const float _x)
 template <>
 LargeUInt &LargeUInt::operator=(const double _x)
 {
-  // Clear previous data if any
-  _nList.clear();
-
-  // Assigne new value
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
 }
@@ -187,10 +150,6 @@ LargeUInt &LargeUInt::operator=(const double _x)
 template <>
 LargeUInt &LargeUInt::operator=(const long double _x)
 {
-  // Clear previous data if any
-  _nList.clear();
-
-  // Assigne new value
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
 }
@@ -198,10 +157,6 @@ LargeUInt &LargeUInt::operator=(const long double _x)
 /// This is the operator overloading function for assignment operator(+).
 LargeUInt &LargeUInt::operator=(const LargeUInt &_x)
 {
-  // Clear previous data if any
-  _nList.clear();
-
-  // Update nodes
   _nList = _x._nList;
   return *this;
 }

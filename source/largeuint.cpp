@@ -25,50 +25,6 @@ LargeUInt::LargeUInt()
   _nList.push_back(0UL);
 }
 
-// Specialized for int
-template <>
-LargeUInt::LargeUInt(const int _x)
-{
-  _nList.push_back(static_cast<long long unsigned int>(_x));
-}
-
-// Specialized for unsigned int
-template <>
-LargeUInt::LargeUInt(const unsigned int _x)
-{
-  _nList.push_back(static_cast<long long unsigned int>(_x));
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeUInt::LargeUInt(const long unsigned int _x)
-{
-  // Most significant digit
-  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
-
-  // All other digits
-  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
-
-  // Update nodes
-  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
-       : (_nList.push_back(_aod));
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeUInt::LargeUInt(const long long unsigned int _x)
-{
-  // Most significant digit
-  long long unsigned int _msd = _x / N_LIMIT_mVALUE;
-
-  // All other digits
-  long long unsigned int _aod = _x - _msd * N_LIMIT_mVALUE;
-
-  // Update nodes
-  _msd ? (_nList.push_back(_aod), _nList.push_back(_msd))
-       : (_nList.push_back(_aod));
-}
-
 // Specialized for const char *
 template <>
 LargeUInt::LargeUInt(const char *_x)
@@ -140,6 +96,34 @@ LargeUInt::LargeUInt(const std::string _x)
 {
 }
 
+// Specialized for long long unsigned int
+template <>
+LargeUInt::LargeUInt(const long long unsigned int _x)
+    : LargeUInt(std::to_string(_x))
+{
+}
+
+// Specialized for int
+template <>
+LargeUInt::LargeUInt(const int _x)
+    : LargeUInt(static_cast<long long unsigned int>(_x))
+{
+}
+
+// Specialized for unsigned int
+template <>
+LargeUInt::LargeUInt(const unsigned int _x)
+    : LargeUInt(static_cast<long long unsigned int>(_x))
+{
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt::LargeUInt(const long unsigned int _x)
+    : LargeUInt(static_cast<long long unsigned int>(_x))
+{
+}
+
 // Specialized for float
 template <>
 LargeUInt::LargeUInt(const float _x)
@@ -199,6 +183,41 @@ void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPositi
       // Append carry as last node
       _nList.push_back(_carry);
     }
+  }
+}
+
+void LargeUInt::sub(const long long unsigned int _x, const unsigned int _iPosition)
+{
+  // Get positional value to add
+  auto _cPosition = _nList.begin() + _iPosition;
+
+  // Get carry
+  long long unsigned int _carry = *_cPosition < _x ? 1U : 0U;
+
+  // If carry value present
+  if (_carry > 0)
+  {
+    // Update next (if exist) node with carry value
+    if (std::next(_cPosition) != _nList.end())
+    {
+      // Update result
+      *_cPosition = ((N_LIMIT_mVALUE + *_cPosition) - _x);
+
+      // Substract carry to next node position
+      sub(_carry, (_iPosition + 1));
+    }
+    else
+    {
+      // Update result
+      LargeUInt _t(*_cPosition - _x);
+      _nList.pop_back();
+      _nList.insert(_nList.end(), _t._nList.begin(), _t._nList.end());
+    }
+  }
+  else
+  {
+    // Update node value
+    *_cPosition -= _x;
   }
 }
 
@@ -357,7 +376,7 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
         _mCarry = (_nCarry * _cValue);
       }
 
-      // If empty node present at theend remove it
+      // If empty node present at the end then remove it
       if (_nList.back() == 0)
       {
         _nList.pop_back();

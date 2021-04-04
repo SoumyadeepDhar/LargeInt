@@ -103,18 +103,6 @@ TEST_F(TestOperatorMultiplyEqual, tests_multiply_equal_string)
     f *= str;
     EXPECT_EQ(f.getValue(),
               "340282366920938463426481119284349108225");
-
-    // long double a = 999999999UL;
-    // long double b = 999999999UL;
-    // LargeUInt c(a * b);
-    // EXPECT_EQ(c.getValue(),
-    //           "340282366920938463426481119284349108225");  
-
-//   "340282366920938463426481119284349108224"
-//   "340282366920938463426481119284349108225"  
-
-//   "34028236692093846288179776595165184"
-//   "340282366920938463426481119284349108225"
 }
 
 TEST_F(TestOperatorMultiplyEqual, tests_multiply_equal_FLT_MAX)

@@ -15,6 +15,8 @@ set(SOURCES
     source/lui_operator_assignment.cpp
     source/lui_operator_plus_equal.cpp
     source/lui_operator_plus.cpp
+    source/lui_operator_minus_equal.cpp
+    source/lui_operator_minus.cpp
     source/lui_operator_multiply_equal.cpp
     source/lui_operator_multiply.cpp)
 
@@ -55,10 +57,13 @@ if(${GTEST_GIT_CI})
         tests/gtests/tests_gtests.cpp
         tests/gtests/tests_constructor.cpp
         tests/gtests/tests_operator_assignment.cpp
+        tests/gtests/tests_operator_minus_equal.cpp
+        tests/gtests/tests_operator_minus.cpp
         tests/gtests/tests_operator_plus_equal.cpp
         tests/gtests/tests_operator_plus.cpp
         tests/gtests/tests_operator_multiply_equal.cpp
-        tests/gtests/tests_operator_multiply.cpp)
+        tests/gtests/tests_operator_multiply.cpp
+        )
 
     # Make Gtest target
     add_executable(GTestLargeUInt ${GTESTS_SOURCES})
