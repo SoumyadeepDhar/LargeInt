@@ -117,15 +117,23 @@ TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr)
 
 TEST_F(TestConstructor, tests_arg_constructor_string)
 {
-    std::string str("18446744073709551615");
-    LargeUInt f(str);
-    EXPECT_EQ(f.getValue(), "18446744073709551615");
+    std::string strA("18446744073709551615");
+    LargeUInt fa(strA);
+    EXPECT_EQ(fa.getValue(), "18446744073709551615");
+
+    std::string strB("-18446744073709551615");
+    LargeUInt fb(strB);
+    EXPECT_EQ(fb.getValue(), "-18446744073709551615");
 }
 
 TEST_F(TestConstructor, tests_arg_constructor_FLT_MAX)
 {
-    LargeUInt g(FLT_MAX);
-    EXPECT_EQ(g.getValue(), std::to_string(FLT_MAX).substr(0, std::to_string(FLT_MAX).find(".")).c_str());
+    std::string floatMaxToString(std::to_string(FLT_MAX).substr(0, std::to_string(FLT_MAX).find(".")));
+    LargeUInt gA(FLT_MAX);
+    EXPECT_EQ(gA.getValue(), floatMaxToString.c_str());
+
+    LargeUInt gB(FLT_MAX * -1.0F);
+    EXPECT_EQ(gB.getValue(), std::string("-" + floatMaxToString).c_str());
 }
 
 TEST_F(TestConstructor, tests_arg_constructor_DBL_MAX)
