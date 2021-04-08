@@ -22,7 +22,7 @@ namespace lui
 
 LargeUInt::LargeUInt() : positive(true)
 {
-  _nList.push_back(0U);
+  _nList = {0U};
 }
 
 // Specialized for const char *
@@ -101,7 +101,7 @@ LargeUInt::LargeUInt(const char *_x)
       bool isNobZeroValuePresent = false;
       for (auto nElement : _nList)
       {
-        if(nElement != 0U)
+        if (nElement != 0U)
         {
           isNobZeroValuePresent = true;
           break;
@@ -109,18 +109,19 @@ LargeUInt::LargeUInt(const char *_x)
       }
 
       // If zero found
-      if(isNobZeroValuePresent == false)
+      if (isNobZeroValuePresent == false)
       {
-          positive = true;
-          _nList = {0U};
+        positive = true;
+        _nList = {0U};
       }
 
-      // Remove trailing zerosif any 
-      if(_nList.size() > 1U)
+      // Remove trailing zerosif any
+      if (_nList.size() > 1U)
       {
         size_t _e = _nList.size() - 1;
-        for(; (_e > 0) && (_nList[_e] == 0); --_e);
-        
+        for (; (_e > 0) && (_nList[_e] == 0); --_e)
+          ;
+
         // Erase elements
         _nList.erase(_nList.begin() + _e + 1, _nList.end());
       }
@@ -128,7 +129,7 @@ LargeUInt::LargeUInt(const char *_x)
     else
     {
       positive = true;
-      _nList = {0U}; 
+      _nList = {0U};
     }
   }
 }
@@ -159,23 +160,7 @@ LargeUInt::LargeUInt(const long long int _x)
     : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
 {
   // Update sign information
-  positive = _x < 0U ? false : true;
-}
-
-// Specialized for unsigned int
-template <>
-LargeUInt::LargeUInt(const unsigned int _x)
-    : LargeUInt(static_cast<long long unsigned int>(_x))
-{
-}
-
-// Specialized for int
-template <>
-LargeUInt::LargeUInt(const int _x)
-    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
-{
-  // Update sign information
-  positive = _x < 0U ? false : true;
+  positive = _x < 0 ? false : true;
 }
 
 // Specialized for long unsigned int
@@ -190,8 +175,21 @@ template <>
 LargeUInt::LargeUInt(const long int _x)
     : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
 {
-  // Update sign information
-  positive = _x < 0U ? false : true;
+  positive = _x < 0 ? false : true;
+}
+
+// Specialized for unsigned int
+template <>
+LargeUInt::LargeUInt(const unsigned int _x)
+    : LargeUInt(static_cast<long long unsigned int>(_x))
+{
+}
+
+// Specialized for int
+template <>
+LargeUInt::LargeUInt(const int _x)
+    : LargeUInt(std::to_string(_x))
+{
 }
 
 // Specialized for float
@@ -466,8 +464,7 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
   else
   {
     positive = true;
-    _nList.clear();
-    _nList.push_back(0U);
+    _nList = {0U};
   }
 
   return *this;
@@ -675,7 +672,6 @@ bool LargeUInt::operator!=(const LargeUInt &_x)
   }
 }
 
-
 /// This is the operator overloading function for comparator operator(<=).
 bool LargeUInt::operator<=(const int _x)
 {
@@ -735,7 +731,7 @@ bool LargeUInt::operator>=(const int _x)
 {
   // Create temporary storage
   LargeUInt _temp(_x);
-  return *this >= _temp;  
+  return *this >= _temp;
 }
 
 /// This is the operator overloading function for comparator operator(>=).
@@ -774,7 +770,7 @@ bool LargeUInt::operator==(const unsigned int _x)
 /// This is the operator overloading function for comparator operator(!=).
 bool LargeUInt::operator!=(const int _x)
 {
-    // Create temporary storage
+  // Create temporary storage
   LargeUInt _temp(_x);
   return *this != _temp;
 }
