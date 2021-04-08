@@ -64,7 +64,22 @@ TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr_null)
     EXPECT_EQ(a.getValue(), std::string("0"));
 }
 
-TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr)
+TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr_zero)
+{
+    LargeUInt e1a("0");
+    EXPECT_EQ(e1a.getValue(), "0");
+
+    LargeUInt e1b("-0");
+    EXPECT_EQ(e1b.getValue(), "0");
+
+    LargeUInt e1c("0000000000000000000");
+    EXPECT_EQ(e1c.getValue(), "0");
+
+    LargeUInt e1d("-0000000000000000000");
+    EXPECT_EQ(e1d.getValue(), "0");
+}
+
+TEST_F(TestConstructor, tests_arg_constructor_const_char_ptr_nonzero)
 {
     LargeUInt e1a("12345");
     EXPECT_EQ(e1a.getValue(), "12345");

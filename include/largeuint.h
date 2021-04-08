@@ -128,23 +128,9 @@ public:
   LargeUInt operator>>(const unsigned int _x) const;
 
   /// This is the operator overloading function for comparator operator(<).
-  bool operator<(const unsigned int _x);
-
-  /// This is the operator overloading function for comparator operator(<=).
-  bool operator<=(const unsigned int _x);
-
-  /// This is the operator overloading function for comparator operator(>).
-  bool operator>(const unsigned int _x);
-
-  /// This is the operator overloading function for comparator operator(>=).
-  bool operator>=(const unsigned int _x);
-
-  /// This is the operator overloading function for comparator operator(==).
-  bool operator==(const unsigned int _x);
-
-  /// This is the operator overloading function for comparator operator(!=).
-  bool operator!=(const unsigned int _x);
-
+  template <typename T>
+  bool operator<(const T _x);
+  
   /// This is the operator overloading function for comparator operator(<).
   bool operator<(const LargeUInt &_x);
 
@@ -162,6 +148,36 @@ public:
 
   /// This is the operator overloading function for comparator operator(!=).
   bool operator!=(const LargeUInt &_x);
+  
+  /// This is the operator overloading function for comparator operator(<=).
+  bool operator<=(const int _x);
+
+  /// This is the operator overloading function for comparator operator(<=).
+  bool operator<=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(>).
+  bool operator>(const int _x);
+
+  /// This is the operator overloading function for comparator operator(>).
+  bool operator>(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(>=).
+  bool operator>=(const int _x);
+
+  /// This is the operator overloading function for comparator operator(>=).
+  bool operator>=(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(==).
+  bool operator==(const int _x);
+
+  /// This is the operator overloading function for comparator operator(==).
+  bool operator==(const unsigned int _x);
+
+  /// This is the operator overloading function for comparator operator(!=).
+  bool operator!=(const int _x);
+
+  /// This is the operator overloading function for comparator operator(!=).
+  bool operator!=(const unsigned int _x);
 };
 
 } // namespace lui

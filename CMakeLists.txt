@@ -13,6 +13,7 @@ include_directories(include)
 set(SOURCES 
     source/largeuint.cpp
     source/lui_operator_assignment.cpp
+    source/lui_operator_compare_less.cpp
     source/lui_operator_plus_equal.cpp
     source/lui_operator_plus.cpp
     source/lui_operator_minus_equal.cpp
@@ -57,6 +58,7 @@ if(${GTEST_GIT_CI})
         tests/gtests/tests_gtests.cpp
         tests/gtests/tests_constructor.cpp
         tests/gtests/tests_operator_assignment.cpp
+        tests/gtests/tests_operator_compare_less.cpp
         tests/gtests/tests_operator_minus_equal.cpp
         tests/gtests/tests_operator_minus.cpp
         tests/gtests/tests_operator_plus_equal.cpp
@@ -75,4 +77,3 @@ if(${GTEST_GIT_CI})
     # Add GTest to CI
     add_test(GTest GTestLargeUInt)
 endif()
-

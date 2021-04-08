@@ -20,7 +20,6 @@ namespace dn
 namespace lui
 {
 
-
 // Specialized for const char *
 template <>
 LargeUInt &LargeUInt::operator=(const char *_x)
@@ -28,64 +27,107 @@ LargeUInt &LargeUInt::operator=(const char *_x)
   // Clear previous data if any
   _nList.clear();
 
-  int sIndex, eIndex;
-
-  // accumulator value for any node
-  long long unsigned int value = 0;
-
-  // Right to left position of the digits in the string
-  unsigned int position = 0;
-
-  // Input string length
-  unsigned int nDigit = strlen(_x);
-
-  // Fot all digits in the given string
-  eIndex = nDigit;
-  for (sIndex = 0; sIndex < nDigit; ++sIndex)
+  if (_x == NULL)
   {
-    // Stop processing if not a digit
-    if (_x[sIndex] < 48 || _x[sIndex] > 57)
-      break;
-
-    // Update end index
-    eIndex = sIndex;
-  }
-
-  // If valid digits present
-  if (eIndex < nDigit)
-  {
-    // Fot all digits in the given string
-    for (sIndex = eIndex; sIndex >= 0; --sIndex)
-    {
-      // Calculate positional significance within the  node
-      int power = position - (_nList.size() * N_LIMIT_mDIGIT);
-
-      // Update position for next iteration
-      position++;
-
-      // Find value for the desimal place
-      value += (_x[sIndex] - 48) * powl(10, power);
-
-      // Keep only 'N_LIMIT_mDIGIT' in any node
-      if ((power + 1) == N_LIMIT_mDIGIT)
-      {
-        // Insert data in nodelist
-        _nList.push_back(value);
-
-        // Clear value accumulator
-        value = 0;
-      }
-    }
-
-    // Append remaining digits
-    if (position % N_LIMIT_mDIGIT)
-    {
-      _nList.push_back(value);
-    }
+    positive = true;
+    _nList = {0U};
   }
   else
   {
-    _nList.push_back(0UL);
+    int sIndex, stIndex, enIndex;
+
+    // Set sign information
+    positive = _x[0] != '-' ? true : false;
+
+    // Accumulator value for any node
+    long long unsigned int value = 0;
+
+    // Right to left position of the digits in the string
+    unsigned int position = 0;
+
+    // Input string length
+    unsigned int nDigit = strlen(_x);
+
+    // Fot all digits in the given string
+    enIndex = nDigit;
+    for (sIndex = positive ? 0U : 1U; sIndex < nDigit; ++sIndex)
+    {
+      // Stop processing if not a digit
+      if (_x[sIndex] < 48 || _x[sIndex] > 57)
+        break;
+
+      // Update end index
+      enIndex = sIndex;
+    }
+
+    // If valid digits present
+    if (enIndex < nDigit)
+    {
+      // Based on sign set start index
+      stIndex = positive ? 0U : 1U;
+
+      // Fot all digits in the given string
+      for (sIndex = enIndex; sIndex >= stIndex; --sIndex)
+      {
+        // Calculate positional significance within the  node
+        int power = position - (_nList.size() * N_LIMIT_mDIGIT);
+
+        // Update position for next iteration
+        position++;
+
+        // Find value for the desimal place
+        value += (_x[sIndex] - 48) * powl(10, power);
+
+        // Keep only 'N_LIMIT_mDIGIT' in any node
+        if ((power + 1) == N_LIMIT_mDIGIT)
+        {
+          // Insert data in nodelist
+          _nList.push_back(value);
+
+          // Clear value accumulator
+          value = 0;
+        }
+      }
+
+      // Append remaining digits
+      if (position % N_LIMIT_mDIGIT)
+      {
+        _nList.push_back(value);
+      }
+
+      // Check for zero value
+      bool isNobZeroValuePresent = false;
+      for (auto nElement : _nList)
+      {
+        if(nElement != 0U)
+        {
+          isNobZeroValuePresent = true;
+          break;
+        }
+      }
+
+      // If zero found
+      if(isNobZeroValuePresent == false)
+      {
+          positive = true;
+          _nList = {0U};
+      }
+
+      // Remove trailing zerosif any 
+      if(_nList.size() > 1U)
+      {
+        size_t _e = _nList.size() - 1;
+        for(; (_e > 0) && (_nList[_e] == 0); --_e);
+        
+        // Erase elements
+        _nList.erase(_nList.begin() + _e + 1, _nList.end());
+      }
+    }
+    else
+    {
+      positive = true;
+      _nList = {0U}; 
+    }
   }
 
   return *this;
@@ -98,19 +140,11 @@ LargeUInt &LargeUInt::operator=(const std::string _x)
   return *this;
 }
 
-// Specialized for long long unsigned int
-template <>
-LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
-{
-  *this = std::to_string(_x);
-  return *this;
-}
-
 // Specialized for int
 template <>
 LargeUInt &LargeUInt::operator=(const int _x)
 {
-  *this = static_cast<long long unsigned int>(_x);
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -118,7 +152,15 @@ LargeUInt &LargeUInt::operator=(const int _x)
 template <>
 LargeUInt &LargeUInt::operator=(const unsigned int _x)
 {
-  *this = static_cast<long long unsigned int>(_x);
+  *this = std::to_string(_x);
+  return *this;
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const long int _x)
+{
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -126,7 +168,23 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
 template <>
 LargeUInt &LargeUInt::operator=(const long unsigned int _x)
 {
-  *this = static_cast<long long unsigned int>(_x);
+  *this = std::to_string(_x);
+  return *this;
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const long long int _x)
+{
+  *this = std::to_string(_x);
+  return *this;
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
+{
+  *this = std::to_string(_x);
   return *this;
 }
 
