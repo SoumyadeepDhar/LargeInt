@@ -24,7 +24,7 @@ namespace test_operator_multiply_equal
 {
 
 // Test suit name
-using TestOperatorMultiplyEqual = TestLargeUint;
+using TestOperatorMultiplyEqual = TestLargeInt;
 
 TEST_F(TestOperatorMultiplyEqual, tests_multiply_equal_UINT8_MAX)
 {

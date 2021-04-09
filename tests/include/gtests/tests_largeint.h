@@ -23,10 +23,10 @@ namespace li
 namespace testing
 {
 
-class TestLargeUint : public GTestFixture
+class TestLargeInt : public GTestFixture
 {
 public:
-    TestLargeUint()
+    TestLargeInt()
     {
         // initialization code here
     }
@@ -42,7 +42,7 @@ public:
         // ok to through exceptions from here if need be
     }
 
-    virtual ~TestLargeUint()
+    virtual ~TestLargeInt()
     {
         // cleanup any pending stuff, but no exceptions allowed
     }

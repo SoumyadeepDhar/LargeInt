@@ -11,18 +11,18 @@ include_directories(include)
 
 # Add source files
 set(SOURCES 
-    source/largeuint.cpp
-    source/lui_operator_assignment.cpp
-    source/lui_operator_compare_lesser.cpp
-    source/lui_operator_plus_equal.cpp
-    source/lui_operator_plus.cpp
-    source/lui_operator_minus_equal.cpp
-    source/lui_operator_minus.cpp
-    source/lui_operator_multiply_equal.cpp
-    source/lui_operator_multiply.cpp)
+    source/largeint.cpp
+    source/li_operator_assignment.cpp
+    source/li_operator_compare_lesser.cpp
+    source/li_operator_plus_equal.cpp
+    source/li_operator_plus.cpp
+    source/li_operator_minus_equal.cpp
+    source/li_operator_minus.cpp
+    source/li_operator_multiply_equal.cpp
+    source/li_operator_multiply.cpp)
 
 # Make Target
-add_library(largeuint SHARED ${SOURCES})
+add_library(largeint SHARED ${SOURCES})
 
 
 # GTest option
@@ -39,13 +39,13 @@ set(CTESTS_SOURCES
     tests/ctests/tests_ctests.cpp)
 
 # Make ctest target
-add_executable(CTestLargeUInt ${CTESTS_SOURCES})
+add_executable(CTestLargeInt ${CTESTS_SOURCES})
 
 # Links the executable to the LargeUInt C++ library.
-target_link_libraries (CTestLargeUInt LINK_PUBLIC largeuint)
+target_link_libraries (CTestLargeInt LINK_PUBLIC largeint)
 
 # Add CTest to CI
-add_test(CTest CTestLargeUInt)
+add_test(CTest CTestLargeInt)
 
 # Checks for GTest
 if(${GTEST_GIT_CI})
@@ -68,12 +68,12 @@ if(${GTEST_GIT_CI})
         )
 
     # Make Gtest target
-    add_executable(GTestLargeUInt ${GTESTS_SOURCES})
+    add_executable(GTestLargeInt ${GTESTS_SOURCES})
 
     # Links the executable to the LargeUInt C++ library.
-    target_link_libraries (GTestLargeUInt LINK_PUBLIC largeuint)
-    target_link_libraries (GTestLargeUInt LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+    target_link_libraries (GTestLargeInt LINK_PUBLIC largeint)
+    target_link_libraries (GTestLargeInt LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
     # Add GTest to CI
-    add_test(GTest GTestLargeUInt)
+    add_test(GTest GTestLargeInt)
 endif()

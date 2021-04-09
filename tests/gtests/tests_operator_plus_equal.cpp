@@ -24,7 +24,7 @@ namespace test_operator_plus_equal
 {
 
 // Test suit name
-using TestOperatorPlusEqual = TestLargeUint;
+using TestOperatorPlusEqual = TestLargeInt;
 
 TEST_F(TestOperatorPlusEqual, tests_plus_equal_UINT8_MAX)
 {

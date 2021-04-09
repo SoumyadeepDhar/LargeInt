@@ -24,7 +24,7 @@ namespace test_operator_multiply
 {
 
 // Test suit name
-using TestOperatorMultiply = TestLargeUint;
+using TestOperatorMultiply = TestLargeInt;
 
 TEST_F(TestOperatorMultiply, tests_multiply_UINT8_MAX)
 {

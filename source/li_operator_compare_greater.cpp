@@ -1,5 +1,5 @@
 /*
- * lui_operator_compare_less.cpp
+ * lui_operator_compare_greater.cpp
  *
  *  Created on: 09-Apr-2021
  *  Author: Soumyadeep Dhar

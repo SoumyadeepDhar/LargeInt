@@ -24,7 +24,7 @@ namespace testing
 namespace test_assignment
 {
 // Test suit name
-using TestAssignment = TestLargeUint;
+using TestAssignment = TestLargeInt;
 
 TEST_F(TestAssignment, tests_assignment_UINT8_MAX)
 {

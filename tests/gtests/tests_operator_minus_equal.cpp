@@ -24,7 +24,7 @@ namespace test_operator_minus_equal
 {
 
 // Test suit name
-using TestOperatorMinusEqual = TestLargeUint;
+using TestOperatorMinusEqual = TestLargeInt;
 
 TEST_F(TestOperatorMinusEqual, tests_minus_equal_UINT8_MAX_positive)
 {

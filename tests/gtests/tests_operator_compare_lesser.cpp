@@ -24,7 +24,7 @@ namespace testing
 namespace test_operator_compare_lesser
 {
 // Test suit name
-using TestCompareLesser = TestLargeUint;
+using TestCompareLesser = TestLargeInt;
 
 /* Minimum of signed integral types.  */
 // # define INT8_MIN		(-128)

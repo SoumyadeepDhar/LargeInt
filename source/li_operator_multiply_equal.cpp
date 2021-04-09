@@ -22,83 +22,95 @@ namespace li
 
 // Specialized for int
 template <>
-LargeInt LargeInt::operator*(const int _x)
+LargeInt &LargeInt::operator*=(const int _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for unsigned int
 template <>
-LargeInt LargeInt::operator*(const unsigned int _x)
+LargeInt &LargeInt::operator*=(const unsigned int _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for long long unsigned int
 template <>
-LargeInt LargeInt::operator*(const long unsigned int _x)
+LargeInt &LargeInt::operator*=(const long unsigned int _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for long long unsigned int
 template <>
-LargeInt LargeInt::operator*(const long long unsigned int _x)
+LargeInt &LargeInt::operator*=(const long long unsigned int _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for const char *
 template <>
-LargeInt LargeInt::operator*(const char *_x)
+LargeInt &LargeInt::operator*=(const char *_x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 template <>
-LargeInt LargeInt::operator*(const std::string _x)
+LargeInt &LargeInt::operator*=(const std::string _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for float
 template <>
-LargeInt LargeInt::operator*(const float _x)
+LargeInt &LargeInt::operator*=(const float _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for double
 template <>
-LargeInt LargeInt::operator*(const double _x)
+LargeInt &LargeInt::operator*=(const double _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
 // Specialized for long double
 template <>
-LargeInt LargeInt::operator*(const long double _x)
+LargeInt &LargeInt::operator*=(const long double _x)
 {
   LargeInt _temp(_x);
-  return *this * _temp;
+  *this *= _temp;
+  return *this;
 }
 
-// This is the operator overloading function for assignment operator(*).
-LargeInt LargeInt::operator*(const LargeInt &_x)
+// This is the operator overloading function for assignment operator(+).
+LargeInt &LargeInt::operator*=(const LargeInt &_x)
 {
   unsigned int _sList1 = _nList.size();
   unsigned int _sList2 = _x._nList.size();
 
   // Initialized with list2
-  LargeInt _result(0U);
+  LargeInt _iV(*this);
+
+  // Clear current value to store result
+  *this = 0U;
 
   // For each elements in first list multiply them to the other list
   for (auto nIndex1 = 0U; nIndex1 < _sList1; ++nIndex1)
@@ -110,7 +122,7 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
     for (auto nIndex2 = 0U; nIndex2 < _sList2; ++nIndex2)
     {
       // Note of newly computed value
-      _temp._nList[nIndex2] *= _nList[nIndex1];
+      _temp._nList[nIndex2] *= _iV._nList[nIndex1];
     }
 
     // Adjust successive carry
@@ -143,10 +155,10 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
     _temp <<= (nIndex1 * N_LIMIT_mDIGIT);
 
     // Update result
-    _result += _temp;
+    *this += _temp;
   }
 
-  return _result;
+  return *this;
 }
 
 } // namespace li

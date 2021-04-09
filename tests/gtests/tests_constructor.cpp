@@ -25,7 +25,7 @@ namespace test_constructor
 {
 
 // Test suit name
-using TestConstructor = TestLargeUint;
+using TestConstructor = TestLargeInt;
 
 TEST_F(TestConstructor, tests_default_constructor)
 {

@@ -24,7 +24,7 @@ namespace testing
 namespace test_operator_compare_greater
 {
 // Test suit name
-using TestCompareGreater = TestLargeUint;
+using TestCompareGreater = TestLargeInt;
 
 TEST_F(TestCompareGreater, tests_compare_UINT8_MAX)
 {
