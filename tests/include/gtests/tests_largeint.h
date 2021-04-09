@@ -1,5 +1,5 @@
 /*
- * tests_largeuint.h
+ * tests_largeint.h
  *
  *  Created on: 29-Mar-2021
  *  Author: soumyadeep dhar
@@ -16,7 +16,7 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
+// Large integer
 namespace li
 {
 // Testing module    

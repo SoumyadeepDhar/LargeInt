@@ -6,7 +6,7 @@
  *  Author: Soumyadeep Dhar
  */
 
-#include "gtests/tests_largeuint.h"
+#include "gtests/tests_largeint.h"
 
 // Number ststem
 namespace ns
@@ -14,7 +14,7 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
+// Large integer
 namespace li
 {
 // Testing module

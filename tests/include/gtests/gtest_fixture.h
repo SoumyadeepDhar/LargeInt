@@ -20,7 +20,7 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
+// Large integer
 namespace li
 {
 // Testing module    

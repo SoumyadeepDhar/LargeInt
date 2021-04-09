@@ -5,7 +5,7 @@
  *  Author: Soumyadeep Dhar
  */
 
-#include "gtests/tests_largeuint.h"
+#include "gtests/tests_largeint.h"
 
 // Number ststem
 namespace ns
@@ -13,14 +13,14 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
+// Large integer
 namespace li
 {
 // Testing module
 namespace testing
 {
-// Test operator plus equal
-namespace test_operator_plus_equal
+// Test operator multiply equal
+namespace test_operator_multiply_equal
 {
 
 // Test suit name
@@ -135,7 +135,7 @@ TEST_F(TestOperatorMultiplyEqual, tests_multiply_equal_largeuint)
     EXPECT_EQ(n.getValue(), "1361129467683753853705924477137396432900");
 }
 
-} // namespace test_operator_plus_equal
+} // namespace test_operator_multiply_equal
 } // namespace testing
 } // namespace li
 } // namespace ds

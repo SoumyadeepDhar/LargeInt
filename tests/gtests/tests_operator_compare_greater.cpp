@@ -1,12 +1,12 @@
 /*
- * tests_operator_compare_less.cpp
+ * tests_operator_compare_greater.cpp
  *
  *  Created on: 03-Apr-2019
  *  Modified on: 09-Apr-2021
  *  Author: Soumyadeep Dhar
  */
 
-#include "gtests/tests_largeuint.h"
+#include "gtests/tests_largeint.h"
 
 // Number ststem
 namespace ns
@@ -21,12 +21,12 @@ namespace li
 namespace testing
 {
 // Test assignment
-namespace test_operator_compare_less
+namespace test_operator_compare_greater
 {
 // Test suit name
-using TestCompareLess = TestLargeUint;
+using TestCompareGreater = TestLargeUint;
 
-TEST_F(TestCompareLess, tests_compare_UINT8_MAX)
+TEST_F(TestCompareGreater, tests_compare_UINT8_MAX)
 {
     LargeInt a(UINT8_MAX);
     EXPECT_TRUE (a < UINT16_MAX);
@@ -35,7 +35,7 @@ TEST_F(TestCompareLess, tests_compare_UINT8_MAX)
     EXPECT_FALSE(a < (-1 * UINT8_MAX));
 }
 
-TEST_F(TestCompareLess, tests_compare_UINT16_MAX)
+TEST_F(TestCompareGreater, tests_compare_UINT16_MAX)
 {
     LargeInt b(UINT16_MAX);
     EXPECT_TRUE (b < UINT32_MAX);
@@ -44,7 +44,7 @@ TEST_F(TestCompareLess, tests_compare_UINT16_MAX)
     EXPECT_FALSE(b < (-1 * UINT16_MAX));
 }
 
-TEST_F(TestCompareLess, tests_compare_UINT32_MAX)
+TEST_F(TestCompareGreater, tests_compare_UINT32_MAX)
 {
     LargeInt c(UINT32_MAX);
     EXPECT_TRUE (c < UINT64_MAX);
@@ -54,7 +54,7 @@ TEST_F(TestCompareLess, tests_compare_UINT32_MAX)
 }
 
 
-TEST_F(TestCompareLess, tests_compare_UINT64_MAX)
+TEST_F(TestCompareGreater, tests_compare_UINT64_MAX)
 {
     LargeInt d(UINT64_MAX);
     LargeInt e(UINT64_MAX);
@@ -65,7 +65,7 @@ TEST_F(TestCompareLess, tests_compare_UINT64_MAX)
     EXPECT_FALSE(d < -12345);
 }
 
-TEST_F(TestCompareLess, tests_compare_const_char_ptr)
+TEST_F(TestCompareGreater, tests_compare_const_char_ptr)
 {
     LargeInt e1("12345");
     EXPECT_TRUE(e1 < "123456");
@@ -92,7 +92,7 @@ TEST_F(TestCompareLess, tests_compare_const_char_ptr)
     EXPECT_TRUE(e8 < "12346");
 }
 
-TEST_F(TestCompareLess, tests_compare_string)
+TEST_F(TestCompareGreater, tests_compare_string)
 {
     std::string str("18446744073709551615");
     LargeInt f(str);
@@ -100,21 +100,21 @@ TEST_F(TestCompareLess, tests_compare_string)
     EXPECT_FALSE(f < str);
 }
 
-TEST_F(TestCompareLess, tests_compare_FLT_MAX)
+TEST_F(TestCompareGreater, tests_compare_FLT_MAX)
 {
     LargeInt g(FLT_MAX);
     EXPECT_TRUE(g < DBL_MAX);
     EXPECT_FALSE(g < FLT_MAX);
 }
 
-TEST_F(TestCompareLess, tests_compare_DBL_MAX)
+TEST_F(TestCompareGreater, tests_compare_DBL_MAX)
 {  
     LargeInt h(DBL_MAX);
     EXPECT_TRUE(h < LDBL_MAX);
     EXPECT_FALSE(h < DBL_MAX);
  }
 
-TEST_F(TestCompareLess, tests_compare_LDBL_MAX)
+TEST_F(TestCompareGreater, tests_compare_LDBL_MAX)
 {   
     LargeInt i(LDBL_MAX);
     LargeInt j(DBL_MAX);
