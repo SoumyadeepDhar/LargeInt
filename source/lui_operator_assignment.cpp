@@ -22,7 +22,7 @@ namespace lui
 
 // Specialized for const char *
 template <>
-LargeUInt &LargeUInt::operator=(const char *_x)
+LargeInt &LargeInt::operator=(const char *_x)
 {
   // Clear previous data if any
   _nList.clear();
@@ -134,7 +134,7 @@ LargeUInt &LargeUInt::operator=(const char *_x)
 }
 
 template <>
-LargeUInt &LargeUInt::operator=(const std::string _x)
+LargeInt &LargeInt::operator=(const std::string _x)
 {
   *this = _x.c_str();
   return *this;
@@ -142,7 +142,7 @@ LargeUInt &LargeUInt::operator=(const std::string _x)
 
 // Specialized for int
 template <>
-LargeUInt &LargeUInt::operator=(const int _x)
+LargeInt &LargeInt::operator=(const int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -150,7 +150,7 @@ LargeUInt &LargeUInt::operator=(const int _x)
 
 // Specialized for unsigned int
 template <>
-LargeUInt &LargeUInt::operator=(const unsigned int _x)
+LargeInt &LargeInt::operator=(const unsigned int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -158,7 +158,7 @@ LargeUInt &LargeUInt::operator=(const unsigned int _x)
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt &LargeUInt::operator=(const long int _x)
+LargeInt &LargeInt::operator=(const long int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -166,7 +166,7 @@ LargeUInt &LargeUInt::operator=(const long int _x)
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt &LargeUInt::operator=(const long unsigned int _x)
+LargeInt &LargeInt::operator=(const long unsigned int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -174,7 +174,7 @@ LargeUInt &LargeUInt::operator=(const long unsigned int _x)
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt &LargeUInt::operator=(const long long int _x)
+LargeInt &LargeInt::operator=(const long long int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -182,7 +182,7 @@ LargeUInt &LargeUInt::operator=(const long long int _x)
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
+LargeInt &LargeInt::operator=(const long long unsigned int _x)
 {
   *this = std::to_string(_x);
   return *this;
@@ -190,7 +190,7 @@ LargeUInt &LargeUInt::operator=(const long long unsigned int _x)
 
 // Specialized for float
 template <>
-LargeUInt &LargeUInt::operator=(const float _x)
+LargeInt &LargeInt::operator=(const float _x)
 {
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
@@ -198,7 +198,7 @@ LargeUInt &LargeUInt::operator=(const float _x)
 
 // Specialized for double
 template <>
-LargeUInt &LargeUInt::operator=(const double _x)
+LargeInt &LargeInt::operator=(const double _x)
 {
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
@@ -206,14 +206,14 @@ LargeUInt &LargeUInt::operator=(const double _x)
 
 // Specialized for long double
 template <>
-LargeUInt &LargeUInt::operator=(const long double _x)
+LargeInt &LargeInt::operator=(const long double _x)
 {
   *this = std::to_string(_x).substr(0, std::to_string(_x).find("."));
   return *this;
 }
 
 /// This is the operator overloading function for assignment operator(+).
-LargeUInt &LargeUInt::operator=(const LargeUInt &_x)
+LargeInt &LargeInt::operator=(const LargeInt &_x)
 {
   _nList = _x._nList;
   return *this;

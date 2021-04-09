@@ -20,14 +20,14 @@ namespace dn
 namespace lui
 {
 
-LargeUInt::LargeUInt() : positive(true)
+LargeInt::LargeInt() : positive(true)
 {
   _nList = {0U};
 }
 
 // Specialized for const char *
 template <>
-LargeUInt::LargeUInt(const char *_x)
+LargeInt::LargeInt(const char *_x)
     : positive(true)
 {
   if (_x == NULL)
@@ -136,28 +136,28 @@ LargeUInt::LargeUInt(const char *_x)
 
 // Specialized for char *
 template <>
-LargeUInt::LargeUInt(char *_x)
-    : LargeUInt(static_cast<const char *>(_x))
+LargeInt::LargeInt(char *_x)
+    : LargeInt(static_cast<const char *>(_x))
 {
 }
 
 template <>
-LargeUInt::LargeUInt(const std::string _x)
-    : LargeUInt(_x.c_str())
+LargeInt::LargeInt(const std::string _x)
+    : LargeInt(_x.c_str())
 {
 }
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt::LargeUInt(const long long unsigned int _x)
-    : LargeUInt(std::to_string(_x))
+LargeInt::LargeInt(const long long unsigned int _x)
+    : LargeInt(std::to_string(_x))
 {
 }
 
 // Specialized for long long int
 template <>
-LargeUInt::LargeUInt(const long long int _x)
-    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
+LargeInt::LargeInt(const long long int _x)
+    : LargeInt(static_cast<long long unsigned int>(abs(_x)))
 {
   // Update sign information
   positive = _x < 0 ? false : true;
@@ -165,55 +165,55 @@ LargeUInt::LargeUInt(const long long int _x)
 
 // Specialized for long unsigned int
 template <>
-LargeUInt::LargeUInt(const long unsigned int _x)
-    : LargeUInt(static_cast<long long unsigned int>(_x))
+LargeInt::LargeInt(const long unsigned int _x)
+    : LargeInt(static_cast<long long unsigned int>(_x))
 {
 }
 
 // Specialized for long int
 template <>
-LargeUInt::LargeUInt(const long int _x)
-    : LargeUInt(static_cast<long long unsigned int>(abs(_x)))
+LargeInt::LargeInt(const long int _x)
+    : LargeInt(static_cast<long long unsigned int>(abs(_x)))
 {
   positive = _x < 0 ? false : true;
 }
 
 // Specialized for unsigned int
 template <>
-LargeUInt::LargeUInt(const unsigned int _x)
-    : LargeUInt(static_cast<long long unsigned int>(_x))
+LargeInt::LargeInt(const unsigned int _x)
+    : LargeInt(static_cast<long long unsigned int>(_x))
 {
 }
 
 // Specialized for int
 template <>
-LargeUInt::LargeUInt(const int _x)
-    : LargeUInt(std::to_string(_x))
+LargeInt::LargeInt(const int _x)
+    : LargeInt(std::to_string(_x))
 {
 }
 
 // Specialized for float
 template <>
-LargeUInt::LargeUInt(const float _x)
-    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+LargeInt::LargeInt(const float _x)
+    : LargeInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
 {
 }
 
 // Specialized for double
 template <>
-LargeUInt::LargeUInt(const double _x)
-    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+LargeInt::LargeInt(const double _x)
+    : LargeInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
 {
 }
 
 // Specialized for long double
 template <>
-LargeUInt::LargeUInt(const long double _x)
-    : LargeUInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
+LargeInt::LargeInt(const long double _x)
+    : LargeInt(std::to_string(_x).substr(0, std::to_string(_x).find(".")))
 {
 }
 
-LargeUInt::LargeUInt(const LargeUInt &_x)
+LargeInt::LargeInt(const LargeInt &_x)
 {
   // Set sign information
   positive = _x.positive;
@@ -222,12 +222,12 @@ LargeUInt::LargeUInt(const LargeUInt &_x)
   _nList = _x._nList;
 }
 
-LargeUInt::~LargeUInt()
+LargeInt::~LargeInt()
 {
   _nList.clear();
 }
 
-void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPosition)
+void LargeInt::add(const long long unsigned int _x, const unsigned int _iPosition)
 {
   // Get positional value to add
   auto _cPosition = _nList.begin() + _iPosition;
@@ -258,7 +258,7 @@ void LargeUInt::add(const long long unsigned int _x, const unsigned int _iPositi
   }
 }
 
-void LargeUInt::sub(const long long unsigned int _x, const unsigned int _iPosition)
+void LargeInt::sub(const long long unsigned int _x, const unsigned int _iPosition)
 {
   // Get positional value to add
   auto _cPosition = _nList.begin() + _iPosition;
@@ -281,7 +281,7 @@ void LargeUInt::sub(const long long unsigned int _x, const unsigned int _iPositi
     else
     {
       // Update result
-      LargeUInt _t(*_cPosition - _x);
+      LargeInt _t(*_cPosition - _x);
       _nList.pop_back();
       _nList.insert(_nList.end(), _t._nList.begin(), _t._nList.end());
     }
@@ -294,13 +294,13 @@ void LargeUInt::sub(const long long unsigned int _x, const unsigned int _iPositi
 }
 
 // Get large integer sign information as string
-std::string LargeUInt::getSign() const
+std::string LargeInt::getSign() const
 {
   return positive ? "" : "-";
 }
 
 // Get large unsigned integer as string for all the nodes
-std::string LargeUInt::getNodes() const
+std::string LargeInt::getNodes() const
 {
   int nIndex = 0;
   std::ostringstream str;
@@ -326,7 +326,7 @@ std::string LargeUInt::getNodes() const
 }
 
 // Get large unsigned integer as string for all the nodes
-std::string LargeUInt::getValue() const
+std::string LargeInt::getValue() const
 {
   std::ostringstream str;
 
@@ -350,13 +350,13 @@ std::string LargeUInt::getValue() const
 }
 
 /// Get number of digits
-unsigned int LargeUInt::digits() const
+unsigned int LargeInt::digits() const
 {
   return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
 }
 
 // This is the operator overloading function for assignment operator(<<).
-LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
+LargeInt &LargeInt::operator<<=(const unsigned int _x)
 {
   // If current value is zero or shift amount is zero then do nothing
   if (*this == 0U || _x == 0U)
@@ -406,7 +406,7 @@ LargeUInt &LargeUInt::operator<<=(const unsigned int _x)
 }
 
 // This is the operator overloading function for assignment operator(>>).
-LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
+LargeInt &LargeInt::operator>>=(const unsigned int _x)
 {
   // If current value is zero or shift amount is zero then do nothing
   if (*this == 0U || _x == 0U)
@@ -471,10 +471,10 @@ LargeUInt &LargeUInt::operator>>=(const unsigned int _x)
 }
 
 /// This is the operator overloading function for shift operator(<<).
-LargeUInt LargeUInt::operator<<(const unsigned int _x) const
+LargeInt LargeInt::operator<<(const unsigned int _x) const
 {
   // Create temporary storage
-  LargeUInt _temp(*this);
+  LargeInt _temp(*this);
 
   // If current value is not zero and shift amount is not zero then do operation
   if (_temp != 0U && _x != 0U)
@@ -488,10 +488,10 @@ LargeUInt LargeUInt::operator<<(const unsigned int _x) const
 }
 
 /// This is the operator overloading function for shift operator(>>).
-LargeUInt LargeUInt::operator>>(const unsigned int _x) const
+LargeInt LargeInt::operator>>(const unsigned int _x) const
 {
   // Create temporary storage
-  LargeUInt _temp(*this);
+  LargeInt _temp(*this);
 
   // If current value is not zero and shift amount is not zero then do operation
   if (_temp != 0U && _x != 0U)
@@ -505,7 +505,7 @@ LargeUInt LargeUInt::operator>>(const unsigned int _x) const
 }
 
 /// This is the operator overloading function for comparator operator(<=).
-bool LargeUInt::operator<=(const LargeUInt &_x)
+bool LargeInt::operator<=(const LargeInt &_x)
 {
   if (!positive && _x.positive)
   {
@@ -548,7 +548,7 @@ bool LargeUInt::operator<=(const LargeUInt &_x)
 }
 
 /// This is the operator overloading function for comparator operator(>).
-bool LargeUInt::operator>(const LargeUInt &_x)
+bool LargeInt::operator>(const LargeInt &_x)
 {
   if (positive && !_x.positive)
   {
@@ -591,7 +591,7 @@ bool LargeUInt::operator>(const LargeUInt &_x)
 }
 
 /// This is the operator overloading function for comparator operator(>=).
-bool LargeUInt::operator>=(const LargeUInt &_x)
+bool LargeInt::operator>=(const LargeInt &_x)
 {
   if (positive && !_x.positive)
   {
@@ -634,13 +634,13 @@ bool LargeUInt::operator>=(const LargeUInt &_x)
 }
 
 /// This is the operator overloading function for comparator operator(==).
-bool LargeUInt::operator==(const LargeUInt &_x)
+bool LargeInt::operator==(const LargeInt &_x)
 {
   return !(*this != _x);
 }
 
 /// This is the operator overloading function for comparator operator(!=).
-bool LargeUInt::operator!=(const LargeUInt &_x)
+bool LargeInt::operator!=(const LargeInt &_x)
 {
   if (positive && !_x.positive)
   {
@@ -673,15 +673,15 @@ bool LargeUInt::operator!=(const LargeUInt &_x)
 }
 
 /// This is the operator overloading function for comparator operator(<=).
-bool LargeUInt::operator<=(const int _x)
+bool LargeInt::operator<=(const int _x)
 {
   // Create temporary storage
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this <= _temp;
 }
 
 /// This is the operator overloading function for comparator operator(<=).
-bool LargeUInt::operator<=(const unsigned int _x)
+bool LargeInt::operator<=(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
@@ -700,15 +700,15 @@ bool LargeUInt::operator<=(const unsigned int _x)
 }
 
 /// This is the operator overloading function for comparator operator(>).
-bool LargeUInt::operator>(const int _x)
+bool LargeInt::operator>(const int _x)
 {
   // Create temporary storage
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this > _temp;
 }
 
 /// This is the operator overloading function for comparator operator(>).
-bool LargeUInt::operator>(const unsigned int _x)
+bool LargeInt::operator>(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
@@ -727,15 +727,15 @@ bool LargeUInt::operator>(const unsigned int _x)
 }
 
 /// This is the operator overloading function for comparator operator(>=).
-bool LargeUInt::operator>=(const int _x)
+bool LargeInt::operator>=(const int _x)
 {
   // Create temporary storage
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this >= _temp;
 }
 
 /// This is the operator overloading function for comparator operator(>=).
-bool LargeUInt::operator>=(const unsigned int _x)
+bool LargeInt::operator>=(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
@@ -754,29 +754,29 @@ bool LargeUInt::operator>=(const unsigned int _x)
 }
 
 /// This is the operator overloading function for comparator operator(==).
-bool LargeUInt::operator==(const int _x)
+bool LargeInt::operator==(const int _x)
 {
   // Create temporary storage
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this == _temp;
 }
 
 /// This is the operator overloading function for comparator operator(==).
-bool LargeUInt::operator==(const unsigned int _x)
+bool LargeInt::operator==(const unsigned int _x)
 {
   return !(*this != _x);
 }
 
 /// This is the operator overloading function for comparator operator(!=).
-bool LargeUInt::operator!=(const int _x)
+bool LargeInt::operator!=(const int _x)
 {
   // Create temporary storage
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this != _temp;
 }
 
 /// This is the operator overloading function for comparator operator(!=).
-bool LargeUInt::operator!=(const unsigned int _x)
+bool LargeInt::operator!=(const unsigned int _x)
 {
   unsigned int _digits = floor(log10(_x)) + 1;
   return positive ? digits() != _digits

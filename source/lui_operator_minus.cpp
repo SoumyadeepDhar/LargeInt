@@ -21,79 +21,79 @@ namespace lui
 {
   // Specialized for int
 template <>
-LargeUInt LargeUInt::operator-(const int _x)
+LargeInt LargeInt::operator-(const int _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for unsigned int
 template <>
-LargeUInt LargeUInt::operator-(const unsigned int _x)
+LargeInt LargeInt::operator-(const unsigned int _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt LargeUInt::operator-(const long unsigned int _x)
+LargeInt LargeInt::operator-(const long unsigned int _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for long long unsigned int
 template <>
-LargeUInt LargeUInt::operator-(const long long unsigned int _x)
+LargeInt LargeInt::operator-(const long long unsigned int _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for const char *
 template <>
-LargeUInt LargeUInt::operator-(const char *_x)
+LargeInt LargeInt::operator-(const char *_x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 template <>
-LargeUInt LargeUInt::operator-(const std::string _x)
+LargeInt LargeInt::operator-(const std::string _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for float
 template <>
-LargeUInt LargeUInt::operator-(const float _x)
+LargeInt LargeInt::operator-(const float _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for double
 template <>
-LargeUInt LargeUInt::operator-(const double _x)
+LargeInt LargeInt::operator-(const double _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // Specialized for long double
 template <>
-LargeUInt LargeUInt::operator-(const long double _x)
+LargeInt LargeInt::operator-(const long double _x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this - _temp;
 }
 
 // This is the operator overloading function for assignment operator(-).
-LargeUInt LargeUInt::operator-(const LargeUInt &_x)
+LargeInt LargeInt::operator-(const LargeInt &_x)
 {
-  LargeUInt _v(*this);
+  LargeInt _v(*this);
   unsigned int _sList1 = _v._nList.size();
   unsigned int _sList2 = _x._nList.size();
 

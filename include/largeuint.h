@@ -25,7 +25,7 @@ namespace lui
 #define N_LIMIT_mVALUE 1000000000U // __UINT64_C(1000000000000000000)
 #define N_LIMIT_mDIGIT 9U // 18U
 
-class LargeUInt
+class LargeInt
 {
 private:
   /// Sign info for the number
@@ -42,17 +42,17 @@ private:
 
 public:
   /// Constructor default
-  LargeUInt();
+  LargeInt();
 
   /// Constructor with argument
   template <typename T>
-  LargeUInt(const T _x);
+  LargeInt(const T _x);
 
   /// Constructor with unsigned integer as large unsigned int
-  LargeUInt(const LargeUInt &_x);
+  LargeInt(const LargeInt &_x);
 
   /// Destructor default
-  virtual ~LargeUInt();
+  virtual ~LargeInt();
 
   /// Get large unsigned integer as string for all the nodes
   std::string getSign() const;
@@ -68,86 +68,86 @@ public:
 
   /// This is the operator overloading function for assignment operator(=).
   template <typename T>
-  LargeUInt &operator=(const T _x);
+  LargeInt &operator=(const T _x);
 
   /// This is the operator overloading function for assignment operator(=).
-  LargeUInt &operator=(const LargeUInt &_x);
+  LargeInt &operator=(const LargeInt &_x);
 
   /// This is the operator overloading function for assignment operator(+).
   template <typename T>
-  LargeUInt &operator+=(const T _x);
+  LargeInt &operator+=(const T _x);
 
   /// This is the operator overloading function for assignment operator(+).
-  LargeUInt &operator+=(const LargeUInt &_x);
+  LargeInt &operator+=(const LargeInt &_x);
 
   /// This is the operator overloading function for operator(+).
   template <typename T>
-  LargeUInt operator+(const T _x);
+  LargeInt operator+(const T _x);
 
   /// This is the operator overloading function for operator(+).
-  LargeUInt operator+(const LargeUInt &_x);
+  LargeInt operator+(const LargeInt &_x);
 
   /// This is the operator overloading function for assignment operator(-).
   template <typename T>
-  LargeUInt &operator-=(const T _x);
+  LargeInt &operator-=(const T _x);
 
   /// This is the operator overloading function for assignment operator(-).
-  LargeUInt &operator-=(const LargeUInt &_x);
+  LargeInt &operator-=(const LargeInt &_x);
 
   /// This is the operator overloading function for operator(-).
   template <typename T>
-  LargeUInt operator-(const T _x);
+  LargeInt operator-(const T _x);
 
   /// This is the operator overloading function for operator(-).
-  LargeUInt operator-(const LargeUInt &_x);
+  LargeInt operator-(const LargeInt &_x);
 
   /// This is the operator overloading function for assignment operator(*).
   template <typename T>
-  LargeUInt &operator*=(const T _x);
+  LargeInt &operator*=(const T _x);
 
   /// This is the operator overloading function for assignment operator(*).
-  LargeUInt &operator*=(const LargeUInt &_x);
+  LargeInt &operator*=(const LargeInt &_x);
 
   /// This is the operator overloading function for operator(*).
   template <typename T>
-  LargeUInt operator*(const T _x);
+  LargeInt operator*(const T _x);
 
   /// This is the operator overloading function for operator(*).
-  LargeUInt operator*(const LargeUInt &_x);
+  LargeInt operator*(const LargeInt &_x);
 
   /// This is the operator overloading function for assignment operator(<<).
-  LargeUInt &operator<<=(const unsigned int _x);
+  LargeInt &operator<<=(const unsigned int _x);
 
   /// This is the operator overloading function for assignment operator(>>).
-  LargeUInt &operator>>=(const unsigned int _x);
+  LargeInt &operator>>=(const unsigned int _x);
 
   /// This is the operator overloading function for shift operator(<<).
-  LargeUInt operator<<(const unsigned int _x) const;
+  LargeInt operator<<(const unsigned int _x) const;
 
   /// This is the operator overloading function for shift operator(>>).
-  LargeUInt operator>>(const unsigned int _x) const;
+  LargeInt operator>>(const unsigned int _x) const;
 
   /// This is the operator overloading function for comparator operator(<).
   template <typename T>
   bool operator<(const T _x);
   
   /// This is the operator overloading function for comparator operator(<).
-  bool operator<(const LargeUInt &_x);
+  bool operator<(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(<=).
-  bool operator<=(const LargeUInt &_x);
+  bool operator<=(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(>).
-  bool operator>(const LargeUInt &_x);
+  bool operator>(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(>=).
-  bool operator>=(const LargeUInt &_x);
+  bool operator>=(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(==).
-  bool operator==(const LargeUInt &_x);
+  bool operator==(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(!=).
-  bool operator!=(const LargeUInt &_x);
+  bool operator!=(const LargeInt &_x);
   
   /// This is the operator overloading function for comparator operator(<=).
   bool operator<=(const int _x);

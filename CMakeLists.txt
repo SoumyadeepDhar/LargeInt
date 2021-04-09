@@ -26,7 +26,7 @@ add_library(largeuint SHARED ${SOURCES})
 
 
 # GTest option
-option(GTEST_GIT_CI "GTest during git push" OFF)
+option(GTEST_GIT_CI "GTest during git push" ON)
 
 # Enable CTest
 enable_testing()

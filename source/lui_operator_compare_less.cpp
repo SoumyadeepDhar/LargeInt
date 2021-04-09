@@ -21,7 +21,7 @@ namespace lui
 {
 
 /// This is the operator overloading function for comparator operator(<).
-bool LargeUInt::operator<(const LargeUInt &_x)
+bool LargeInt::operator<(const LargeInt &_x)
 {
   if (!positive && _x.positive)
   {
@@ -64,28 +64,28 @@ bool LargeUInt::operator<(const LargeUInt &_x)
 }
 
 template <>
-bool LargeUInt::operator<(const char *_x)
+bool LargeInt::operator<(const char *_x)
 {
-  LargeUInt _temp(_x);
+  LargeInt _temp(_x);
   return *this < _temp;
 }
 
 template <>
-bool LargeUInt::operator<(const std::string _x)
+bool LargeInt::operator<(const std::string _x)
 {
   return *this < _x.c_str();
 }
 
 // Specialized for int
 template <>
-bool LargeUInt::operator<(const int _x)
+bool LargeInt::operator<(const int _x)
 {
   return *this < std::to_string(_x);
 }
 
 // Specialized for unsigned int
 template <>
-bool LargeUInt::operator<(const unsigned int _x)
+bool LargeInt::operator<(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
@@ -105,49 +105,49 @@ bool LargeUInt::operator<(const unsigned int _x)
 
 // Specialized for long long unsigned int
 template <>
-bool LargeUInt::operator<(const long int _x)
+bool LargeInt::operator<(const long int _x)
 {
   return *this < std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeUInt::operator<(const long unsigned int _x)
+bool LargeInt::operator<(const long unsigned int _x)
 {
   return *this < std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeUInt::operator<(const long long int _x)
+bool LargeInt::operator<(const long long int _x)
 {
   return *this < std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeUInt::operator<(const long long unsigned int _x)
+bool LargeInt::operator<(const long long unsigned int _x)
 {
   return *this < std::to_string(_x);
 }
 
 // Specialized for float
 template <>
-bool LargeUInt::operator<(const float _x)
+bool LargeInt::operator<(const float _x)
 {
   return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 // Specialized for double
 template <>
-bool LargeUInt::operator<(const double _x)
+bool LargeInt::operator<(const double _x)
 {
   return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 // Specialized for long double
 template <>
-bool LargeUInt::operator<(const long double _x)
+bool LargeInt::operator<(const long double _x)
 {
   return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
