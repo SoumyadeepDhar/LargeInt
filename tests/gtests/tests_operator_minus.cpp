@@ -14,7 +14,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 // Testing module
 namespace testing
@@ -166,6 +166,6 @@ TEST_F(TestOperatorMinus, tests_minus_largeuint)
 
 } // namespace test_operator_plus
 } // namespace testing
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns

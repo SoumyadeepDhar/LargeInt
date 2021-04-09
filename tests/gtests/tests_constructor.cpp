@@ -15,7 +15,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 // Testing module
 namespace testing
@@ -172,6 +172,6 @@ TEST_F(TestConstructor, tests_copy_constructor)
 
 } // namespace test_constructor
 } // namespace testing
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns

@@ -1,12 +1,12 @@
 /*
- * largeuint.h
+ * largeint.h
  *
  *  Created on: 03-Apr-2019
  *  Author: soumyadeep dhar
  */
 
-#ifndef LARGEUINT_H_
-#define LARGEUINT_H_
+#ifndef LARGEINT_H_
+#define LARGEINT_H_
 
 #include <string>
 #include <vector>
@@ -18,12 +18,12 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
-namespace lui
+// Large integer
+namespace li
 {
 
-#define N_LIMIT_mVALUE 1000000000U // __UINT64_C(1000000000000000000)
-#define N_LIMIT_mDIGIT 9U // 18U
+#define N_LIMIT_mVALUE 1000000000U
+#define N_LIMIT_mDIGIT 9U
 
 class LargeInt
 {
@@ -180,8 +180,8 @@ public:
   bool operator!=(const unsigned int _x);
 };
 
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns
 
-#endif // LARGEUINT_H_
+#endif // LARGEINT_H_

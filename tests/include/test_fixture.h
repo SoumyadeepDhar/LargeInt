@@ -15,7 +15,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 // Testing module    
 namespace testing
@@ -40,7 +40,7 @@ public:
 };
 
 } // namespace testing
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns
 

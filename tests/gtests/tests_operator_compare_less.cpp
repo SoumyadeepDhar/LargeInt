@@ -15,7 +15,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 // Testing module
 namespace testing
@@ -125,6 +125,6 @@ TEST_F(TestCompareLess, tests_compare_LDBL_MAX)
 
 } // namespace test_operator_compare_less
 } // namespace testing
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns

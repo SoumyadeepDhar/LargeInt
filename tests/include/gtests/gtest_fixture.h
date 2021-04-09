@@ -11,7 +11,7 @@
 #include <string.h>
 
 #include "gtest/gtest.h"
-#include "largeuint.h"
+#include "largeint.h"
 #include "test_fixture.h"
 
 // Number ststem
@@ -21,7 +21,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 // Testing module    
 namespace testing
@@ -53,7 +53,7 @@ public:
 };
 
 } // namespace testing
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns
 

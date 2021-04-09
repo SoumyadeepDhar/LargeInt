@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
-#include "largeuint.h"
+#include "largeint.h"
 
 // Number ststem
 namespace ns
@@ -17,7 +17,7 @@ namespace ns
 namespace dn
 {
 // Large unsigned integer
-namespace lui
+namespace li
 {
 
 LargeInt::LargeInt() : positive(true)
@@ -788,6 +788,6 @@ bool LargeInt::operator!=(const unsigned int _x)
                   : true;
 }
 
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns

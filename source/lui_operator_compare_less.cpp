@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
-#include "largeuint.h"
+#include "largeint.h"
 
 // Number ststem
 namespace ns
@@ -16,8 +16,8 @@ namespace ns
 // Decimal Number
 namespace dn
 {
-// Large unsigned integer
-namespace lui
+// Large integer
+namespace li
 {
 
 /// This is the operator overloading function for comparator operator(<).
@@ -152,6 +152,6 @@ bool LargeInt::operator<(const long double _x)
   return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
-} // namespace lui
+} // namespace li
 } // namespace ds
 } // namespace ns

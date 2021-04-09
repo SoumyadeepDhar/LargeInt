@@ -7,13 +7,13 @@
  */
 
 #include <bits/stdc++.h>
-#include "largeuint.h"
+#include "largeint.h"
 int main()
 {
-  ns::dn::lui::LargeInt a("12345923456789");
+  ns::dn::li::LargeInt a("12345923456789");
   std::cout << "a: " << a.getNodes() << std::endl;
 
-  ns::dn::lui::LargeInt b("999999999923456789");
+  ns::dn::li::LargeInt b("999999999923456789");
   std::cout << "b: " << b.getNodes() << std::endl;
 
   a += b;
