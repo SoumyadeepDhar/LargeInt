@@ -1,5 +1,5 @@
 /*
- * lui_operator_compare_lesser.cpp
+ * lui_operator_compare_lesser_equal.cpp
  *
  *  Created on: 09-Apr-2021
  *  Author: Soumyadeep Dhar
@@ -21,7 +21,7 @@ namespace li
 {
 
 /// This is the operator overloading function for comparator operator(<).
-bool LargeInt::operator<(const LargeInt &_x)
+bool LargeInt::operator<=(const LargeInt &_x)
 {
   if (!positive && _x.positive)
   {
@@ -58,34 +58,34 @@ bool LargeInt::operator<(const LargeInt &_x)
           return positive ? false : true;
         }
       }
-      return false;
+      return true;
     }
   }
 }
 
 template <>
-bool LargeInt::operator<(const char *_x)
+bool LargeInt::operator<=(const char *_x)
 {
   LargeInt _temp(_x);
-  return *this < _temp;
+  return *this <= _temp;
 }
 
 template <>
-bool LargeInt::operator<(const std::string _x)
+bool LargeInt::operator<=(const std::string _x)
 {
-  return *this < _x.c_str();
+  return *this <= _x.c_str();
 }
 
 // Specialized for int
 template <>
-bool LargeInt::operator<(const int _x)
+bool LargeInt::operator<=(const int _x)
 {
-  return *this < std::to_string(_x);
+  return *this <= std::to_string(_x);
 }
 
 // Specialized for unsigned int
 template <>
-bool LargeInt::operator<(const unsigned int _x)
+bool LargeInt::operator<=(const unsigned int _x)
 {
   unsigned int _nd = digits();
   unsigned int _md = floor(log10(_x)) + 1;
@@ -94,58 +94,58 @@ bool LargeInt::operator<(const unsigned int _x)
                     : (_nd > _md)
                         ? false
                     : (_x < N_LIMIT_mVALUE)
-                        ? (_nList.back() < _x)
-                        : (_nList.back() < (_x / N_LIMIT_mVALUE))
+                        ? (_nList.back() <= _x)
+                        : (_nList.back() <= (_x / N_LIMIT_mVALUE))
                   : true;
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeInt::operator<(const long int _x)
+bool LargeInt::operator<=(const long int _x)
 {
-  return *this < std::to_string(_x);
+  return *this <= std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeInt::operator<(const long unsigned int _x)
+bool LargeInt::operator<=(const long unsigned int _x)
 {
-  return *this < std::to_string(_x);
+  return *this <= std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeInt::operator<(const long long int _x)
+bool LargeInt::operator<=(const long long int _x)
 {
-  return *this < std::to_string(_x);
+  return *this <= std::to_string(_x);
 }
 
 // Specialized for long long unsigned int
 template <>
-bool LargeInt::operator<(const long long unsigned int _x)
+bool LargeInt::operator<=(const long long unsigned int _x)
 {
-  return *this < std::to_string(_x);
+  return *this <= std::to_string(_x);
 }
 
 // Specialized for float
 template <>
-bool LargeInt::operator<(const float _x)
+bool LargeInt::operator<=(const float _x)
 {
-  return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
+  return *this <= std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 // Specialized for double
 template <>
-bool LargeInt::operator<(const double _x)
+bool LargeInt::operator<=(const double _x)
 {
-  return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
+  return *this <= std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 // Specialized for long double
 template <>
-bool LargeInt::operator<(const long double _x)
+bool LargeInt::operator<=(const long double _x)
 {
-  return *this < std::to_string(_x).substr(0, std::to_string(_x).find("."));
+  return *this <= std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 } // namespace li

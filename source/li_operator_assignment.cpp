@@ -96,31 +96,33 @@ LargeInt &LargeInt::operator=(const char *_x)
       }
 
       // Check for zero value
-      bool isNobZeroValuePresent = false;
+      bool isNonZeroValuePresent = false;
       for (auto nElement : _nList)
       {
         if(nElement != 0U)
         {
-          isNobZeroValuePresent = true;
+          isNonZeroValuePresent = true;
           break;
         }
       }
 
       // If zero found
-      if(isNobZeroValuePresent == false)
+      if(isNonZeroValuePresent == false)
       {
           positive = true;
           _nList = {0U};
       }
-
-      // Remove trailing zerosif any 
-      if(_nList.size() > 1U)
+      else
       {
-        size_t _e = _nList.size() - 1;
-        for(; (_e > 0) && (_nList[_e] == 0); --_e);
-        
-        // Erase elements
-        _nList.erase(_nList.begin() + _e + 1, _nList.end());
+        // Remove trailing zerosif any 
+        if(_nList.size() > 1U)
+        {
+          size_t _e = _nList.size() - 1;
+          for(; (_e > 0) && (_nList[_e] == 0); --_e);
+          
+          // Erase elements
+          _nList.erase(_nList.begin() + _e + 1, _nList.end());
+        }
       }
     }
     else
