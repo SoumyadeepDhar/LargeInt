@@ -54,7 +54,7 @@ public:
   /// Destructor default
   virtual ~LargeInt();
 
-  /// Get large unsigned integer as string for all the nodes
+  /// Get sign of the large integer as symbol (-)if negetive
   std::string getSign() const;
 
   /// Get large unsigned integer as string for all the nodes
