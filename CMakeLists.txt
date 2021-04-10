@@ -15,6 +15,7 @@ set(SOURCES
     source/li_operator_assignment.cpp
     source/li_operator_compare_lesser.cpp
     source/li_operator_compare_lesser_equal.cpp
+    source/li_operator_compare_greater.cpp
     source/li_operator_plus_equal.cpp
     source/li_operator_plus.cpp
     source/li_operator_minus_equal.cpp
@@ -61,6 +62,7 @@ if(${GTEST_GIT_CI})
         tests/gtests/tests_operator_assignment.cpp
         tests/gtests/tests_operator_compare_lesser.cpp
         tests/gtests/tests_operator_compare_lesser_equal.cpp
+        tests/gtests/tests_operator_compare_greater.cpp
         tests/gtests/tests_operator_minus_equal.cpp
         tests/gtests/tests_operator_minus.cpp
         tests/gtests/tests_operator_plus_equal.cpp

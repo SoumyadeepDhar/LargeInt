@@ -31,6 +31,7 @@ using TestCompareLesser = TestLargeInt;
 TEST_F(TestCompareLesser, tests_compare_INT8_MIN)
 {
     LargeInt a(INT8_MIN);
+    EXPECT_FALSE(a < INT8_MIN);
     EXPECT_TRUE(a < INT8_MAX);
     EXPECT_FALSE(a < INT16_MIN);
 }
@@ -39,6 +40,7 @@ TEST_F(TestCompareLesser, tests_compare_INT8_MIN)
 TEST_F(TestCompareLesser, tests_compare_INT16_MIN)
 {
     LargeInt a(INT16_MIN);
+    EXPECT_FALSE(a < INT16_MIN);
     EXPECT_TRUE(a < INT16_MAX);
     EXPECT_FALSE(a < INT32_MIN);
 }
@@ -47,6 +49,7 @@ TEST_F(TestCompareLesser, tests_compare_INT16_MIN)
 TEST_F(TestCompareLesser, tests_compare_INT32_MIN)
 {
     LargeInt a(INT32_MIN);
+    EXPECT_FALSE(a < INT32_MIN);
     EXPECT_TRUE(a < INT32_MAX);
     EXPECT_FALSE(a < INT64_MIN);
 }
@@ -55,16 +58,18 @@ TEST_F(TestCompareLesser, tests_compare_INT32_MIN)
 TEST_F(TestCompareLesser, tests_compare_INT64_MIN)
 {
     LargeInt a(INT64_MIN);
+    EXPECT_FALSE(a < INT64_MIN);
     EXPECT_TRUE(a < INT64_MAX);
     EXPECT_FALSE(a < "-9223372036854775809");
 }
 
-/* Maximum of signed integral types.  */
+// Maximum of signed integral types.  //
 // # define INT8_MAX		(127)
 TEST_F(TestCompareLesser, tests_compare_INT8_MAX)
 {
     LargeInt a(INT8_MAX);
     EXPECT_TRUE(a < INT16_MAX);
+    EXPECT_FALSE(a < INT8_MAX);
     EXPECT_FALSE(a < INT8_MIN);
 }
 
@@ -73,6 +78,7 @@ TEST_F(TestCompareLesser, tests_compare_INT16_MAX)
 {
     LargeInt a(INT16_MAX);
     EXPECT_TRUE(a < INT32_MAX);
+    EXPECT_FALSE(a < INT16_MAX);
     EXPECT_FALSE(a < INT16_MIN);
 }
 
@@ -81,6 +87,7 @@ TEST_F(TestCompareLesser, tests_compare_INT32_MAX)
 {
     LargeInt a(INT32_MAX);
     EXPECT_TRUE(a < INT64_MAX);
+    EXPECT_FALSE(a < INT32_MAX);
     EXPECT_FALSE(a < INT32_MIN);
 }
 
@@ -89,6 +96,7 @@ TEST_F(TestCompareLesser, tests_compare_INT64_MAX)
 {
     LargeInt a(INT64_MAX);
     EXPECT_TRUE(a < UINT64_MAX);
+    EXPECT_FALSE(a < INT64_MAX);
     EXPECT_FALSE(a < INT64_MIN);
 }
 
@@ -97,31 +105,35 @@ TEST_F(TestCompareLesser, tests_compare_UINT8_MAX)
 {
     LargeInt a(UINT8_MAX);
     EXPECT_TRUE(a < UINT16_MAX);
-    EXPECT_FALSE(a < INT8_MAX);
+    EXPECT_FALSE(a < UINT8_MAX);
+    EXPECT_FALSE(a < INT8_MIN);
 }
 
 // # define UINT16_MAX		(65535)
 TEST_F(TestCompareLesser, tests_compare_UINT16_MAX)
 {
-    LargeInt b(UINT16_MAX);
-    EXPECT_TRUE(b < UINT32_MAX);
-    EXPECT_FALSE(b < INT16_MAX);
+    LargeInt a(UINT16_MAX);
+    EXPECT_TRUE(a < UINT32_MAX);
+    EXPECT_FALSE(a < UINT16_MAX);
+    EXPECT_FALSE(a < INT16_MIN);
 }
 
 // # define UINT32_MAX		(4294967295U)
 TEST_F(TestCompareLesser, tests_compare_UINT32_MAX)
 {
-    LargeInt c(UINT32_MAX);
-    EXPECT_TRUE(c < UINT64_MAX);
-    EXPECT_FALSE(c < INT32_MAX);
+    LargeInt a(UINT32_MAX);
+    EXPECT_TRUE(a < UINT64_MAX);
+    EXPECT_FALSE(a < UINT32_MAX);
+    EXPECT_FALSE(a < INT32_MIN);
 }
 
 // # define UINT64_MAX		(__UINT64_C(18446744073709551615))
 TEST_F(TestCompareLesser, tests_compare_UINT64_MAX)
 {
-    LargeInt d(UINT64_MAX);
-    EXPECT_TRUE(d < "18446744073709551616");
-    EXPECT_FALSE(d < INT64_MAX);
+    LargeInt a(UINT64_MAX);
+    EXPECT_TRUE(a < "18446744073709551616");
+    EXPECT_FALSE(a < UINT64_MAX);
+    EXPECT_FALSE(a < INT64_MIN);
 }
 
 TEST_F(TestCompareLesser, tests_compare_const_char_ptr)
@@ -130,7 +142,7 @@ TEST_F(TestCompareLesser, tests_compare_const_char_ptr)
     EXPECT_TRUE(e1 < "123456");
 
     LargeInt e2("1844674407370955161518446744073709551615");
-    EXPECT_TRUE(e1 < "1844674407370955161518446744073709551616");
+    EXPECT_TRUE(e2 < "1844674407370955161518446744073709551616");
 
     LargeInt e3("18446744073709551615.1844");
     EXPECT_TRUE(e3 < "18446744073709551616");
@@ -155,8 +167,9 @@ TEST_F(TestCompareLesser, tests_compare_string)
 {
     std::string str("18446744073709551615");
     LargeInt f(str);
-    EXPECT_TRUE(f < "18446744073709551616");
     EXPECT_FALSE(f < str);
+    EXPECT_TRUE(f < "18446744073709551616");
+    EXPECT_FALSE(f < "18446744073709551614");
 }
 
 TEST_F(TestCompareLesser, tests_compare_FLT_MAX)

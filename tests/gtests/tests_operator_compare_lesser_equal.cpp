@@ -142,7 +142,7 @@ TEST_F(TestCompareLesserEqual, tests_compare_const_char_ptr)
     EXPECT_TRUE(e1 <= "123456");
 
     LargeInt e2("1844674407370955161518446744073709551615");
-    EXPECT_TRUE(e1 <= "1844674407370955161518446744073709551616");
+    EXPECT_TRUE(e2 <= "1844674407370955161518446744073709551615");
 
     LargeInt e3("18446744073709551615.1844");
     EXPECT_TRUE(e3 <= "18446744073709551616");
@@ -194,7 +194,7 @@ TEST_F(TestCompareLesserEqual, tests_compare_LDBL_MAX)
     EXPECT_TRUE(i <= LDBL_MAX);
 }
 
-} // namespace test_operator_compare_lesser
+} // namespace test_operator_compare_lesser_equal
 } // namespace testing
 } // namespace li
 } // namespace ds

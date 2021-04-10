@@ -504,49 +504,6 @@ LargeInt LargeInt::operator>>(const unsigned int _x) const
   return _temp;
 }
 
-/// This is the operator overloading function for comparator operator(>).
-bool LargeInt::operator>(const LargeInt &_x)
-{
-  if (positive && !_x.positive)
-  {
-    return true;
-  }
-  else if (!positive && _x.positive)
-  {
-    return false;
-  }
-  else
-  {
-    unsigned int _nd = digits();
-    unsigned int _md = _x.digits();
-
-    if (_nd > _md)
-    {
-      return positive ? true : false;
-    }
-    else if (_nd < _md)
-    {
-      return positive ? false : true;
-    }
-    else
-    {
-      for (int _s = _nList.size() - 1; _s >= 0; --_s)
-      {
-        if (_nList[_s] > _x._nList[_s])
-        {
-          return positive ? true : false;
-        }
-
-        if (_nList[_s] < _x._nList[_s])
-        {
-          return positive ? false : true;
-        }
-      }
-      return false;
-    }
-  }
-}
-
 /// This is the operator overloading function for comparator operator(>=).
 bool LargeInt::operator>=(const LargeInt &_x)
 {
@@ -627,33 +584,6 @@ bool LargeInt::operator!=(const LargeInt &_x)
       return false;
     }
   }
-}
-
-/// This is the operator overloading function for comparator operator(>).
-bool LargeInt::operator>(const int _x)
-{
-  // Create temporary storage
-  LargeInt _temp(_x);
-  return *this > _temp;
-}
-
-/// This is the operator overloading function for comparator operator(>).
-bool LargeInt::operator>(const unsigned int _x)
-{
-  unsigned int _nd = digits();
-  unsigned int _md = floor(log10(_x)) + 1;
-  return positive ? (_nd > _md)
-                        ? true
-                    : (_nd < _md)
-                        ? false
-                    : (_x < N_LIMIT_mVALUE)
-                        ? (_nList.back() > _x)
-                    : (_nList.back() > (_x / N_LIMIT_mVALUE))
-                        ? true
-                    : (_nList.back() < (_x / N_LIMIT_mVALUE))
-                        ? false
-                        : *(_nList.rbegin() - 1) > (_x % N_LIMIT_mVALUE)
-                  : false;
 }
 
 /// This is the operator overloading function for comparator operator(>=).
