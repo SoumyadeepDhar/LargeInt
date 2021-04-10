@@ -20,7 +20,7 @@ namespace dn
 namespace li
 {
 
-/// This is the operator overloading function for comparator operator(<).
+/// This is the operator overloading function for comparator operator(<=).
 bool LargeInt::operator<=(const LargeInt &_x)
 {
   if (!positive && _x.positive)

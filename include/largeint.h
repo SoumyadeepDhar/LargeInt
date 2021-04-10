@@ -149,6 +149,10 @@ public:
   bool operator>(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(>=).
+  template <typename T>
+  bool operator>=(const T _x);
+
+  /// This is the operator overloading function for comparator operator(>=).
   bool operator>=(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(==).
@@ -157,12 +161,6 @@ public:
   /// This is the operator overloading function for comparator operator(!=).
   bool operator!=(const LargeInt &_x);
   
-  /// This is the operator overloading function for comparator operator(>=).
-  bool operator>=(const int _x);
-
-  /// This is the operator overloading function for comparator operator(>=).
-  bool operator>=(const unsigned int _x);
-
   /// This is the operator overloading function for comparator operator(==).
   bool operator==(const int _x);
 
