@@ -10,7 +10,7 @@
 #include <cstring>
 #include "largeint.h"
 
-// Number ststem
+// Number system
 namespace ns
 {
 // Decimal Number

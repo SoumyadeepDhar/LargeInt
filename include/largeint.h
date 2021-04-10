@@ -12,7 +12,7 @@
 #include <vector>
 #include <math.h>
 
-// Number ststem
+// Number system
 namespace ns
 {
 // Decimal Number

@@ -8,7 +8,7 @@
 
 #include "gtests/tests_largeint.h"
 
-// Number ststem
+// Number system
 namespace ns
 {
 // Decimal Number
