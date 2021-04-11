@@ -218,6 +218,7 @@ LargeInt &LargeInt::operator=(const long double _x)
 LargeInt &LargeInt::operator=(const LargeInt &_x)
 {
   _nList = _x._nList;
+  positive = _x.positive;
   return *this;
 }
 
