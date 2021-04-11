@@ -20,7 +20,7 @@ namespace dn
 namespace li
 {
 
-/// This is the operator overloading function for comparator operator(<).
+/// This is the operator overloading function for comparator operator(+).
 LargeInt LargeInt::operator+(const LargeInt &_x)
 {
   LargeInt _v;
@@ -34,8 +34,7 @@ LargeInt LargeInt::operator+(const LargeInt &_x)
 
   // Set default as equal and find comparision
   MODC state = _MODA_AND_MODB_is_EQUAL_;
-    
-    
+
   unsigned int _nd = digits();
   unsigned int _md = _x.digits();
 
@@ -67,22 +66,23 @@ LargeInt LargeInt::operator+(const LargeInt &_x)
   }
 
   // Check sign before operation
-  if(positive && !_x.positive)
+  if (positive && !_x.positive)
   {
     LargeInt _absx(_x);
     _absx.positive = true;
 
-    switch(state)
+    switch (state)
     {
-      case _MODA_GREATER_THAN_MODB_:
+    case _MODA_GREATER_THAN_MODB_:
       _v = *this - _absx;
       _v.positive = true;
       break;
-      case _MODB_GREATER_THAN_MODA_:
+    case _MODB_GREATER_THAN_MODA_:
       _v = _absx - *this;
       _v.positive = false;
       break;
-      case _MODA_AND_MODB_is_EQUAL_:
+    case _MODA_AND_MODB_is_EQUAL_:
+      _v = 0;
       break;
     }
   }
@@ -91,18 +91,19 @@ LargeInt LargeInt::operator+(const LargeInt &_x)
     LargeInt _absv(*this);
     _absv.positive = true;
 
-    switch(state)
+    switch (state)
     {
-      case _MODA_GREATER_THAN_MODB_:
+    case _MODA_GREATER_THAN_MODB_:
       _v = _absv - _x;
       _v.positive = false;
       break;
-      case _MODB_GREATER_THAN_MODA_:
+    case _MODB_GREATER_THAN_MODA_:
       _v = _x;
       _v = _v - _absv;
       _v.positive = true;
       break;
-      case _MODA_AND_MODB_is_EQUAL_:
+    case _MODA_AND_MODB_is_EQUAL_:
+      _v = 0;
       break;
     }
   }
