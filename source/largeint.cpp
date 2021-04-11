@@ -269,21 +269,14 @@ void LargeInt::sub(const long long unsigned int _x, const unsigned int _iPositio
   // If carry value present
   if (_carry > 0)
   {
+    // Update result
+    *_cPosition = ((N_LIMIT_mVALUE + *_cPosition) - _x);
+
     // Update next (if exist) node with carry value
     if (std::next(_cPosition) != _nList.end())
     {
-      // Update result
-      *_cPosition = ((N_LIMIT_mVALUE + *_cPosition) - _x);
-
       // Substract carry to next node position
       sub(_carry, (_iPosition + 1));
-    }
-    else
-    {
-      // Update result
-      LargeInt _t(*_cPosition - _x);
-      _nList.pop_back();
-      _nList.insert(_nList.end(), _t._nList.begin(), _t._nList.end());
     }
   }
   else

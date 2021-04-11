@@ -26,105 +26,197 @@ namespace test_operator_minus
 // Test suit name
 using TestOperatorMinus = TestLargeInt;
 
-TEST_F(TestOperatorMinus, tests_minus_UINT8_MAX_positive)
+/* Minimum of signed integral types.  */
+// # define INT8_MIN		(-128)
+TEST_F(TestOperatorMinus, tests_minus_INT8_MIN)
 {
-    LargeInt _temp1 = 1000;
-    unsigned int _temp2 = UINT8_MAX;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "745");
+    LargeInt a;
+    LargeInt b(INT8_MIN);
+    a = b - INT8_MIN;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT8_MAX;
+    EXPECT_EQ(a.getValue(), "-255");
+
+    a = b - "-255";
+    EXPECT_EQ(a.getValue(), std::to_string(INT8_MAX));
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT8_MAX_negetive)
+
+// # define INT16_MIN		(-32767-1)
+TEST_F(TestOperatorMinus, tests_minus_INT16_MIN)
 {
-    LargeInt _temp1 = UINT8_MAX;
-    unsigned int _temp2 = 1000;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "18446744073709550871");
+    LargeInt a;
+    LargeInt b(INT16_MIN);
+    a = b - INT16_MIN;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT16_MAX;
+    EXPECT_EQ(a.getValue(), "-65535");
+
+    a = b - "-65535";
+    EXPECT_EQ(a.getValue(), std::to_string(INT16_MAX));
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT16_MAX_positive)
+// # define INT32_MIN		(-2147483647-1)
+TEST_F(TestOperatorMinus, tests_minus_INT32_MIN)
 {
-    LargeInt _temp1 = 100000U;
-    unsigned int _temp2 = UINT16_MAX;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "34465");
+    LargeInt a;
+    LargeInt b(INT32_MIN);
+    a = b - INT32_MIN;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT32_MAX;
+    EXPECT_EQ(a.getValue(), "-4294967295");
+
+    a = b - "-4294967295";
+    EXPECT_EQ(a.getValue(), std::to_string(INT32_MAX));
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT16_MAX_negetive)
+// # define INT64_MIN		(-__INT64_C(9223372036854775807)-1)
+TEST_F(TestOperatorMinus, tests_minus_INT64_MIN)
 {
-    LargeInt _temp1 = UINT16_MAX;
-    unsigned int _temp2 = 100000U;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "18446744073709517151");
+    LargeInt a;
+    LargeInt b(INT64_MIN);
+    a = b - INT64_MIN;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT64_MAX;
+    EXPECT_EQ(a.getValue(), "-18446744073709551615");
+
+    a = b - "-18446744073709551615";
+    EXPECT_EQ(a.getValue(), std::to_string(INT64_MAX));
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT32_MAX_positive)
+
+// Maximum of signed integral types.
+// # define INT8_MAX		(127)
+TEST_F(TestOperatorMinus, tests_minus_INT8_MAX)
 {
-    LargeInt _temp1 = "10000000000UL";
-    unsigned int _temp2 = UINT32_MAX;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "5705032705");
+    LargeInt a;
+    LargeInt b(INT8_MAX);
+    a = b - INT8_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT8_MIN;
+    EXPECT_EQ(a.getValue(), "255");
+
+    a = b - "255";
+    EXPECT_EQ(a.getValue(), "-128");
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT32_MAX_negetive)
+// # define INT16_MAX		(32767)
+TEST_F(TestOperatorMinus, tests_minus_INT16_MAX)
 {
-    LargeInt _temp1 = UINT32_MAX;
-    LargeInt _temp2 = "10000000000UL";
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "18446744073709551610294967295");
+    LargeInt a;
+    LargeInt b(INT16_MAX);
+    a = b - INT16_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT16_MIN;
+    EXPECT_EQ(a.getValue(), "65535");
+
+    a = b - "65535";
+    EXPECT_EQ(a.getValue(), "-32768");
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT64_MAX_positive)
+// # define INT32_MAX		(2147483647)
+TEST_F(TestOperatorMinus, tests_minus_INT32_MAX)
 {
-    LargeInt _temp1 = "100000000000000000000UL";
-    long long unsigned int _temp2 = UINT64_MAX;
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "81553255926290448385");
+    LargeInt a;
+    LargeInt b(INT32_MAX);
+    a = b - INT32_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT32_MIN;
+    EXPECT_EQ(a.getValue(), "4294967295");
+
+    a = b - "4294967295";
+    EXPECT_EQ(a.getValue(), "-2147483648");
 }
 
-TEST_F(TestOperatorMinus, tests_minus_UINT64_MAX_negetive)
+// # define INT64_MAX		(__INT64_C(9223372036854775807))
+TEST_F(TestOperatorMinus, tests_minus_INT64_MAX)
 {
-    LargeInt _temp1 = UINT32_MAX;
-    LargeInt _temp2 = "100000000000000000000UL";
-    LargeInt a = _temp1 - _temp2;
-    EXPECT_EQ(a.getValue(), "18446744073709551516000000004294967295");
+    LargeInt a;
+    LargeInt b(INT64_MAX);
+    a = b - INT64_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT64_MIN;
+    EXPECT_EQ(a.getValue(), "18446744073709551615");
+
+    a = b - "18446744073709551615";
+    EXPECT_EQ(a.getValue(), "-9223372036854775808");
 }
+
+
+// # define UINT8_MAX		(255)
+TEST_F(TestOperatorMinus, tests_minus_UINT8_MAX)
+{
+    LargeInt a;
+    LargeInt b(UINT8_MAX);
+    a = b - UINT8_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT8_MIN;
+    EXPECT_EQ(a.getValue(), "383");
+
+    a = b - "-255";
+    EXPECT_EQ(a.getValue(), "510");
+}
+
+// # define UINT16_MAX		(65535)
+TEST_F(TestOperatorMinus, tests_minus_UINT16_MAX)
+{
+    LargeInt a;
+    LargeInt b(UINT16_MAX);
+    a = b - UINT16_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT16_MIN;
+    EXPECT_EQ(a.getValue(), "98303");
+
+    a = b - "131071";
+    EXPECT_EQ(a.getValue(), "-65536");
+}
+
+// # define UINT32_MAX		(4294967295U)
+TEST_F(TestOperatorMinus, tests_minus_UINT32_MAX)
+{
+    LargeInt a;
+    LargeInt b(UINT32_MAX);
+    a = b - UINT32_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT32_MIN;
+    EXPECT_EQ(a.getValue(), "6442450943");
+
+    a = b - "8589934590";
+    EXPECT_EQ(a.getValue(), "-4294967295");
+}
+
+// # define UINT64_MAX		(__UINT64_C(18446744073709551615))
+TEST_F(TestOperatorMinus, tests_minus_UINT64_MAX)
+{
+    LargeInt a;
+    LargeInt b(UINT64_MAX);
+    a = b - UINT64_MAX;
+    EXPECT_EQ(a.getValue(), "0");
+
+    a = b - INT64_MIN;
+    EXPECT_EQ(a.getValue(), "27670116110564327423");
+
+    a = b - "36893488147419103231";
+    EXPECT_EQ(a.getValue(), "-18446744073709551616");
+}
+
 
 TEST_F(TestOperatorMinus, tests_minus_const_char_ptr)
 {
-    LargeInt e1 = "12345";
-    e1 = e1 - "10000";
-
-    EXPECT_EQ(e1.getValue(), "2345");
-
-    LargeInt e2 = "1844674407370955161518446744073709551615";
-    e2 = e2 - "1000000000000000000000000000000000000000";
-    EXPECT_EQ(e2.getValue(),
-              "844674407370955161518446744073709551615");
-
-    LargeInt e3 = "18446744073709551615.1844";
-    e3 = e3 - "10000000000000000000";
-    EXPECT_EQ(e3.getValue(), "8446744073709551615");
-
-    LargeInt e4 = ".18446744073709551615";
-    e4 = e4 - 1000;
-    EXPECT_EQ(e4.getValue(), "18446744073709550616");
-
-    LargeInt e5 = "PQRST";
-    e5 = e5 - 12345;
-    EXPECT_EQ(e5.getValue(), "18446744073709539271");
-
-    LargeInt e6 = "PQRST12345";
-    e6 = e6 - "12345";
-    EXPECT_EQ(e6.getValue(), "18446744073709539271");
-
-    LargeInt e7 = "12345PQRST";
-    e7 = e7 - "12345";
-    EXPECT_EQ(e7.getValue(), "0");
-
-    LargeInt e8 = "0012345PQRST";
-    e8 = e8 - "12345";
-    EXPECT_EQ(e8.getValue(), "0");
+    LargeInt e1("54321");
+    e1 = e1 - "100000";
+    EXPECT_EQ(e1.getValue(), "-45679");
 }
 
 TEST_F(TestOperatorMinus, tests_minus_string)
@@ -138,22 +230,22 @@ TEST_F(TestOperatorMinus, tests_minus_string)
 TEST_F(TestOperatorMinus, tests_minus_FLT_MAX)
 {
     LargeInt g = FLT_MAX;
-    g = (g + 1000) - FLT_MAX;
-    EXPECT_EQ(g.getValue(), "1000");
+    g = g - FLT_MAX;
+    EXPECT_EQ(g.getValue(), "0");
 }
 
 TEST_F(TestOperatorMinus, tests_minus_DBL_MAX)
 {
     LargeInt h = DBL_MAX;
-    h = (h + 1000) - DBL_MAX;
-    EXPECT_EQ(h.getValue(), "1000");
-}
+    h = h - DBL_MAX;
+    EXPECT_EQ(h.getValue(), "0");
+ }
 
 TEST_F(TestOperatorMinus, tests_minus_LDBL_MAX)
 {
     LargeInt i = LDBL_MAX;
-    i = (i + 1000) - LDBL_MAX;
-    EXPECT_EQ(i.getValue(), "1000");
+    i = i - LDBL_MAX;
+    EXPECT_EQ(i.getValue(), "0");
 }
 
 TEST_F(TestOperatorMinus, tests_minus_largeuint)

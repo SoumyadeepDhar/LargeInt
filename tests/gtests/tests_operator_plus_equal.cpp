@@ -32,6 +32,9 @@ TEST_F(TestOperatorPlusEqual, tests_plus_equal_largeuint)
     LargeInt n = m;
     n += m;
     EXPECT_EQ(n.getValue(), "73786976294838206460");
+
+    n += "-36893488147419103230";
+    EXPECT_EQ(n.getValue(), m.getValue());
 }
 
 } // namespace test_operator_plus_equal
