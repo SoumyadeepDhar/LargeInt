@@ -20,91 +20,21 @@ namespace dn
 namespace li
 {
 
-// Specialized for int
-template <>
-LargeInt LargeInt::operator*(const int _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for unsigned int
-template <>
-LargeInt LargeInt::operator*(const unsigned int _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeInt LargeInt::operator*(const long unsigned int _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for long long unsigned int
-template <>
-LargeInt LargeInt::operator*(const long long unsigned int _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for const char *
-template <>
-LargeInt LargeInt::operator*(const char *_x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-template <>
-LargeInt LargeInt::operator*(const std::string _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for float
-template <>
-LargeInt LargeInt::operator*(const float _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for double
-template <>
-LargeInt LargeInt::operator*(const double _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
-// Specialized for long double
-template <>
-LargeInt LargeInt::operator*(const long double _x)
-{
-  LargeInt _temp(_x);
-  return *this * _temp;
-}
-
 // This is the operator overloading function for assignment operator(*).
 LargeInt LargeInt::operator*(const LargeInt &_x)
 {
   unsigned int _sList1 = _nList.size();
   unsigned int _sList2 = _x._nList.size();
 
-  // Initialized with list2
+  // Initialized as positive
   LargeInt _result(0U);
 
   // For each elements in first list multiply them to the other list
   for (auto nIndex1 = 0U; nIndex1 < _sList1; ++nIndex1)
   {
-    // Initialized with list2
+    // Initialized with abs(list2)
     LargeInt _temp(_x);
+    _temp.positive = true;
 
     // Store n(i) = m(0)n(i) + m(1)n(i) + ... + m(M)n(i)
     for (auto nIndex2 = 0U; nIndex2 < _sList2; ++nIndex2)
@@ -146,9 +76,89 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
     _result += _temp;
   }
 
+  // Update sign information
+  _result.positive = !(positive ^ _x.positive);
+
   return _result;
+}
+
+template <>
+LargeInt LargeInt::operator*(const char *_x)
+{
+  LargeInt _temp(_x);
+  return *this * _temp;
+}
+
+template <>
+LargeInt LargeInt::operator*(const std::string _x)
+{
+  return *this * _x.c_str();
+}
+
+// Specialized for int
+template <>
+LargeInt LargeInt::operator*(const int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for unsigned int
+template <>
+LargeInt LargeInt::operator*(const unsigned int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeInt LargeInt::operator*(const long int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeInt LargeInt::operator*(const long unsigned int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeInt LargeInt::operator*(const long long int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for long long unsigned int
+template <>
+LargeInt LargeInt::operator*(const long long unsigned int _x)
+{
+  return *this * std::to_string(_x);
+}
+
+// Specialized for float
+template <>
+LargeInt LargeInt::operator*(const float _x)
+{
+  return *this * std::to_string(_x).substr(0, std::to_string(_x).find("."));
+}
+
+// Specialized for double
+template <>
+LargeInt LargeInt::operator*(const double _x)
+{
+  return *this * std::to_string(_x).substr(0, std::to_string(_x).find("."));
+}
+
+// Specialized for long double
+template <>
+LargeInt LargeInt::operator*(const long double _x)
+{
+  return *this * std::to_string(_x).substr(0, std::to_string(_x).find("."));
 }
 
 } // namespace li
 } // namespace ds
 } // namespace ns
+

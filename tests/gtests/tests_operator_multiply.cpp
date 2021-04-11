@@ -135,6 +135,57 @@ TEST_F(TestOperatorMultiply, tests_multiply_largeuint)
     EXPECT_EQ(n.getValue(), "1361129467683753853705924477137396432900");
 }
 
+
+/* Minimum of signed integral types.  */
+// # define INT8_MIN		(-128)
+TEST_F(TestOperatorMultiply, tests_multiply_INT8_MIN)
+{
+    LargeInt a;
+    LargeInt b(INT8_MIN);
+    a = b * INT8_MIN;
+    EXPECT_EQ(a.getValue(), "16384");
+
+    a = b * INT8_MAX;
+    EXPECT_EQ(a.getValue(), "-16256");
+}
+
+
+// # define INT16_MIN		(-32767-1)
+TEST_F(TestOperatorMultiply, tests_multiply_INT16_MIN)
+{
+    LargeInt a;
+    LargeInt b(INT16_MIN);
+    a = b * INT16_MIN;
+    EXPECT_EQ(a.getValue(), "1073741824");
+
+    a = b * INT16_MAX;
+    EXPECT_EQ(a.getValue(), "-1073709056");
+}
+
+// # define INT32_MIN		(-2147483647-1)
+TEST_F(TestOperatorMultiply, tests_multiply_INT32_MIN)
+{
+    LargeInt a;
+    LargeInt b(INT32_MIN);
+    a = b * INT32_MIN;
+    EXPECT_EQ(a.getValue(), "4611686018427387904");
+
+    a = b * INT32_MAX;
+    EXPECT_EQ(a.getValue(), "-4611686016279904256");
+}
+
+// # define INT64_MIN		(-__INT64_C(9223372036854775807)-1)
+TEST_F(TestOperatorMultiply, tests_multiply_INT64_MIN)
+{
+    LargeInt a;
+    LargeInt b(INT64_MIN);
+    a = b * INT64_MIN;
+    EXPECT_EQ(a.getValue(), "85070591730234615865843651857942052864");
+
+    a = b * INT64_MAX;
+    EXPECT_EQ(a.getValue(), "-85070591730234615856620279821087277056");
+}
+
 } // namespace test_operator_multiply
 } // namespace testing
 } // namespace li

@@ -23,8 +23,7 @@ namespace li
 /// This is the operator overloading function for comparator operator(+=).
 LargeInt &LargeInt::operator-=(const LargeInt &_x)
 {
-  LargeInt _v(*this);
-  *this = _v - _x;
+  *this = *this - _x;
   return *this;
 }
 
