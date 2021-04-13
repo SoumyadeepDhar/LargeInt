@@ -135,7 +135,6 @@ TEST_F(TestOperatorMultiply, tests_multiply_largeuint)
     EXPECT_EQ(n.getValue(), "1361129467683753853705924477137396432900");
 }
 
-
 /* Minimum of signed integral types.  */
 // # define INT8_MIN		(-128)
 TEST_F(TestOperatorMultiply, tests_multiply_INT8_MIN)
