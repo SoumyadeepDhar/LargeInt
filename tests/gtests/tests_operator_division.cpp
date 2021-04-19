@@ -184,6 +184,12 @@ TEST_F(TestOperatorDivision, tests_division_INT64_MIN)
 
     a = b / INT64_MAX;
     EXPECT_EQ(a.getValue(), "-1");
+
+    long long int _temp = INT64_MIN;
+    LargeInt c(INT64_MIN);
+    c = c * c;
+    c = c / _temp;
+    EXPECT_EQ(c.getValue(), std::to_string(INT64_MIN));
 }
 
 } // namespace test_operator_multiply

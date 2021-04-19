@@ -98,7 +98,7 @@ LargeInt LargeInt::operator/(const LargeInt &_x)
         // Adjust nearest element
         if (_nearest > _divident)
         {
-          _nearest -= _x;
+          _nearest -= _absx;
           _quotient -= 1;
         }
 

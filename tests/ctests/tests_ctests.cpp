@@ -7,47 +7,39 @@
  */
 
 #include <bits/stdc++.h>
-#include "largeint.h"
+#include "ctests/tests_largeint.h"
+
 int main()
 {
-  ns::dn::li::LargeInt a("12345923456789");
-  std::cout << "a: " << a.getNodes() << std::endl;
+  // Test int value positive
+  ns::dn::li::testing::TestLargeInt<int> intValuePositive(INT8_MAX);
+  intValuePositive.SetUp();
+  intValuePositive.TearDown();
 
-  ns::dn::li::LargeInt b("999999999923456789");
-  std::cout << "b: " << b.getNodes() << std::endl;
+  // Test int value negetive
+  ns::dn::li::testing::TestLargeInt<int> intValueNegetive(INT8_MIN);
+  intValueNegetive.SetUp();
+  intValueNegetive.TearDown();
 
-  a += b;
-  std::cout << "(a += b):a = " << a.getNodes() << std::endl;
+  // Test short int value positive
+  // ns::dn::li::testing::TestLargeInt<short int> shortintValuePositive(INT16_MIN);
+  // shortintValuePositive.SetUp();
+  // shortintValuePositive.TearDown();
 
-  b += a;
-  std::cout << "(b += a):b = " << b.getNodes() << std::endl;
+  // Test short int value negetive
+  // ns::dn::li::testing::TestLargeInt<short int> shortintValueNegetive(INT16_MIN);
+  // shortintValueNegetive.SetUp();
+  // shortintValueNegetive.TearDown();
 
-  std::cout << "(a < b) = " << (a < b) << std::endl;
-  std::cout << "(a <= b) = " << (a <= b) << std::endl;
-  std::cout << "(a > b) = " << (a > b) << std::endl;
-  std::cout << "(a >= b) = " << (a >= b) << std::endl;
-  std::cout << "(a == b) = " << (a == b) << std::endl;
-  std::cout << "(a != b) = " << (a != b) << std::endl;
+  // Test long int value positive
+  ns::dn::li::testing::TestLargeInt<long int> longintValuePositive(INT64_MAX);
+  longintValuePositive.SetUp();
+  longintValuePositive.TearDown();
 
-  std::cout << "(a < 123) = " << (a < 123) << std::endl;
-  std::cout << "(a <= 123) = " << (a <= 123) << std::endl;
-  std::cout << "(a > 123) = " << (a > 123) << std::endl;
-  std::cout << "(a >= 123) = " << (a >= 123) << std::endl;
-  std::cout << "(a == 123) = " << (a == 123) << std::endl;
-  std::cout << "(a != 123) = " << (a != 123) << std::endl;
-
-  a = b;
-  std::cout << "(a = b):a = " << a.getNodes() << std::endl;
-  b = a;
-  std::cout << "(b = a):b = " << b.getNodes() << std::endl;
-
-  std::cout << "(a == b) = " << (a == b) << std::endl;
-  std::cout << "(a != b) = " << (a != b) << std::endl;
-
-  b <<= 12U;
-  std::cout << "(b <<=  12U):b = " << b.getNodes() << std::endl;
-  a >>= 12U;
-  std::cout << "(a >>=  12U):a = " << a.getNodes() << std::endl;
+  // Test long int value negetive
+  ns::dn::li::testing::TestLargeInt<long int> longintValueNegetive(INT64_MIN);
+  longintValueNegetive.SetUp();
+  longintValueNegetive.TearDown();
 
   return 0;
 }
