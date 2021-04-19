@@ -31,7 +31,7 @@ add_library(largeint SHARED ${SOURCES})
 
 
 # GTest option
-option(GTEST_GIT_CI "GTest during git push" OFF)
+option(GTEST_GIT_CI "GTest during git push" ON)
 
 # Enable CTest
 enable_testing()
@@ -41,6 +41,7 @@ include_directories(tests/include)
 
 # Add test source files
 set(CTESTS_SOURCES  
+    tests/ctests/tests_largeint.cpp
     tests/ctests/tests_ctests.cpp)
 
 # Make ctest target

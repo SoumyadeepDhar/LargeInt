@@ -31,45 +31,17 @@ class TestLargeInt : public TestFixture
     LargeInt largeIint;
 
 public:
-    TestLargeInt(T value) : typedata(value), largeIint(typedata)
-    {
-    }
+    // Initialization code here
+    TestLargeInt(T value);
 
-    virtual void SetUp()
-    {
-        LargeInt duplicate(typedata);
+    // Perform tests here
+    void SetUp() override;
 
-        // Test addition
-        largeIint = largeIint + typedata;
-        assert(largeIint.getValue() == (duplicate * 2).getValue());
+    // Clear any test data after tests
+    void TearDown() override;
 
-        // Test subtraction
-        largeIint = largeIint - typedata;
-        assert(largeIint.getValue().compare(std::to_string(typedata)) == 0);
-
-        // Test multiplecation
-        largeIint = largeIint * typedata;
-        assert(largeIint.getValue() == (duplicate * duplicate).getValue());
-
-        // Test devision
-        largeIint = largeIint / typedata;
-        assert(largeIint.getValue().compare(std::to_string(typedata)) == 0);
-    }
-
-    virtual void TearDown()
-    {
-        // code here will be called just after the test completes
-        // ok to through exceptions from here if need be
-
-        // Clear data
-        typedata = (T)0;
-        largeIint = typedata;
-    }
-
-    virtual ~TestLargeInt()
-    {
-        // cleanup any pending stuff, but no exceptions allowed
-    }
+    // Free up memory 
+    ~TestLargeInt() override;
 };
 
 } // namespace testing

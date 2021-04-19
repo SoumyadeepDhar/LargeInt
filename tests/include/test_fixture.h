@@ -25,17 +25,17 @@ class TestFixture
 {
 public:
 
-    // initialization code here
+    // Initialization code here
     TestFixture() {}
 
-    // code here will execute just before the test ensues
+    // Code here will execute just before the test ensues
     virtual void SetUp() = 0;
 
-    // code here will be called just after the test completes
+    // Code here will be called just after the test completes
     // ok to through exceptions from here if need be
     virtual void TearDown() = 0;
 
-    // cleanup any pending stuff, but no exceptions allowed
+    // Cleanup any pending stuff, but no exceptions allowed
     virtual ~TestFixture() {}
 };
 

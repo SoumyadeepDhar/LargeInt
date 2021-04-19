@@ -8,7 +8,9 @@
 #ifndef TESTS_LARGEUINT_H_
 #define TESTS_LARGEUINT_H_
 
-#include "gtest_fixture.h"
+#include "gtest/gtest.h"
+#include "largeint.h"
+#include "test_fixture.h"
 
 // Number ststem
 namespace ns
@@ -23,7 +25,7 @@ namespace li
 namespace testing
 {
 
-class TestLargeInt : public GTestFixture
+class TestLargeInt : public TestFixture, public ::testing::Test
 {
 public:
     TestLargeInt()
