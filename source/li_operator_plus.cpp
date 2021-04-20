@@ -142,6 +142,34 @@ LargeInt LargeInt::operator+(const std::string _x)
   return *this + _x.c_str();
 }
 
+// Specialized for char
+template <>
+LargeInt LargeInt::operator+(const char _x)
+{
+  return *this + std::to_string(_x);
+}
+
+// Specialized for unsigned char
+template <>
+LargeInt LargeInt::operator+(const unsigned char _x)
+{
+  return *this + std::to_string(_x);
+}
+
+// Specialized for short int
+template <>
+LargeInt LargeInt::operator+(const short int _x)
+{
+  return *this + std::to_string(_x);
+}
+
+// Specialized for unsigned short int
+template <>
+LargeInt LargeInt::operator+(const unsigned short int _x)
+{
+  return *this + std::to_string(_x);
+}
+
 // Specialized for int
 template <>
 LargeInt LargeInt::operator+(const int _x)
@@ -156,21 +184,21 @@ LargeInt LargeInt::operator+(const unsigned int _x)
   return *this + std::to_string(_x);
 }
 
-// Specialized for long long unsigned int
+// Specialized for long int
 template <>
 LargeInt LargeInt::operator+(const long int _x)
 {
   return *this + std::to_string(_x);
 }
 
-// Specialized for long long unsigned int
+// Specialized for long unsigned int
 template <>
 LargeInt LargeInt::operator+(const long unsigned int _x)
 {
   return *this + std::to_string(_x);
 }
 
-// Specialized for long long unsigned int
+// Specialized for long long int
 template <>
 LargeInt LargeInt::operator+(const long long int _x)
 {

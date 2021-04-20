@@ -95,9 +95,11 @@ TestLargeInt<T>::~TestLargeInt()
 }
 
 /// Explicit instantiation of template class
+template class TestLargeInt<char>;
+template class TestLargeInt<short int>;
 template class TestLargeInt<int>;
-//template class TestLargeInt<short int>;
 template class TestLargeInt<long int>;
+template class TestLargeInt<long long int>;
 
 } // namespace testing
 } // namespace li

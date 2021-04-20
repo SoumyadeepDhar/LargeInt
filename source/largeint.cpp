@@ -192,6 +192,34 @@ LargeInt::LargeInt(const int _x)
 {
 }
 
+// Specialized for unsigned short int
+template <>
+LargeInt::LargeInt(const unsigned short int _x)
+    : LargeInt(static_cast<long long unsigned int>(_x))
+{
+}
+
+// Specialized for short int
+template <>
+LargeInt::LargeInt(const short int _x)
+    : LargeInt(std::to_string(_x))
+{
+}
+
+// Specialized for unsigned char
+template <>
+LargeInt::LargeInt(const unsigned char _x)
+    : LargeInt(static_cast<long long unsigned int>(_x))
+{
+}
+
+// Specialized for char
+template <>
+LargeInt::LargeInt(const char _x)
+    : LargeInt(std::to_string(_x))
+{
+}
+
 // Specialized for float
 template <>
 LargeInt::LargeInt(const float _x)

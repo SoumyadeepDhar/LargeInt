@@ -76,6 +76,50 @@ bool LargeInt::operator>(const std::string _x)
   return *this > _x.c_str();
 }
 
+
+// Specialized for char
+template <>
+bool LargeInt::operator>(const char _x)
+{
+  return *this > std::to_string(_x);
+}
+
+// Specialized for unsigned char 
+template <>
+bool LargeInt::operator>(const unsigned char _x)
+{
+  unsigned int _nd = digits();
+  unsigned int _md = floor(log10(_x)) + 1;
+  return positive ? (_nd > _md)
+                        ? true
+                    : (_nd < _md)
+                        ? false
+                    : (_nList.back() > _x)
+                  : false;
+}
+
+
+// Specialized for short int
+template <>
+bool LargeInt::operator>(const short int _x)
+{
+  return *this > std::to_string(_x);
+}
+
+// Specialized for unsigned short int
+template <>
+bool LargeInt::operator>(const unsigned short int _x)
+{
+  unsigned int _nd = digits();
+  unsigned int _md = floor(log10(_x)) + 1;
+  return positive ? (_nd > _md)
+                        ? true
+                    : (_nd < _md)
+                        ? false
+                    : (_nList.back() > _x)
+                  : false;
+}
+
 // Specialized for int
 template <>
 bool LargeInt::operator>(const int _x)
