@@ -27,8 +27,11 @@ namespace testing
 template <typename T>
 class TestLargeInt : public TestFixture
 {
+private:
     T typedata;
     LargeInt largeIint;
+
+    void SetUpReal();
 
 public:
     // Initialization code here
@@ -40,7 +43,7 @@ public:
     // Clear any test data after tests
     void TearDown() override;
 
-    // Free up memory 
+    // Free up memory
     ~TestLargeInt() override;
 };
 

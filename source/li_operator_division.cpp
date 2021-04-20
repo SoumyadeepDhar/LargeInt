@@ -74,22 +74,23 @@ LargeInt LargeInt::operator/(const LargeInt &_x)
       long double _div = 0.0F;
       long double _dsr = 0.0F;
       long long int _quotient = 0;
+
       // Find new remainder
       if (_divident >= _absx)
       {
         unsigned int digitDiff = _divident.digits() - _absx.digits();
-        
+
         _div = std::strtold(_divident.getValue()
-                                .substr(0, std::min(_divident.digits(), (N_LIMIT_mDIGIT * 2)))
+                                .substr(0, std::min(_divident.digits(), (N_LIMIT_mDIGIT * 3)))
                                 .c_str(),
                             0);
         _dsr = std::strtold(_absx.getValue()
-                                .substr(0, std::min(_divident.digits(), ((N_LIMIT_mDIGIT * 2) - digitDiff)))
+                                .substr(0, std::min(_divident.digits(), ((N_LIMIT_mDIGIT * 3) - digitDiff)))
                                 .c_str(),
                             0);
 
+        // Calculate quotient
         _quotient = (_div / _dsr);
-        while(_quotient >= N_LIMIT_mVALUE) _quotient--;
 
         // Update remainder
         LargeInt _nearest(_absx);

@@ -21,7 +21,6 @@ int main()
   charValueNegetive.SetUp();
   charValueNegetive.TearDown();
 
-
   // Test short int value positive
   ns::dn::li::testing::TestLargeInt<short int> shortintValuePositive(INT16_MAX);
   shortintValuePositive.SetUp();
@@ -31,7 +30,6 @@ int main()
   ns::dn::li::testing::TestLargeInt<short int> shortintValueNegetive(INT16_MIN);
   shortintValueNegetive.SetUp();
   shortintValueNegetive.TearDown();
-
 
   // Test int value positive
   ns::dn::li::testing::TestLargeInt<int> intValuePositive(INT32_MAX);
@@ -43,7 +41,6 @@ int main()
   intValueNegetive.SetUp();
   intValueNegetive.TearDown();
 
-
   // Test long int value positive
   ns::dn::li::testing::TestLargeInt<long int> longintValuePositive(INT64_MAX);
   longintValuePositive.SetUp();
@@ -54,17 +51,45 @@ int main()
   longintValueNegetive.SetUp();
   longintValueNegetive.TearDown();
 
-
-  // Test long int value positive
+  // Test long long int value positive
   ns::dn::li::testing::TestLargeInt<long long int> longlongintValuePositive(UINT64_MAX);
   longlongintValuePositive.SetUp();
   longlongintValuePositive.TearDown();
 
-  // Test long int value negetive
+  // Test long long int value negetive
   ns::dn::li::testing::TestLargeInt<long long int> longlongintValueNegetive(INT64_MIN);
   longlongintValueNegetive.SetUp();
   longlongintValueNegetive.TearDown();
 
+  // Test float value positive
+  ns::dn::li::testing::TestLargeInt<float> floatValuePositive(FLT_MAX);
+  floatValuePositive.SetUp();
+  floatValuePositive.TearDown();
+
+  // Test float value negetive
+  ns::dn::li::testing::TestLargeInt<float> floatValueNegetive(FLT_MAX * -1.0);
+  floatValueNegetive.SetUp();
+  floatValueNegetive.TearDown();
+
+  // Test double value positive
+  ns::dn::li::testing::TestLargeInt<double> doubleValuePositive(DBL_MAX);
+  doubleValuePositive.SetUp();
+  doubleValuePositive.TearDown();
+
+  // Test double value negetive
+  ns::dn::li::testing::TestLargeInt<double> doubleValueNegetive(DBL_MAX * -1.0);
+  doubleValueNegetive.SetUp();
+  doubleValueNegetive.TearDown();
+
+  // Test long double value positive
+  ns::dn::li::testing::TestLargeInt<long double> longdoubleValuePositive(LDBL_MAX);
+  longdoubleValuePositive.SetUp();
+  longdoubleValuePositive.TearDown();
+
+  // Test long double value negetive
+  ns::dn::li::testing::TestLargeInt<long double> longdoubleValueNegetive(LDBL_MAX * -1.0);
+  longdoubleValueNegetive.SetUp();
+  longdoubleValueNegetive.TearDown();
 
   return 0;
 }
