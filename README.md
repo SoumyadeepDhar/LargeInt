@@ -1,4 +1,4 @@
-# LargeInt
+## LargeInt
 
 MIT License
 Copyright (c) 2021 Soumyadeep Dhar
@@ -7,11 +7,12 @@ Development contact: Soumyadeep Dhar, <s.dhar.in@gmail.com>
 ## Introduction
 
 'LargeInt' class to hold large integer numbers (0, ±1, ±2, ±3, ...) in 
-base 10. It is similar to any primitive data type like int or float. It has 
-operator overloads for +, -, *, /, +=, -=, *=, /=. It also has support 
-for comparator operator overload <, <=, >, >=, ==, !=. It also support 
-increment/decrement ++, --, prefix and postfix unary operation. It has 
-support for <<, <<=, >>, >>= where it multiply the number with power(10, x).
+base 10. It is similar to any primitive data type like int or float. 
+It has operator overloads for +, -, *, /, +=, -=, *=, /=. It also has 
+support for comparator operator overload <, <=, >, >=, ==, !=. It also 
+support increment/decrement ++, --, prefix and postfix unary operation. 
+It has support for <<, <<=, >>, >>= where it multiply the number with 
+power(10, x).
 
 ## Library
 
@@ -41,7 +42,7 @@ Set GTest option "option(GTEST_GIT_CI "GTest during git push" ON)"
 
 ## Dependencies
 
-The build process has noexternaldependencies. Only c++ and cmake required.
-If GTest is enabled the install GTest fro Git and set envionment as default.
+The build process has no external dependencies. Only c++ and cmake required.
+If GTest is enabled the install GTest from Git and set envionment as default.
 
 
