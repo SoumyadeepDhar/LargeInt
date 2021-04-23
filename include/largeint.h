@@ -21,10 +21,6 @@ namespace dn
 // Large integer
 namespace li
 {
-
-#define N_LIMIT_mVALUE 1000000000U
-#define N_LIMIT_mDIGIT 9U
-
 class LargeInt
 {
 private:

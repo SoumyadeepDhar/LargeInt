@@ -8,7 +8,9 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+
 #include "largeint.h"
+#include "li_constants.h"
 
 // Number system
 namespace ns

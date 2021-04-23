@@ -11,6 +11,7 @@
 #include <algorithm>
 
 #include "largeint.h"
+#include "li_constants.h"
 
 // Number system
 namespace ns
