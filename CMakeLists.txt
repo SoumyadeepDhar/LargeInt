@@ -64,6 +64,7 @@ if(${GTEST_GIT_CI})
     # Add test source files
     set(GTESTS_SOURCES  
         tests/gtests/tests_gtests.cpp
+        tests/gtests/tests_largeint.cpp
         tests/gtests/tests_constructor.cpp
         tests/gtests/tests_operator_assignment.cpp
         tests/gtests/tests_operator_compare_lesser.cpp

@@ -182,6 +182,18 @@ public:
 
   /// This is the operator overloading function for shift operator(>>).
   LargeInt operator>>(const unsigned int _x) const;
+
+  /// This is the operator overloading function for assignment operator(++) prefix.
+  LargeInt operator++();
+
+  /// This is the operator overloading function for assignment operator(--) prefix.
+  LargeInt operator--();
+
+  /// This is the operator overloading function for assignment operator(++) postfix.
+  LargeInt operator++(int);
+
+  /// This is the operator overloading function for assignment operator(--) postfix.
+  LargeInt operator--(int);
 };
 
 } // namespace li

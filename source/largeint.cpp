@@ -525,6 +525,36 @@ LargeInt LargeInt::operator>>(const unsigned int _x) const
   return _temp;
 }
 
+/// This is the operator overloading function for assignment operator(++) prefix.
+LargeInt LargeInt::operator++()
+{
+  *this += 1;
+  return *this;
+}
+
+/// This is the operator overloading function for assignment operator(--) prefix.
+LargeInt LargeInt::operator--()
+{
+  *this -= 1;
+  return *this;
+}
+
+/// This is the operator overloading function for assignment operator(++) postfix.
+LargeInt LargeInt::operator++(int)
+{
+  LargeInt _temp(*this);
+  *this += 1;
+  return _temp;
+}
+
+/// This is the operator overloading function for assignment operator(--) postfix.
+LargeInt LargeInt::operator--(int)
+{
+  LargeInt _temp(*this);
+  *this -= 1;
+  return _temp;
+}
+
 } // namespace li
 } // namespace ds
 } // namespace ns
