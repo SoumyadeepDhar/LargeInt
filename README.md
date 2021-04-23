@@ -43,6 +43,6 @@ Set GTest option "option(GTEST_GIT_CI "GTest during git push" ON)"
 ## Dependencies
 
 The build process has no external dependencies. Only c++ and cmake required.
-If GTest is enabled the install GTest from Git and set envionment as default.
+If GTest is enabled then install GTest from Git and set envionment as default.
 
 
