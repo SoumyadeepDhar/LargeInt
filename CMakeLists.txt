@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.16.3)
-SET(PROJECT_NAME "LargeUInt")
+SET(PROJECT_NAME "LargeInt")
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Project information
-project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
+project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
+string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
 # Include directory for the project
 include_directories(include)
@@ -29,7 +30,7 @@ set(SOURCES
     source/li_operator_multiply.cpp)
 
 # Make Target
-add_library(largeint SHARED ${SOURCES})
+add_library(${PROJECT_NAME_LOWER} SHARED ${SOURCES})
 
 
 # GTest option
@@ -47,13 +48,13 @@ set(CTESTS_SOURCES
     tests/ctests/tests_ctests.cpp)
 
 # Make ctest target
-add_executable(CTestLargeInt ${CTESTS_SOURCES})
+add_executable(CTest${PROJECT_NAME} ${CTESTS_SOURCES})
 
 # Links the executable to the LargeUInt C++ library.
-target_link_libraries (CTestLargeInt LINK_PUBLIC largeint)
+target_link_libraries (CTest${PROJECT_NAME} LINK_PUBLIC ${PROJECT_NAME_LOWER})
 
 # Add CTest to CI
-add_test(CTest CTestLargeInt)
+add_test(CTest CTest${PROJECT_NAME})
 
 # Checks for GTest
 if(${GTEST_GIT_CI})
@@ -84,12 +85,12 @@ if(${GTEST_GIT_CI})
         )
 
     # Make Gtest target
-    add_executable(GTestLargeInt ${GTESTS_SOURCES})
+    add_executable(GTest${PROJECT_NAME} ${GTESTS_SOURCES})
 
     # Links the executable to the LargeUInt C++ library.
-    target_link_libraries (GTestLargeInt LINK_PUBLIC largeint)
-    target_link_libraries (GTestLargeInt LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+    target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC largeint)
+    target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
     # Add GTest to CI
-    add_test(GTest GTestLargeInt)
+    add_test(GTest GTest${PROJECT_NAME})
 endif()
