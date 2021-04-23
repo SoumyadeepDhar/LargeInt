@@ -10,7 +10,7 @@ Development contact: Soumyadeep Dhar, <s.dhar.in@gmail.com>
 base 10. It is similar to any primitive data type like int or float. 
 It has operator overloads for +, -, *, /, +=, -=, *=, /=. It also has 
 support for comparator operator overload <, <=, >, >=, ==, !=. It also 
-support increment/decrement ++, --, prefix and postfix unary operation. 
+support increment / decrement ++, --, prefix and postfix unary operation. 
 It has support for <<, <<=, >>, >>= where it multiply the number with 
 power(10, x).
 
