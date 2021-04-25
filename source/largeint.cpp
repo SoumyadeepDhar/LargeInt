@@ -406,7 +406,7 @@ LargeInt LargeInt::sqrt()
   // Adjust power to (n + N_LIMIT_mDIGIT)
   _nR <<= _multiplier;
 
-  // Update original number 
+  // Update original number
   _number <<= (N_LIMIT_mDIGIT * 2);
 
   do
@@ -423,7 +423,7 @@ LargeInt LargeInt::sqrt()
     // Update result for next iteration
     _nR = _nB - ((_nA * _nA) / (_nB * 2));
 
-  // Until no further inprovement possible for square root
+    // Until no further inprovement possible for square root
   } while (_result != _nR);
 
   // Readjust result to accurate decimal places
@@ -442,14 +442,15 @@ LargeInt LargeInt::pow(const unsigned int _x)
 
   LargeInt _temp(*this);
   LargeInt _result(_temp);
-  for (auto index = 0U; index < (_x - 1); index ++)
+  for (auto index = 0U; index < (_x - 1); index++)
   {
     _result *= _temp;
   }
 
   //Find sign value
-  _result.positive = positive ? true : !(_x % 2) ? true : false;
-  
+  _result.positive = positive ? true : !(_x % 2) ? true
+                                                 : false;
+
   return _result;
 }
 
@@ -471,40 +472,50 @@ LargeInt LargeInt::root(const unsigned int _x)
   // For negetive number or 0U
   if (*this <= 0U)
     return {0U};
-    
+
   // For nember in a single node
   if (*this < N_LIMIT_mVALUE)
     return {powl(std::stold(getValue()), (1.0 / _x))};
 
-  // Newton's method
-  LargeInt _nR, _result, _number(*this);
+  // Newton's method: (i + 1)th iteration root
+  //                    --                              --
+  //                1   |                       A        |
+  //  X(i + 1) =  ----- | (n - 1).X(i) + --------------  |
+  //                n   |                  X(i)^(n - 1)  |
+  //                    --                              --
 
-  // Select number of digits for initial estimate 
+  LargeInt _nR, _result, _nB, _nA(*this);
+
+  // Select number of digits for initial estimate
   // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
   unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
-  
   // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
   int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
-  
+
   // Create a initial Integer estimation as square root
   _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
 
   // Adjust power to (n + N_LIMIT_mDIGIT)
   _nR <<= _multiplier;
 
-  // Update original number 
-  _number <<= (N_LIMIT_mDIGIT * _x);
-  
+  // Update original number
+  _nA <<= (N_LIMIT_mDIGIT * _x);
   do
   {
     // Keep note of last valid result
     _result = _nR;
 
-    // Update result for next iteration
-    _nR = ((_nR * (_x - 1)) + (_number / (_nR.pow(_x - 1)))) / _x;
+    // Calculate result
+    // _nR = ((_nR * (_x - 1)) + (_nA / (_nR.pow(_x - 1)))) / _x;
+    _nB = _nR.pow(_x - 1);
+    _nB = _nA / _nB;
+    _nR *= (_x - 1);
+    _nR += _nB;
+    _nR /= _x;
 
-  // Until no further inprovement possible for the nth root
-  } while (_result != _nR);
+    // Until no further inprovement possible for the nth root
+  } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
+           _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
 
   // Readjust result to accurate decimal places
   _result >>= N_LIMIT_mDIGIT;
