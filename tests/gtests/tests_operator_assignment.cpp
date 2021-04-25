@@ -112,5 +112,5 @@ TEST_F(TestAssignment, tests_copy_assignment)
 } // namespace test_assignment
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

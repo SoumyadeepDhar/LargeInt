@@ -49,7 +49,7 @@ public:
 
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
 
 #endif // TESTS_LARGEUINT_H_

@@ -189,6 +189,6 @@ LargeInt LargeInt::operator*(const long double _x)
 }
 
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
 

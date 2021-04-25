@@ -257,5 +257,5 @@ LargeInt &LargeInt::operator=(const LargeInt &_x)
 }
 
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

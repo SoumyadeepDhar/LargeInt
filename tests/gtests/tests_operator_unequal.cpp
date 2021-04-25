@@ -259,5 +259,5 @@ TEST_F(TestOperatorNotEqual, tests_not_equal_largeuint)
 } // namespace test_operator_not_equal
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

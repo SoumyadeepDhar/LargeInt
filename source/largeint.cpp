@@ -612,5 +612,5 @@ LargeInt LargeInt::operator--(int)
 }
 
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

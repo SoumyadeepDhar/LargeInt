@@ -22,7 +22,7 @@ constexpr unsigned int N_LIMIT_mVALUE = 1000000000U;
 constexpr unsigned int N_LIMIT_mDIGIT = 9U;
 
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
 
 #endif // LI_CONSTANTS_H_

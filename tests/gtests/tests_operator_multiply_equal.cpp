@@ -138,5 +138,5 @@ TEST_F(TestOperatorMultiplyEqual, tests_multiply_equal_largeuint)
 } // namespace test_operator_multiply_equal
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

@@ -40,5 +40,5 @@ TEST_F(TestOperatorMinusEqual, tests_minus_equal_largeuint)
 } // namespace test_operator_minus_equal
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

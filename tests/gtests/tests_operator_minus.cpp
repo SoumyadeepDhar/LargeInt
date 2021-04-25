@@ -259,5 +259,5 @@ TEST_F(TestOperatorMinus, tests_minus_largeuint)
 } // namespace test_operator_minus
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

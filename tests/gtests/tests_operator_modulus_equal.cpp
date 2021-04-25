@@ -133,5 +133,5 @@ TEST_F(TestOperatorModulusEqual, tests_modulus_equal_largeuint)
 } // namespace test_operator_modulus_equal
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

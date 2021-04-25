@@ -133,5 +133,5 @@ TEST_F(TestOperatorDivisionEqual, tests_division_equal_largeuint)
 } // namespace test_operator_division_equal
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

@@ -41,7 +41,7 @@ public:
 
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
 
 #endif // TEST_FIXTURE_H_

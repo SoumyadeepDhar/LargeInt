@@ -173,5 +173,5 @@ TEST_F(TestConstructor, tests_copy_constructor)
 } // namespace test_constructor
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

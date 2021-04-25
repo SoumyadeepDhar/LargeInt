@@ -195,5 +195,5 @@ TEST_F(TestOperatorDivision, tests_division_INT64_MIN)
 } // namespace test_operator_division
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

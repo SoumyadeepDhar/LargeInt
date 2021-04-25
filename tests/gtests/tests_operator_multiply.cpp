@@ -188,5 +188,5 @@ TEST_F(TestOperatorMultiply, tests_multiply_INT64_MIN)
 } // namespace test_operator_multiply
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

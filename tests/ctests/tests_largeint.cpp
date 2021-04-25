@@ -180,5 +180,5 @@ template class TestLargeInt<long double>;
 
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

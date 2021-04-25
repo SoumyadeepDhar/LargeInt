@@ -156,5 +156,5 @@ TEST_F(TestOperatorModulus, tests_modulus_largeuint)
 } // namespace test_operator_modulus
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

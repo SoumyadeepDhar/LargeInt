@@ -21,8 +21,10 @@ namespace dn
 // Large integer
 namespace li
 {
+// Class LargeInt
 class LargeInt
 {
+// Declaration of private member and methods  
 private:
   /// Sign info for the number
   bool positive;
@@ -36,6 +38,7 @@ private:
   /// Subtract unsigned value to specific positional node
   void sub(const long long unsigned int _x, const unsigned int _iPosition = 0);
 
+// Declaration of public member and methods  
 public:
   /// Constructor default
   LargeInt();
@@ -44,19 +47,19 @@ public:
   template <typename T>
   LargeInt(const T _x);
 
-  /// Constructor with unsigned integer as large unsigned int
+  /// Constructor with integer as large unsigned int
   LargeInt(const LargeInt &_x);
 
   /// Destructor default
   virtual ~LargeInt();
 
-  /// Get sign of the large integer as symbol (-)if negetive
+  /// Get sign of the large integer as symbol (-) if negetive
   std::string getSign() const;
 
-  /// Get large unsigned integer as string for all the nodes
+  /// Get large integer as string with all the nodes information
   std::string getNodes() const;
 
-  /// Get large unsigned integer as string for all the nodes
+  /// Get large integer as string without all the nodes information
   std::string getValue() const;
 
   /// Get number of digits

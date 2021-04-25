@@ -59,5 +59,5 @@ TEST_F(TestLargeInt, tests_largeint_sqrt)
 
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns

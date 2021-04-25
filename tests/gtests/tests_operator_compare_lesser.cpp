@@ -197,5 +197,5 @@ TEST_F(TestCompareLesser, tests_compare_LDBL_MAX)
 } // namespace test_operator_compare_lesser
 } // namespace testing
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
