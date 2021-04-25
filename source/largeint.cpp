@@ -422,7 +422,7 @@ LargeInt LargeInt::sqrt()
     // Update result for next iteration
     _nR = _nB - ((_nA * _nA) / (_nB * 2));
 
-  // Until no further inprovement possiblr for square root
+  // Until no further inprovement possible for square root
   } while (_result != _nR);
 
   // Readjust result to accurate decimal places
