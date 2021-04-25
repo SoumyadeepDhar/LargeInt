@@ -395,7 +395,7 @@ LargeInt LargeInt::sqrt()
   LargeInt _nA, _nB, _nR, _result, _number(*this);
 
   // Get even power 2n (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
-  unsigned int _eDigit = (std::min(digits(), static_cast<unsigned int>(LDBL_MAX_10_EXP)) >> 1) << 1;
+  unsigned int _eDigit = (std::min(digits(), static_cast<unsigned int>(FLT_MAX_10_EXP)) >> 1) << 1;
 
   // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
   int _multiplier = ((digits() - _eDigit) >> 1) + N_LIMIT_mDIGIT;
@@ -464,6 +464,10 @@ LargeInt LargeInt::root(const unsigned int _x)
   if (_x == 1U)
     return *this;
 
+  // For 2U th root
+  if (_x == 2U)
+    return this->sqrt();
+
   // For negetive number or 0U
   if (*this <= 0U)
     return {0U};
@@ -477,7 +481,7 @@ LargeInt LargeInt::root(const unsigned int _x)
 
   // Select number of digits for initial estimate 
   // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
-  unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(LDBL_MAX_10_EXP));
+  unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
   
   // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
   int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
