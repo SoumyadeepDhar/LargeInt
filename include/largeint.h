@@ -68,6 +68,12 @@ public:
   /// Get sqrt of the number
   LargeInt sqrt();
 
+  /// Get nth power of the number
+  LargeInt pow(const unsigned int _x);
+
+  /// Get nth root of the number
+  LargeInt root(const unsigned int _x);
+
   /// This is the operator overloading function for assignment operator(=).
   template <typename T>
   LargeInt &operator=(const T _x);

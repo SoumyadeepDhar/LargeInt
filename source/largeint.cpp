@@ -5,6 +5,7 @@
  *  Author: Soumyadeep Dhar
  */
 
+#include <float.h>
 #include <iostream>
 #include <sstream>
 #include <cstring>
@@ -383,20 +384,20 @@ unsigned int LargeInt::digits() const
 LargeInt LargeInt::sqrt()
 {
   // For negetive number or 0U
-  if (*this <= 0)
+  if (*this <= 0U)
     return {0U};
 
   // For nember in a single node
   if (*this < N_LIMIT_mVALUE)
     return {std::sqrt(std::stold(getValue()))};
 
-  // Bakhshali's method
+  // Bakhshali's Method
   LargeInt _nA, _nB, _nR, _result, _number(*this);
 
   // Get even power 2n (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
-  unsigned int _eDigit = ((std::min(digits(), (N_LIMIT_mDIGIT * 3))) >> 1) << 1;
+  unsigned int _eDigit = (std::min(digits(), static_cast<unsigned int>(LDBL_MAX_10_EXP)) >> 1) << 1;
 
-  // Keeping +2 buffer to accurate estimation (n + N_LIMIT_mDIGIT)
+  // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
   int _multiplier = ((digits() - _eDigit) >> 1) + N_LIMIT_mDIGIT;
 
   // Create a initial Integer estimation as square root
@@ -432,6 +433,82 @@ LargeInt LargeInt::sqrt()
   return _result;
 }
 
+/// Get nth power of the number
+LargeInt LargeInt::pow(const unsigned int _x)
+{
+  // For 0U th power
+  if (_x == 0U)
+    return {1U};
+
+  LargeInt _temp(*this);
+  LargeInt _result(_temp);
+  for (auto index = 0U; index < (_x - 1); index ++)
+  {
+    _result *= _temp;
+  }
+
+  //Find sign value
+  _result.positive = positive ? true : !(_x % 2) ? true : false;
+  
+  return _result;
+}
+
+/// Get nth root of the number
+LargeInt LargeInt::root(const unsigned int _x)
+{
+  // For 0U th root
+  if (_x == 0U)
+    return {INFINITY};
+
+  // For 1U th root
+  if (_x == 1U)
+    return *this;
+
+  // For negetive number or 0U
+  if (*this <= 0U)
+    return {0U};
+    
+  // For nember in a single node
+  if (*this < N_LIMIT_mVALUE)
+    return {powl(std::stold(getValue()), (1.0 / _x))};
+
+  // Newton's method
+  LargeInt _nR, _result, _number(*this);
+
+  // Select number of digits for initial estimate 
+  // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
+  unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(LDBL_MAX_10_EXP));
+  
+  // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
+  int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
+  
+  // Create a initial Integer estimation as square root
+  _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
+
+  // Adjust power to (n + N_LIMIT_mDIGIT)
+  _nR <<= _multiplier;
+
+  // Update original number 
+  _number <<= (N_LIMIT_mDIGIT * _x);
+  
+  do
+  {
+    // Keep note of last valid result
+    _result = _nR;
+
+    // Update result for next iteration
+    _nR = ((_nR * (_x - 1)) + (_number / (_nR.pow(_x - 1)))) / _x;
+
+  // Until no further inprovement possible for the nth root
+  } while (_result != _nR);
+
+  // Readjust result to accurate decimal places
+  _result >>= N_LIMIT_mDIGIT;
+
+  // Return integer part of the nth root
+  return _result;
+}
+
 // This is the operator overloading function for assignment operator(<<).
 LargeInt &LargeInt::operator<<=(const unsigned int _x)
 {
@@ -451,8 +528,8 @@ LargeInt &LargeInt::operator<<=(const unsigned int _x)
 
   // Complement digits to be shifted
   unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
-  long long unsigned int _cValue = pow(10, _cDigit);
-  long long unsigned int _nValue = pow(10, _nDigit);
+  long long unsigned int _cValue = std::pow(10, _cDigit);
+  long long unsigned int _nValue = std::pow(10, _nDigit);
 
   // Shift succesive elements
   for (auto i = _nList.begin(); i != _nList.end(); ++i)
@@ -515,8 +592,8 @@ LargeInt &LargeInt::operator>>=(const unsigned int _x)
     {
       // Complement digits to be shifted
       unsigned int _cDigit = N_LIMIT_mDIGIT - _nDigit;
-      long long unsigned int _cValue = pow(10, _cDigit);
-      long long unsigned int _nValue = pow(10, _nDigit);
+      long long unsigned int _cValue = std::pow(10, _cDigit);
+      long long unsigned int _nValue = std::pow(10, _nDigit);
 
       // Shift succesive elements
       for (auto i = _nList.rbegin(); i != _nList.rend(); ++i)
