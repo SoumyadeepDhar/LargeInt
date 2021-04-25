@@ -62,6 +62,9 @@ public:
   /// Get number of digits
   unsigned int digits() const;
 
+  /// Get sqrt of the number
+  LargeInt sqrt();
+
   /// This is the operator overloading function for assignment operator(=).
   template <typename T>
   LargeInt &operator=(const T _x);

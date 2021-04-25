@@ -8,10 +8,11 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
 
 #include "largeint.h"
 #include "li_constants.h"
- 
+
 // Number system
 namespace ns
 {
@@ -376,6 +377,59 @@ std::string LargeInt::getValue() const
 unsigned int LargeInt::digits() const
 {
   return ((_nList.size() - 1) * N_LIMIT_mDIGIT) + floor(log10(_nList.back())) + 1;
+}
+
+/// Get sqrt of the number
+LargeInt LargeInt::sqrt()
+{
+  // For negetive number or 0U
+  if (*this <= 0)
+    return {0U};
+
+  // For nember in a single node
+  if (*this < N_LIMIT_mVALUE)
+    return {std::sqrt(std::stold(getValue()))};
+
+  // Bakhshali's method
+  LargeInt _nA, _nB, _nR, _result, _number(*this);
+
+  // Get even power 2n (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
+  unsigned int _eDigit = ((std::min(digits(), (N_LIMIT_mDIGIT * 3))) >> 1) << 1;
+
+  // Keeping +2 buffer to accurate estimation (n + 2)
+  int _multiplier = ((digits() - _eDigit) >> 1) + 2;
+
+  // Create a initial Integer estimation as square root
+  _nR = std::sqrt(std::strtold(getValue().substr(0, _eDigit).c_str(), 0));
+
+  // Adjust power to (n + 2)
+  _nR <<= _multiplier;
+
+  // Update original number 
+  _number <<= 4;
+
+  do
+  {
+    // Keep note of last valid result
+    _result = _nR;
+
+    // Calculate _nA
+    _nA = (_number - (_nR * _nR)) / (_nR * 2);
+
+    // Calculate _nB
+    _nB = _result + _nA;
+
+    // Update result for next iteration
+    _nR = _nB - ((_nA * _nA) / (_nB * 2));
+
+  // Until no further inprovement possiblr for square root
+  } while (_result != _nR);
+
+  // Readjust result to accurate decimal places
+  _result >>= 2;
+
+  // Return integer part of sqrt
+  return _result;
 }
 
 // This is the operator overloading function for assignment operator(<<).

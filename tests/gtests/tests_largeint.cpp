@@ -20,7 +20,7 @@ namespace li
 namespace testing
 {
 
-TEST_F(TestLargeInt, tests_largeuint_increment_postfix)
+TEST_F(TestLargeInt, tests_largeint_increment_postfix)
 {
     LargeInt m = "36893488147419103230";
     LargeInt n = m;
@@ -28,7 +28,7 @@ TEST_F(TestLargeInt, tests_largeuint_increment_postfix)
     EXPECT_TRUE(m == (n + 1));
 }
 
-TEST_F(TestLargeInt, tests_largeuint_decrement_postfix)
+TEST_F(TestLargeInt, tests_largeint_decrement_postfix)
 {
     LargeInt m = "36893488147419103230";
     LargeInt n = m;
@@ -36,18 +36,25 @@ TEST_F(TestLargeInt, tests_largeuint_decrement_postfix)
     EXPECT_TRUE(m == (n - 1));
 }
 
-TEST_F(TestLargeInt, tests_largeuint_increment_prefix)
+TEST_F(TestLargeInt, tests_largeint_increment_prefix)
 {
     LargeInt m = "36893488147419103230";
     LargeInt n = m;
     EXPECT_TRUE(++m == (n + 1));
 }
 
-TEST_F(TestLargeInt, tests_largeuint_decrement_prefix)
+TEST_F(TestLargeInt, tests_largeint_decrement_prefix)
 {
     LargeInt m = "36893488147419103230";
     LargeInt n = m;
     EXPECT_TRUE(--m == (n - 1));
+}
+
+TEST_F(TestLargeInt, tests_largeint_sqrt)
+{
+    LargeInt m = "1361129467683753853705924477137396432901";
+    LargeInt n = m.sqrt();
+    EXPECT_TRUE(n == "36893488147419103230");
 }
 
 } // namespace testing
