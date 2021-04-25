@@ -118,12 +118,26 @@ public:
   /// This is the operator overloading function for assignment operator(/).
   LargeInt &operator/=(const LargeInt &_x);
 
-  /// This is the operator overloading function for operator().
+  /// This is the operator overloading function for operator(/).
   template <typename T>
   LargeInt operator/(const T _x);
 
   /// This is the operator overloading function for operator(/).
   LargeInt operator/(const LargeInt &_x);
+
+  /// This is the operator overloading function for assignment operator(%).
+  template <typename T>
+  LargeInt &operator%=(const T _x);
+
+  /// This is the operator overloading function for assignment operator(%).
+  LargeInt &operator%=(const LargeInt &_x);
+
+  /// This is the operator overloading function for operator(%).
+  template <typename T>
+  LargeInt operator%(const T _x);
+
+  /// This is the operator overloading function for operator(%).
+  LargeInt operator%(const LargeInt &_x);
 
   /// This is the operator overloading function for comparator operator(<).
   template <typename T>

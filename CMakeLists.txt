@@ -24,10 +24,12 @@ set(SOURCES
     source/li_operator_plus.cpp
     source/li_operator_minus_equal.cpp
     source/li_operator_minus.cpp
+    source/li_operator_multiply_equal.cpp
+    source/li_operator_multiply.cpp
     source/li_operator_division_equal.cpp
     source/li_operator_division.cpp
-    source/li_operator_multiply_equal.cpp
-    source/li_operator_multiply.cpp)
+    source/li_operator_modulus_equal.cpp
+    source/li_operator_modulus.cpp)
 
 # Make Target
 add_library(${PROJECT_NAME_LOWER} SHARED ${SOURCES})
@@ -82,6 +84,8 @@ if(${GTEST_GIT_CI})
         tests/gtests/tests_operator_multiply.cpp
         tests/gtests/tests_operator_division_equal.cpp
         tests/gtests/tests_operator_division.cpp
+        tests/gtests/tests_operator_modulus_equal.cpp
+        tests/gtests/tests_operator_modulus.cpp
         )
 
     # Make Gtest target
