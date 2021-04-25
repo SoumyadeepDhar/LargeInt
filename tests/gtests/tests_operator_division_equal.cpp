@@ -19,7 +19,7 @@ namespace li
 // Testing module
 namespace testing
 {
-// Test operator multiply equal
+// Test operator division equal
 namespace test_operator_division_equal
 {
 

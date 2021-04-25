@@ -19,7 +19,7 @@ namespace li
 // Testing module
 namespace testing
 {
-// Test operator multiply
+// Test operator division
 namespace test_operator_division
 {
 
@@ -192,7 +192,7 @@ TEST_F(TestOperatorDivision, tests_division_INT64_MIN)
     EXPECT_EQ(c.getValue(), std::to_string(INT64_MIN));
 }
 
-} // namespace test_operator_multiply
+} // namespace test_operator_division
 } // namespace testing
 } // namespace li
 } // namespace ds
