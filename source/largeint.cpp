@@ -396,17 +396,17 @@ LargeInt LargeInt::sqrt()
   // Get even power 2n (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
   unsigned int _eDigit = ((std::min(digits(), (N_LIMIT_mDIGIT * 3))) >> 1) << 1;
 
-  // Keeping +2 buffer to accurate estimation (n + 2)
-  int _multiplier = ((digits() - _eDigit) >> 1) + 2;
+  // Keeping +2 buffer to accurate estimation (n + N_LIMIT_mDIGIT)
+  int _multiplier = ((digits() - _eDigit) >> 1) + N_LIMIT_mDIGIT;
 
   // Create a initial Integer estimation as square root
   _nR = std::sqrt(std::strtold(getValue().substr(0, _eDigit).c_str(), 0));
 
-  // Adjust power to (n + 2)
+  // Adjust power to (n + N_LIMIT_mDIGIT)
   _nR <<= _multiplier;
 
   // Update original number 
-  _number <<= 4;
+  _number <<= (N_LIMIT_mDIGIT * 2);
 
   do
   {
@@ -426,7 +426,7 @@ LargeInt LargeInt::sqrt()
   } while (_result != _nR);
 
   // Readjust result to accurate decimal places
-  _result >>= 2;
+  _result >>= N_LIMIT_mDIGIT;
 
   // Return integer part of sqrt
   return _result;
