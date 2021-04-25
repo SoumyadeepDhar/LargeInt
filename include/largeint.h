@@ -213,7 +213,7 @@ public:
 };
 
 } // namespace li
-} // namespace ds
+} // namespace dn
 } // namespace ns
 
 #endif // LARGEINT_H_
