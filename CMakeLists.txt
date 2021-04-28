@@ -92,7 +92,7 @@ if(${GTEST_GIT_CI})
     add_executable(GTest${PROJECT_NAME} ${GTESTS_SOURCES})
 
     # Links the executable to the LargeUInt C++ library.
-    target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC largeint)
+    target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC ${PROJECT_NAME_LOWER})
     target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
     # Add GTest to CI
