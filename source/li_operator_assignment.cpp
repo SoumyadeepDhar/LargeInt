@@ -48,7 +48,7 @@ LargeInt &LargeInt::operator=(const char *_x)
     unsigned int position = 0;
 
     // Input string length
-    unsigned int nDigit = strlen(_x);
+    int nDigit = strlen(_x);
 
     // Fot all digits in the given string
     enIndex = nDigit;

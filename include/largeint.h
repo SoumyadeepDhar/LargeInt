@@ -12,6 +12,10 @@
 #include <vector>
 #include <math.h>
 
+#ifdef PARI
+# include <pari.h>
+#endif
+
 // Number system
 namespace ns
 {
@@ -53,7 +57,7 @@ public:
   /// Destructor default
   virtual ~LargeInt();
 
-  /// Get sign of the large integer as symbol (-) if negetive
+  /// Get sign of the large integer as symbol (-) if negative
   std::string getSign() const;
 
   /// Get large integer as string with all the nodes information

@@ -52,7 +52,7 @@ LargeInt::LargeInt(const char *_x)
     unsigned int position = 0;
 
     // Input string length
-    unsigned int nDigit = strlen(_x);
+    int nDigit = strlen(_x);
 
     // Fot all digits in the given string
     enIndex = nDigit;
@@ -81,7 +81,7 @@ LargeInt::LargeInt(const char *_x)
         // Update position for next iteration
         position++;
 
-        // Find value for the desimal place
+        // Find value for the decimal place
         value += (_x[sIndex] - 48) * powl(10, power);
 
         // Keep only 'N_LIMIT_mDIGIT' in any node
@@ -119,7 +119,7 @@ LargeInt::LargeInt(const char *_x)
         _nList = {0U};
       }
 
-      // Remove trailing zerosif any
+      // Remove trailing zeros if any
       if (_nList.size() > 1U)
       {
         size_t _e = _nList.size() - 1;
@@ -383,11 +383,11 @@ unsigned int LargeInt::digits() const
 /// Get sqrt of the number
 LargeInt LargeInt::sqrt()
 {
-  // For negetive number or 0U
+  // For negative number or 0U
   if (*this <= 0U)
     return {0U};
 
-  // For nember in a single node
+  // For number in a single node
   if (*this < N_LIMIT_mVALUE)
     return {std::sqrt(std::stold(getValue()))};
 
@@ -423,7 +423,7 @@ LargeInt LargeInt::sqrt()
     // Update result for next iteration
     _nR = _nB - ((_nA * _nA) / (_nB * 2));
 
-    // Until no further inprovement possible for square root
+    // Until no further improvement possible for square root
   } while (_result != _nR);
 
   // Readjust result to accurate decimal places
@@ -469,11 +469,11 @@ LargeInt LargeInt::root(const unsigned int _x)
   if (_x == 2U)
     return this->sqrt();
 
-  // For negetive number or 0U
+  // For negative number or 0U
   if (*this <= 0U)
     return {0U};
 
-  // For nember in a single node
+  // For number in a single node
   if (*this < N_LIMIT_mVALUE)
     return {powl(std::stold(getValue()), (1.0 / _x))};
 
@@ -513,7 +513,7 @@ LargeInt LargeInt::root(const unsigned int _x)
     _nR += _nB;
     _nR /= _x;
 
-    // Until no further inprovement possible for the nth root
+    // Until no further improvement possible for the nth root
   } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
            _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
 
@@ -535,7 +535,7 @@ LargeInt &LargeInt::operator<<=(const unsigned int _x)
 
   long long unsigned int _mCarry = __UINT64_C(0);
 
-  // New nodes tobe appended
+  // New nodes to be appended
   unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
 
   // Number of digits to be shifted
@@ -546,10 +546,10 @@ LargeInt &LargeInt::operator<<=(const unsigned int _x)
   long long unsigned int _cValue = std::pow(10, _cDigit);
   long long unsigned int _nValue = std::pow(10, _nDigit);
 
-  // Shift succesive elements
+  // Shift successive elements
   for (auto i = _nList.begin(); i != _nList.end(); ++i)
   {
-    // Find carry to be added tothe previous node
+    // Find carry to be added to the previous node
     long long unsigned int _nCarry = *i / _cValue;
 
     // Update current node
@@ -586,7 +586,7 @@ LargeInt &LargeInt::operator>>=(const unsigned int _x)
   // Set default
   long long unsigned int _mCarry = __UINT64_C(0);
 
-  // New nodes tobe appended
+  // New nodes to be appended
   unsigned int _nNodes = _x / N_LIMIT_mDIGIT;
 
   // Number of digits to be shifted
@@ -610,10 +610,10 @@ LargeInt &LargeInt::operator>>=(const unsigned int _x)
       long long unsigned int _cValue = std::pow(10, _cDigit);
       long long unsigned int _nValue = std::pow(10, _nDigit);
 
-      // Shift succesive elements
+      // Shift successive elements
       for (auto i = _nList.rbegin(); i != _nList.rend(); ++i)
       {
-        // Find carry to be added tothe previous node
+        // Find carry to be added to the previous node
         long long unsigned int _nCarry = *i - ((*i / _nValue) * _nValue);
 
         // Update current node

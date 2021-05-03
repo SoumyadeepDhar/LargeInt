@@ -91,7 +91,6 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     case _MODA_GREATER_THAN_MODB_:
     {
       _v = *this;
-      unsigned int _sList1 = _v._nList.size();
       unsigned int _sList2 = _x._nList.size();
 
       // Substract successive elements one by one in proper positions from given list
@@ -106,8 +105,7 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     case _MODB_GREATER_THAN_MODA_:
     {
       _v = _x;
-      unsigned int _sList1 = _v._nList.size();
-      unsigned int _sList2 = _nList.size();
+      size_t _sList2 = _nList.size();
 
       // Substract successive elements one by one in proper positions from given list
       for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
