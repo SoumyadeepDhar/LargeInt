@@ -29,7 +29,7 @@ public:
     TestFixture() 
     {
 #ifdef PARI
-        LargeInt::InitSupportPARI();
+        LargeInt::InitializePARI();
 #endif
     }
 

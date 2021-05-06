@@ -25,6 +25,11 @@ namespace li
 // This is the operator overloading function for assignment operator(*).
 LargeInt LargeInt::operator*(const LargeInt &_x)
 {
+  if(*this == 0 || (_x._nList.size() == 1 && _x._nList[0U] == 0))
+  {
+    return {0U};
+  }
+
   unsigned int _sList1 = _nList.size();
   unsigned int _sList2 = _x._nList.size();
 
@@ -38,20 +43,12 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
     GEN x = mulii(gp_read_str(this->getValue().c_str()), gp_read_str(_x.getValue().c_str()));
 
     // Get result
-    char* _resstr = GENtostr(x);
-
-    // Convert to string with appending '\0' to it
-    std::string _resultstr(_resstr);
-
-    // Convert back to Large int
-    _result = _resultstr;
-
-    // Free from heap
-    free(_resstr);
+    this->convert(x, _result);
 
     // Clear stack
     parivstack_reset();
 
+    // Return computed result
     return _result;
   }
 #endif

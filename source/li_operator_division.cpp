@@ -48,6 +48,26 @@ LargeInt LargeInt::operator/(const LargeInt &_x)
   }
   else
   {
+#ifdef PARI
+    if (_pariInitialized)
+    {
+      // // Calculate (x / y) using pari
+      GEN q = dvmdii(gp_read_str(_absv.getValue().c_str()), gp_read_str(_absx.getValue().c_str()), NULL);
+
+      // // Get result
+      this->convert(q, _result);
+
+      // Update sign information
+      _result.positive = !(positive ^ _x.positive);
+
+      // Clear stack
+      parivstack_reset();
+
+      // Return computed result
+      return _result;
+    }
+#endif
+
     // Get node size for divident and divisor
     unsigned int _sList1 = _absv._nList.size();
     unsigned int _sList2 = _absx._nList.size();
@@ -189,7 +209,6 @@ LargeInt LargeInt::operator/(const unsigned int _x)
 {
   return *this / std::to_string(_x);
 }
-
 
 // Specialized for long long unsigned int
 template <>

@@ -54,7 +54,7 @@ TEST_F(TestLargeInt, tests_largeint_sqrt)
 {
     LargeInt m = "1361129467683753853705924477137396432901";
     LargeInt n = m.sqrt();
-    EXPECT_TRUE(n == "36893488147419103230");
+    EXPECT_EQ(n.getValue(), "36893488147419103230");
 }
 
 TEST_F(TestLargeInt, tests_largeint_pow_0)

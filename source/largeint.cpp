@@ -25,18 +25,31 @@ namespace li
 {
 
 #ifdef PARI
-  // Mark pari support not present until user initialized pari  
-  bool LargeInt::_pariInitialized = false;
+// Mark pari support not present until user initialized pari
+bool LargeInt::_pariInitialized = false;
 
-  // Initialize PARI library
-  void LargeInt::InitSupportPARI()
+// Initialize PARI library
+void LargeInt::InitializePARI()
+{
+  if (!_pariInitialized)
   {
-    if(!_pariInitialized)
-    {
-      _pariInitialized = true;
-      pari_init(N_LIMIT_mVALUE * 2, std::sqrt(N_LIMIT_mVALUE * 10));
-    }
+    _pariInitialized = true;
+    pari_init(N_LIMIT_mVALUE * 2, std::sqrt(N_LIMIT_mVALUE * 10));
   }
+}
+
+/// Convert  GEN value to Large int
+void LargeInt::convert(GEN _g, LargeInt &_x)
+{
+  // Get result
+  char *_resCharBuf = GENtostr(_g);
+
+  // Convert back to Large int
+  _x.assignment(_resCharBuf);
+
+  // Free from heap
+  free(_resCharBuf);
+}
 #endif
 
 LargeInt::LargeInt() : positive(true)
@@ -49,7 +62,7 @@ template <>
 LargeInt::LargeInt(const char *_x)
 {
   // Assign _x as current value
-  *this = _x; 
+  *this = _x;
 }
 
 // Specialized for char *
@@ -235,6 +248,8 @@ void LargeInt::sub(const long long unsigned int _x, const unsigned int _iPositio
 /// Assign filtered string value
 void LargeInt::assignment(const std::string &_x)
 {
+  const int _nodeLength = N_LIMIT_mDIGIT;
+
   // Clear previous data
   _nList.clear();
 
@@ -242,14 +257,26 @@ void LargeInt::assignment(const std::string &_x)
   positive = _x[0] != '-' ? true : false;
 
   // Input string length
-  unsigned int nDigit = _x.length();
+  int nDigit = _x.length();
 
   // Assign term by term
-  for(auto _i = positive ? 0U : 1U; _i < nDigit; _i += N_LIMIT_mDIGIT)
-  {
-    _nList.push_back(std::stoull(_x.substr(_i, N_LIMIT_mDIGIT)));
-  }
+  int st = positive ? 0 : 1;
+  int en = nDigit - 1;
+  int position = nDigit;
+  int length = _nodeLength;
 
+  // Create nodes from the given string
+  for (int _i = en; _i >= st; _i -= _nodeLength)
+  {
+    // Get length of string that represent current node
+    length = std::min((position - st), _nodeLength);
+
+    // Get starting position of current node
+    position = std::max(st, (_i - _nodeLength + 1));
+
+    // Create new node
+    this->_nList.push_back(std::stoull(_x.substr(position, length)));
+  }
 }
 
 // Get large integer sign information as string
@@ -382,29 +409,18 @@ LargeInt LargeInt::pow(const unsigned int _x)
   LargeInt _result(0U);
 
 #ifdef PARI
-  if(_pariInitialized)
+  if (_pariInitialized)
   {
-    // Calculate x^y using pari
+    // Calculate (value^_x) using pari
     GEN x = powiu(gp_read_str(this->getValue().c_str()), _x);
 
     // Get result
-    char* _resstr = GENtostr(x);
-
-    // Convert to string with appending '\0' to it
-    std::string _resultstr(_resstr);
-
-    // Convert back to Large int
-    _result = _resultstr;
-
-    // Free from heap
-    free(_resstr);
+    this->convert(x, _result);
 
     // Clear stack
     parivstack_reset();
 
-    //Find sign value
-    _result.positive = positive ? true : !(_x % 2) ? true : false;
-
+    // Return computed result
     return _result;
   }
 #endif
@@ -420,8 +436,9 @@ LargeInt LargeInt::pow(const unsigned int _x)
   }
 
   //Find sign value
-  _result.positive = positive ? true : !(_x % 2) ? true : false;
-  
+  _result.positive = positive ? true : !(_x % 2) ? true
+                                                 : false;
+
   return _result;
 }
 
@@ -452,25 +469,17 @@ LargeInt LargeInt::root(const unsigned int _x)
   LargeInt _result(0U);
 
 #ifdef PARI
-  if(_pariInitialized)
+  if (_pariInitialized)
   {
     // Compute result using pari GP
     GEN x = sqrtnint(gp_read_str(this->getValue().c_str()), _x);
 
     // Get result
-    char* _resstr = GENtostr(floor_safe(x));
-
-    // Convert to string with appending '\0' to it
-    std::string _resultstr(_resstr);
-
-    // Convert back to Large int
-    _result = _resultstr;
-
-    // Free from heap
-    free(_resstr);
+    this->convert(floor_safe(x), _result);
 
     // Clear stack
     parivstack_reset();
+
     // Return integer part of the nth root
     return _result;
   }
@@ -487,7 +496,7 @@ LargeInt LargeInt::root(const unsigned int _x)
   // Select number of digits for initial estimate
   // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
   unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
-  
+
   // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
   int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
 
@@ -514,7 +523,7 @@ LargeInt LargeInt::root(const unsigned int _x)
 
     // Until no further improvement possible for the nth root
   } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
-          _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
+           _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
 
   // Readjust result to accurate decimal places
   _result >>= N_LIMIT_mDIGIT;

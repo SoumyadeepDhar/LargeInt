@@ -101,7 +101,7 @@ LargeInt &LargeInt::operator=(const char *_x)
       bool isNonZeroValuePresent = false;
       for (auto nElement : _nList)
       {
-        if(nElement != 0U)
+        if (nElement != 0U)
         {
           isNonZeroValuePresent = true;
           break;
@@ -109,19 +109,20 @@ LargeInt &LargeInt::operator=(const char *_x)
       }
 
       // If zero found
-      if(isNonZeroValuePresent == false)
+      if (isNonZeroValuePresent == false)
       {
-          positive = true;
-          _nList = {0U};
+        positive = true;
+        _nList = {0U};
       }
       else
       {
-        // Remove trailing zerosif any 
-        if(_nList.size() > 1U)
+        // Remove trailing zerosif any
+        if (_nList.size() > 1U)
         {
           size_t _e = _nList.size() - 1;
-          for(; (_e > 0) && (_nList[_e] == 0); --_e);
-          
+          for (; (_e > 0) && (_nList[_e] == 0); --_e)
+            ;
+
           // Erase elements
           _nList.erase(_nList.begin() + _e + 1, _nList.end());
         }
@@ -130,7 +131,7 @@ LargeInt &LargeInt::operator=(const char *_x)
     else
     {
       positive = true;
-      _nList = {0U}; 
+      _nList = {0U};
     }
   }
 
@@ -172,13 +173,7 @@ LargeInt &LargeInt::operator=(const unsigned char _x)
 template <>
 LargeInt &LargeInt::operator=(const short int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -186,13 +181,7 @@ LargeInt &LargeInt::operator=(const short int _x)
 template <>
 LargeInt &LargeInt::operator=(const unsigned short int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -200,13 +189,7 @@ LargeInt &LargeInt::operator=(const unsigned short int _x)
 template <>
 LargeInt &LargeInt::operator=(const int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -214,13 +197,7 @@ LargeInt &LargeInt::operator=(const int _x)
 template <>
 LargeInt &LargeInt::operator=(const unsigned int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -228,13 +205,7 @@ LargeInt &LargeInt::operator=(const unsigned int _x)
 template <>
 LargeInt &LargeInt::operator=(const long int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -242,13 +213,7 @@ LargeInt &LargeInt::operator=(const long int _x)
 template <>
 LargeInt &LargeInt::operator=(const long unsigned int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -256,13 +221,7 @@ LargeInt &LargeInt::operator=(const long unsigned int _x)
 template <>
 LargeInt &LargeInt::operator=(const long long int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -270,13 +229,7 @@ LargeInt &LargeInt::operator=(const long long int _x)
 template <>
 LargeInt &LargeInt::operator=(const long long unsigned int _x)
 {
-  // Get input data as string format
-  std::string _value(std::to_string(_x));
-
-  // Assign value node by node
-  this->assignment(_value);
-
-  // Return self
+  *this = std::to_string(_x);
   return *this;
 }
 
@@ -304,7 +257,7 @@ LargeInt &LargeInt::operator=(const double _x)
   // Assign value node by node
   this->assignment(_value);
 
-  // Return self  
+  // Return self
   return *this;
 }
 
