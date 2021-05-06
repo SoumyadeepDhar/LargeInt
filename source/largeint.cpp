@@ -48,109 +48,8 @@ LargeInt::LargeInt() : positive(true)
 template <>
 LargeInt::LargeInt(const char *_x)
 {
-  if (_x != NULL)
-  {
-    int sIndex, stIndex, enIndex;
-
-    // Set sign information
-    positive = _x[0] != '-' ? true : false;
-
-    // Accumulator value for any node
-    long long unsigned int value = 0;
-
-    // Right to left position of the digits in the string
-    unsigned int position = 0;
-
-    // Input string length
-    int nDigit = strlen(_x);
-
-    // Fot all digits in the given string
-    enIndex = nDigit;
-    for (sIndex = positive ? 0U : 1U; sIndex < nDigit; ++sIndex)
-    {
-      // Stop processing if not a digit
-      if (_x[sIndex] < 48 || _x[sIndex] > 57)
-        break;
-
-      // Update end index
-      enIndex = sIndex;
-    }
-
-    // If valid digits present
-    if (enIndex < nDigit)
-    {
-      // Based on sign set start index
-      stIndex = positive ? 0U : 1U;
-
-      // Fot all digits in the given string
-      for (sIndex = enIndex; sIndex >= stIndex; --sIndex)
-      {
-        // Calculate positional significance within the  node
-        int power = position - (_nList.size() * N_LIMIT_mDIGIT);
-
-        // Update position for next iteration
-        position++;
-
-        // Find value for the decimal place
-        value += (_x[sIndex] - 48) * powl(10, power);
-
-        // Keep only 'N_LIMIT_mDIGIT' in any node
-        if ((power + 1) == N_LIMIT_mDIGIT)
-        {
-          // Insert data in nodelist
-          _nList.push_back(value);
-
-          // Clear value accumulator
-          value = 0;
-        }
-      }
-
-      // Append remaining digits
-      if (position % N_LIMIT_mDIGIT)
-      {
-        _nList.push_back(value);
-      }
-
-      // Check for zero value
-      bool isNobZeroValuePresent = false;
-      for (auto nElement : _nList)
-      {
-        if (nElement != 0U)
-        {
-          isNobZeroValuePresent = true;
-          break;
-        }
-      }
-
-      // If zero found
-      if (isNobZeroValuePresent == false)
-      {
-        positive = true;
-        _nList = {0U};
-      }
-
-      // Remove trailing zeros if any
-      if (_nList.size() > 1U)
-      {
-        size_t _e = _nList.size() - 1;
-        for (; (_e > 0) && (_nList[_e] == 0); --_e)
-          ;
-
-        // Erase elements
-        _nList.erase(_nList.begin() + _e + 1, _nList.end());
-      }
-    }
-    else
-    {
-      positive = true;
-      _nList = {0U};
-    }
-  }
-  else
-  {
-    positive = true;
-    _nList = {0U};
-  }
+  // Assign _x as current value
+  *this = _x; 
 }
 
 // Specialized for char *
@@ -552,7 +451,6 @@ LargeInt LargeInt::root(const unsigned int _x)
 
     // Clear stack
     parivstack_reset();
-    
     // Return integer part of the nth root
     return _result;
   }
