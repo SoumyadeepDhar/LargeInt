@@ -137,6 +137,14 @@ LargeInt &LargeInt::operator=(const char *_x)
   return *this;
 }
 
+// Specialized for char *
+template <>
+LargeInt &LargeInt::operator=(char *_x)
+{
+  *this = _x;
+  return *this;
+}
+
 template <>
 LargeInt &LargeInt::operator=(const std::string _x)
 {

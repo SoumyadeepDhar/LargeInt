@@ -24,6 +24,21 @@ namespace dn
 namespace li
 {
 
+#ifdef PARI
+  // Mark pari support not present until user initialized pari  
+  bool LargeInt::_pariInitialized = false;
+
+  // Initialize PARI library
+  void LargeInt::InitSupportPARI()
+  {
+    if(!_pariInitialized)
+    {
+      _pariInitialized = true;
+      pari_init(N_LIMIT_mVALUE * 2, std::sqrt(N_LIMIT_mVALUE * 10));
+    }
+  }
+#endif
+
 LargeInt::LargeInt() : positive(true)
 {
   _nList = {0U};
@@ -32,13 +47,8 @@ LargeInt::LargeInt() : positive(true)
 // Specialized for const char *
 template <>
 LargeInt::LargeInt(const char *_x)
-    : positive(true)
 {
-  if (_x == NULL)
-  {
-    _nList = {0U};
-  }
-  else
+  if (_x != NULL)
   {
     int sIndex, stIndex, enIndex;
 
@@ -135,6 +145,11 @@ LargeInt::LargeInt(const char *_x)
       positive = true;
       _nList = {0U};
     }
+  }
+  else
+  {
+    positive = true;
+    _nList = {0U};
   }
 }
 
@@ -440,17 +455,45 @@ LargeInt LargeInt::pow(const unsigned int _x)
   if (_x == 0U)
     return {1U};
 
-  LargeInt _temp(*this);
-  LargeInt _result(_temp);
-  for (auto index = 0U; index < (_x - 1); index++)
+  // For 0U th power
+  if (_x == 1U)
+    return {*this};
+
+LargeInt _result(0U);
+#ifdef PARI
+  if(_pariInitialized)
   {
-    _result *= _temp;
+    // Calculate x^y using pari
+    GEN x = powiu(gp_read_str(this->getValue().c_str()), _x);
+
+    // Get result
+    char* _resstr = GENtostr(x);
+
+    // Convert to string with appending '\0' to it
+    std::string _resultstr(_resstr);
+
+    // Convert back to Large int
+    _result = _resultstr;
+
+    // Free from heap and stack
+    free(_resstr);
+    parivstack_reset();
   }
+#endif
 
-  //Find sign value
-  _result.positive = positive ? true : !(_x % 2) ? true
-                                                 : false;
+  // If result already not computed
+  if(_result == 0U) 
+  {
+    _result = *this;
+    LargeInt _temp(*this);
+    for (auto index = 0U; index < (_x - 1); index++)
+    {
+      _result *= _temp;
+    }
 
+    //Find sign value
+    _result.positive = positive ? true : !(_x % 2) ? true : false;
+  }
   return _result;
 }
 
@@ -477,48 +520,74 @@ LargeInt LargeInt::root(const unsigned int _x)
   if (*this < N_LIMIT_mVALUE)
     return {powl(std::stold(getValue()), (1.0 / _x))};
 
+LargeInt _result(0U);
+#ifdef PARI
+  if(_pariInitialized)
+  {
+    // Compute result using pari GP
+    GEN x = sqrtnint(gp_read_str(this->getValue().c_str()), _x);
+
+    // Get result
+    char* _resstr = GENtostr(floor_safe(x));
+
+    // Convert to string with appending '\0' to it
+    std::string _resultstr(_resstr);
+
+    // Convert back to Large int
+    _result = _resultstr;
+
+    // Free from heap and stack
+    free(_resstr);
+    parivstack_reset();
+  }
+#endif
+
   // Newton's method: (i + 1)th iteration root
   //                    --                              --
   //                1   |                       A        |
   //  X(i + 1) =  ----- | (n - 1).X(i) + --------------  |
   //                n   |                  X(i)^(n - 1)  |
   //                    --                              --
-
-  LargeInt _nR, _result, _nB, _nA(*this);
-
-  // Select number of digits for initial estimate
-  // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
-  unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
-  // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
-  int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
-
-  // Create a initial Integer estimation as square root
-  _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
-
-  // Adjust power to (n + N_LIMIT_mDIGIT)
-  _nR <<= _multiplier;
-
-  // Update original number
-  _nA <<= (N_LIMIT_mDIGIT * _x);
-  do
+  // If result already not computed
+  if(_result == 0U) 
   {
-    // Keep note of last valid result
-    _result = _nR;
+    LargeInt _nR, _nB, _nA(*this);
 
-    // Calculate result
-    // _nR = ((_nR * (_x - 1)) + (_nA / (_nR.pow(_x - 1)))) / _x;
-    _nB = _nR.pow(_x - 1);
-    _nB = _nA / _nB;
-    _nR *= (_x - 1);
-    _nR += _nB;
-    _nR /= _x;
+    // Select number of digits for initial estimate
+    // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
+    unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
+    
+    // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
+    int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
 
-    // Until no further improvement possible for the nth root
-  } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
-           _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
+    // Create a initial Integer estimation as square root
+    _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
 
-  // Readjust result to accurate decimal places
-  _result >>= N_LIMIT_mDIGIT;
+    // Adjust power to (n + N_LIMIT_mDIGIT)
+    _nR <<= _multiplier;
+
+    // Update original number
+    _nA <<= (N_LIMIT_mDIGIT * _x);
+    do
+    {
+      // Keep note of last valid result
+      _result = _nR;
+
+      // Calculate result
+      // _nR = ((_nR * (_x - 1)) + (_nA / (_nR.pow(_x - 1)))) / _x;
+      _nB = _nR.pow(_x - 1);
+      _nB = _nA / _nB;
+      _nR *= (_x - 1);
+      _nR += _nB;
+      _nR /= _x;
+
+      // Until no further improvement possible for the nth root
+    } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
+            _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
+
+    // Readjust result to accurate decimal places
+    _result >>= N_LIMIT_mDIGIT;
+  }
 
   // Return integer part of the nth root
   return _result;

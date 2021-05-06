@@ -26,7 +26,12 @@ class TestFixture
 public:
 
     // Initialization code here
-    TestFixture() {}
+    TestFixture() 
+    {
+#ifdef PARI
+        LargeInt::InitSupportPARI();
+#endif
+    }
 
     // Code here will execute just before the test ensues
     virtual void SetUp() = 0;
