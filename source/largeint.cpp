@@ -232,6 +232,26 @@ void LargeInt::sub(const long long unsigned int _x, const unsigned int _iPositio
   }
 }
 
+/// Assign filtered string value
+void LargeInt::assignment(const std::string &_x)
+{
+  // Clear previous data
+  _nList.clear();
+
+  // Set sign information
+  positive = _x[0] != '-' ? true : false;
+
+  // Input string length
+  unsigned int nDigit = _x.length();
+
+  // Assign term by term
+  for(auto _i = positive ? 0U : 1U; _i < nDigit; _i += N_LIMIT_mDIGIT)
+  {
+    _nList.push_back(std::stoull(_x.substr(_i, N_LIMIT_mDIGIT)));
+  }
+
+}
+
 // Get large integer sign information as string
 std::string LargeInt::getSign() const
 {

@@ -228,6 +228,9 @@ private:
   /// Subtract unsigned value to specific positional node
   void sub(const long long unsigned int _x, const unsigned int _iPosition = 0);
 
+  /// Assign filtered string value
+  void assignment(const std::string &_x);
+
 // If pari support is defind
 #ifdef PARI
   // Marker to Identify
