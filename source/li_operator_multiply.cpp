@@ -31,6 +31,31 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
   // Initialized as positive
   LargeInt _result(0U);
 
+#ifdef PARI
+  if(_pariInitialized)
+  {
+    // Calculate (x * y) using pari
+    GEN x = mulii(gp_read_str(this->getValue().c_str()), gp_read_str(_x.getValue().c_str()));
+
+    // Get result
+    char* _resstr = GENtostr(x);
+
+    // Convert to string with appending '\0' to it
+    std::string _resultstr(_resstr);
+
+    // Convert back to Large int
+    _result = _resultstr;
+
+    // Free from heap
+    free(_resstr);
+
+    // Clear stack
+    parivstack_reset();
+
+    return _result;
+  }
+#endif
+
   // For each elements in first list multiply them to the other list
   for (auto nIndex1 = 0U; nIndex1 < _sList1; ++nIndex1)
   {

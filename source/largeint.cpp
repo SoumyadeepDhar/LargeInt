@@ -459,7 +459,9 @@ LargeInt LargeInt::pow(const unsigned int _x)
   if (_x == 1U)
     return {*this};
 
-LargeInt _result(0U);
+  // Temporary local result
+  LargeInt _result(0U);
+
 #ifdef PARI
   if(_pariInitialized)
   {
@@ -475,25 +477,32 @@ LargeInt _result(0U);
     // Convert back to Large int
     _result = _resultstr;
 
-    // Free from heap and stack
+    // Free from heap
     free(_resstr);
+
+    // Clear stack
     parivstack_reset();
+
+    //Find sign value
+    _result.positive = positive ? true : !(_x % 2) ? true : false;
+
+    return _result;
   }
 #endif
 
   // If result already not computed
-  if(_result == 0U) 
-  {
-    _result = *this;
-    LargeInt _temp(*this);
-    for (auto index = 0U; index < (_x - 1); index++)
-    {
-      _result *= _temp;
-    }
+  _result = *this;
+  LargeInt _temp(*this);
 
-    //Find sign value
-    _result.positive = positive ? true : !(_x % 2) ? true : false;
+  // Multiple base value (n - 1) times
+  for (auto index = 0U; index < (_x - 1); index++)
+  {
+    _result *= _temp;
   }
+
+  //Find sign value
+  _result.positive = positive ? true : !(_x % 2) ? true : false;
+  
   return _result;
 }
 
@@ -520,7 +529,9 @@ LargeInt LargeInt::root(const unsigned int _x)
   if (*this < N_LIMIT_mVALUE)
     return {powl(std::stold(getValue()), (1.0 / _x))};
 
-LargeInt _result(0U);
+  // Temporary local result
+  LargeInt _result(0U);
+
 #ifdef PARI
   if(_pariInitialized)
   {
@@ -536,9 +547,14 @@ LargeInt _result(0U);
     // Convert back to Large int
     _result = _resultstr;
 
-    // Free from heap and stack
+    // Free from heap
     free(_resstr);
+
+    // Clear stack
     parivstack_reset();
+    
+    // Return integer part of the nth root
+    return _result;
   }
 #endif
 
@@ -548,46 +564,42 @@ LargeInt _result(0U);
   //  X(i + 1) =  ----- | (n - 1).X(i) + --------------  |
   //                n   |                  X(i)^(n - 1)  |
   //                    --                              --
-  // If result already not computed
-  if(_result == 0U) 
+  LargeInt _nR, _nB, _nA(*this);
+
+  // Select number of digits for initial estimate
+  // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
+  unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
+  
+  // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
+  int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
+
+  // Create a initial Integer estimation as square root
+  _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
+
+  // Adjust power to (n + N_LIMIT_mDIGIT)
+  _nR <<= _multiplier;
+
+  // Update original number
+  _nA <<= (N_LIMIT_mDIGIT * _x);
+  do
   {
-    LargeInt _nR, _nB, _nA(*this);
+    // Keep note of last valid result
+    _result = _nR;
 
-    // Select number of digits for initial estimate
-    // (total digits always greater than single node i.e. N_LIMIT_mDIGIT)
-    unsigned int _eDigit = std::min(digits(), static_cast<unsigned int>(DBL_MAX_10_EXP));
-    
-    // Keeping N_LIMIT_mDIGIT buffer to accurate estimation (n + N_LIMIT_mDIGIT)
-    int _multiplier = (digits() - _eDigit) + N_LIMIT_mDIGIT;
+    // Calculate result
+    // _nR = ((_nR * (_x - 1)) + (_nA / (_nR.pow(_x - 1)))) / _x;
+    _nB = _nR.pow(_x - 1);
+    _nB = _nA / _nB;
+    _nR *= (_x - 1);
+    _nR += _nB;
+    _nR /= _x;
 
-    // Create a initial Integer estimation as square root
-    _nR = powl(std::strtold(getValue().substr(0, _eDigit).c_str(), 0), (1.0 / _x));
+    // Until no further improvement possible for the nth root
+  } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
+          _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
 
-    // Adjust power to (n + N_LIMIT_mDIGIT)
-    _nR <<= _multiplier;
-
-    // Update original number
-    _nA <<= (N_LIMIT_mDIGIT * _x);
-    do
-    {
-      // Keep note of last valid result
-      _result = _nR;
-
-      // Calculate result
-      // _nR = ((_nR * (_x - 1)) + (_nA / (_nR.pow(_x - 1)))) / _x;
-      _nB = _nR.pow(_x - 1);
-      _nB = _nA / _nB;
-      _nR *= (_x - 1);
-      _nR += _nB;
-      _nR /= _x;
-
-      // Until no further improvement possible for the nth root
-    } while (_result.getValue().substr(0, (_result.digits() - N_LIMIT_mDIGIT)) !=
-            _nR.getValue().substr(0, (_nR.digits() - N_LIMIT_mDIGIT)));
-
-    // Readjust result to accurate decimal places
-    _result >>= N_LIMIT_mDIGIT;
-  }
+  // Readjust result to accurate decimal places
+  _result >>= N_LIMIT_mDIGIT;
 
   // Return integer part of the nth root
   return _result;
