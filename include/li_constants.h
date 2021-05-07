@@ -8,6 +8,11 @@
 #ifndef LI_CONSTANTS_H_
 #define LI_CONSTANTS_H_
 
+#ifdef PARI
+# include <pari.h>
+#endif
+#include <math.h>
+
 // Number system
 namespace ns
 {

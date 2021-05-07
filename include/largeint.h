@@ -10,11 +10,6 @@
 
 #include <string>
 #include <vector>
-#include <math.h>
-
-#ifdef PARI
-#include <pari.h>
-#endif
 
 // Number system
 namespace ns
@@ -28,14 +23,8 @@ namespace li
 // Class LargeInt
 class LargeInt
 {
-  // Declaration of public member and methods
+// Declaration of public member and methods
 public:
-// If pari support is defind
-#ifdef PARI
-  //Initialize PARI library
-  static void InitializePARI();
-#endif
-
   /// Constructor default
   LargeInt();
 
@@ -213,7 +202,12 @@ public:
   /// This is the operator overloading function for assignment operator(--) postfix.
   LargeInt operator--(int);
 
-  // Declaration of private member and methods
+#ifdef PARI
+  //Initialize PARI library
+  static void InitializePARI();
+#endif
+
+// Declaration of private member and methods
 private:
   /// Sign info for the number
   bool positive;
@@ -232,11 +226,12 @@ private:
 
 // If pari support is defind
 #ifdef PARI
-  // Marker to Identify
+
+  // Marker to Identify pari is already initialized
   static bool _pariInitialized;
 
-  /// Convert  GEN value to Large int
-  void convert(GEN _g, LargeInt &_x);
+  /// Convert  GEN(long *) value to Large int
+  void convert(long *_g, LargeInt &_x);
 
 #endif
 };
