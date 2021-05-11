@@ -25,31 +25,36 @@ namespace li
 // This is the operator overloading function for assignment operator(*).
 LargeInt LargeInt::operator*(const LargeInt &_x)
 {
-  if(*this == 0 || (_x._nList.size() == 1 && _x._nList[0U] == 0))
+  // If current value is zero
+  if(*this == 0)
   {
     return {0U};
   }
 
-  unsigned int _sList1 = _nList.size();
-  unsigned int _sList2 = _x._nList.size();
-
   // Initialized as positive
   LargeInt _result(0U);
+  unsigned int _sList1 = _nList.size();
+  unsigned int _sList2 = _x._nList.size();
 
 #ifdef PARI
   if(_pariInitialized)
   {
-    // Calculate (x * y) using pari
-    GEN x = mulii(gp_read_str(this->getValue().c_str()), gp_read_str(_x.getValue().c_str()));
+    // If large numbers are present
+    if(_sList1 > 1 || _sList2 > 1)
+    {
+      // Initialize pari variables
+      GEN _vp, _xp;
 
-    // Get result
-    this->convert(x, _result);
+      // Get result
+      _xp = convert(_x);
+      _vp = convert(*this);
 
-    // Clear stack
-    parivstack_reset();
+      // Get result as x * y
+      _result = convert(mulii(_vp, _xp));
 
-    // Return computed result
-    return _result;
+      // Return computed result
+      return _result;
+    }
   }
 #endif
 

@@ -24,34 +24,6 @@ namespace dn
 namespace li
 {
 
-#ifdef PARI
-// Mark pari support not present until user initialized pari
-bool LargeInt::_pariInitialized = false;
-
-// Initialize PARI library
-void LargeInt::InitializePARI()
-{
-  if (!_pariInitialized)
-  {
-    _pariInitialized = true;
-    pari_init(N_LIMIT_mVALUE * 2, std::sqrt(N_LIMIT_mVALUE * 10));
-  }
-}
-
-/// Convert  GEN value to Large int
-void LargeInt::convert(GEN _g, LargeInt &_x)
-{
-  // Get result
-  char *_resCharBuf = GENtostr(_g);
-
-  // Convert back to Large int
-  _x.assignment(_resCharBuf);
-
-  // Free from heap
-  free(_resCharBuf);
-}
-#endif
-
 LargeInt::LargeInt() : positive(true)
 {
   _nList = {0U};
@@ -411,14 +383,14 @@ LargeInt LargeInt::pow(const unsigned int _x)
 #ifdef PARI
   if (_pariInitialized)
   {
-    // Calculate (value^_x) using pari
-    GEN x = powiu(gp_read_str(this->getValue().c_str()), _x);
+    // Calculate (value^_x) using pari library
+    GEN _xp = powiu(convert(*this), _x);
 
     // Get result
-    this->convert(x, _result);
+    _result = convert(_xp);
 
     // Clear stack
-    parivstack_reset();
+    // parivstack_reset();
 
     // Return computed result
     return _result;
@@ -471,14 +443,14 @@ LargeInt LargeInt::root(const unsigned int _x)
 #ifdef PARI
   if (_pariInitialized)
   {
-    // Compute result using pari GP
-    GEN x = sqrtnint(gp_read_str(this->getValue().c_str()), _x);
+    // Compute result using pari library
+    GEN x = sqrtnint(convert(*this), _x);
 
     // Get result
-    this->convert(floor_safe(x), _result);
+    _result = convert(floor_safe(x));
 
     // Clear stack
-    parivstack_reset();
+    // parivstack_reset();
 
     // Return integer part of the nth root
     return _result;

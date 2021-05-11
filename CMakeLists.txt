@@ -33,6 +33,7 @@ endif()
 # Add source files
 set(SOURCES 
     source/largeint.cpp
+    source/li_pari_functions.cpp
     source/li_operator_assignment.cpp
     source/li_operator_compare_lesser.cpp
     source/li_operator_compare_lesser_equal.cpp

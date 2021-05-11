@@ -205,6 +205,13 @@ public:
 #ifdef PARI
   //Initialize PARI library
   static void InitializePARI();
+
+  // Get facors of given unsigned integer number
+  static std::vector<unsigned long long int> factor(unsigned long long int _x);
+
+  // Get facors of given Large integer number
+  std::vector<LargeInt> factor();
+
 #endif
 
 // Declaration of private member and methods
@@ -231,7 +238,10 @@ private:
   static bool _pariInitialized;
 
   /// Convert  GEN(long *) value to Large int
-  void convert(long *_g, LargeInt &_x);
+  static LargeInt convert(long *_g);
+
+  /// Convert  Large int to GEN(long *)
+  static long * convert(const LargeInt &_x);
 
 #endif
 };

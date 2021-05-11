@@ -26,6 +26,18 @@ namespace li
 // This is the operator overloading function for assignment operator(*).
 LargeInt LargeInt::operator/(const LargeInt &_x)
 {
+  // Is diviser is zero
+  if (*this == 0)
+  {
+    return LargeInt{INFINITY};
+  }
+
+  // Is divident is zero
+  if (*this == 0)
+  {
+    return LargeInt{0U};
+  }
+
   // Initialize absolute
   LargeInt _absv(*this);
   _absv.positive = true;
@@ -44,109 +56,115 @@ LargeInt LargeInt::operator/(const LargeInt &_x)
   // If divident and divisor are equql
   if (_absv == _absx)
   {
+    //Set result
     _result = 1U;
+
+    // Update sign information
+    _result.positive = !(positive ^ _x.positive);
+
+    return _result;
   }
-  else
-  {
+
+  //Get size information
+  unsigned int _sList1 = _nList.size();
+  unsigned int _sList2 = _x._nList.size();
+
 #ifdef PARI
-    if (_pariInitialized)
+  if (_pariInitialized)
+  {
+    // If large numbers are present
+    if (_sList1 > 1 || _sList2 > 1)
     {
-      // // Calculate (x / y) using pari
-      GEN q = dvmdii(gp_read_str(_absv.getValue().c_str()), gp_read_str(_absx.getValue().c_str()), NULL);
+      // Initialize pari variables
+      GEN _vp, _xp;
 
-      // // Get result
-      this->convert(q, _result);
+      // Get result
+      _xp = convert(_x);
+      _vp = convert(*this);
 
-      // Update sign information
-      _result.positive = !(positive ^ _x.positive);
-
-      // Clear stack
-      parivstack_reset();
+      // Get result as x / y
+      _result = convert(dvmdii(_vp, _xp, NULL));
 
       // Return computed result
       return _result;
     }
+  }
 #endif
 
-    // Get node size for divident and divisor
-    unsigned int _sList1 = _absv._nList.size();
-    unsigned int _sList2 = _absx._nList.size();
+  // Initialize remainder
+  LargeInt _remainder(0U);
+  for (auto nIndex1 = _sList1 - _sList2 + 1; nIndex1 < _sList1; ++nIndex1)
+  {
+    LargeInt _temp(_absv._nList[nIndex1]);
+    _temp <<= (N_LIMIT_mDIGIT * (nIndex1 - (_sList1 - _sList2 + 1)));
+    _remainder += _temp;
+  }
 
-    // Initialize remainder
-    LargeInt _remainder(0U);
-    for (auto nIndex1 = _sList1 - _sList2 + 1; nIndex1 < _sList1; ++nIndex1)
+  // For (_sList1 - _sList2 + 1) times iterate
+  for (auto nIndex1 = _sList1 - _sList2 + 1; nIndex1 > 0; --nIndex1)
+  {
+    // Get node value
+    long long unsigned int _nElement = _absv._nList[nIndex1 - 1];
+
+    // Get intermediate divident
+    LargeInt _divident(_remainder);
+    _divident <<= N_LIMIT_mDIGIT;
+    _divident += _nElement;
+
+    long double _div = 0.0F;
+    long double _dsr = 0.0F;
+    long long int _quotient = 0;
+
+    // Find new remainder
+    if (_divident >= _absx)
     {
-      LargeInt _temp(_absv._nList[nIndex1]);
-      _temp <<= (N_LIMIT_mDIGIT * (nIndex1 - (_sList1 - _sList2 + 1)));
-      _remainder += _temp;
-    }
+      unsigned int digitDiff = _divident.digits() - _absx.digits();
 
-    // For (_sList1 - _sList2 + 1) times iterate
-    for (auto nIndex1 = _sList1 - _sList2 + 1; nIndex1 > 0; --nIndex1)
-    {
-      // Get node value
-      long long unsigned int _nElement = _absv._nList[nIndex1 - 1];
+      _div = std::strtold(_divident.getValue()
+                              .substr(0, std::min(_divident.digits(), (N_LIMIT_mDIGIT * 3)))
+                              .c_str(),
+                          0);
+      _dsr = std::strtold(_absx.getValue()
+                              .substr(0, std::min(_divident.digits(), ((N_LIMIT_mDIGIT * 3) - digitDiff)))
+                              .c_str(),
+                          0);
 
-      // Get intermediate divident
-      LargeInt _divident(_remainder);
-      _divident <<= N_LIMIT_mDIGIT;
-      _divident += _nElement;
+      // Calculate quotient
+      _quotient = (_div / _dsr);
 
-      long double _div = 0.0F;
-      long double _dsr = 0.0F;
-      long long int _quotient = 0;
+      // Update remainder
+      LargeInt _nearest(_absx);
+      _nearest *= _quotient;
+
+      // Adjust nearest element
+      if (_nearest > _divident)
+      {
+        _nearest -= _absx;
+        _quotient -= 1;
+      }
 
       // Find new remainder
-      if (_divident >= _absx)
-      {
-        unsigned int digitDiff = _divident.digits() - _absx.digits();
-
-        _div = std::strtold(_divident.getValue()
-                                .substr(0, std::min(_divident.digits(), (N_LIMIT_mDIGIT * 3)))
-                                .c_str(),
-                            0);
-        _dsr = std::strtold(_absx.getValue()
-                                .substr(0, std::min(_divident.digits(), ((N_LIMIT_mDIGIT * 3) - digitDiff)))
-                                .c_str(),
-                            0);
-
-        // Calculate quotient
-        _quotient = (_div / _dsr);
-
-        // Update remainder
-        LargeInt _nearest(_absx);
-        _nearest *= _quotient;
-
-        // Adjust nearest element
-        if (_nearest > _divident)
-        {
-          _nearest -= _absx;
-          _quotient -= 1;
-        }
-
-        // Find new remainder
-        _remainder = _divident - _nearest;
-      }
-      else
-      {
-        _quotient = 0;
-        _remainder = _divident;
-      }
-
-      // Update result
-      _result._nList.insert(_result._nList.begin(), _quotient);
+      _remainder = _divident - _nearest;
     }
-
-    // Remove trailing zerosif any
-    if (_result._nList.size() > 1U)
+    else
     {
-      size_t _e = _result._nList.size() - 1;
-      for (; (_e > 0) && (_result._nList[_e] == 0); --_e)
-        ;
-
-      // Erase elements
-      _result._nList.erase(_result._nList.begin() + _e + 1, _result._nList.end());
+      _quotient = 0;
+      _remainder = _divident;
     }
+
+    // Update result
+    _result._nList.insert(_result._nList.begin(), _quotient);
+  }
+
+  // Remove trailing zeros if any
+  if (_result._nList.size() > 1U)
+  {
+    size_t _e = _result._nList.size() - 1;
+    for (; (_e > 0) && (_result._nList[_e] == 0); --_e)
+      ;
+
+    // Erase elements
+    _result._nList.erase(_result._nList.begin() + _e + 1, _result._nList.end());
   }
 
   // Update sign information

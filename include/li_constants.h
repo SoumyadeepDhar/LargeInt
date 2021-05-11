@@ -23,8 +23,9 @@ namespace dn
 namespace li
 {
 
-constexpr unsigned int N_LIMIT_mVALUE = 1000000000U;
-constexpr unsigned int N_LIMIT_mDIGIT = 9U;
+constexpr unsigned int N_MAX_PRIME      = 65536U;
+constexpr unsigned int N_LIMIT_mVALUE   = 1000000000U;
+constexpr unsigned int N_LIMIT_mDIGIT   = 9U;
 
 } // namespace li
 } // namespace dn

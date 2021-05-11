@@ -127,6 +127,25 @@ TEST_F(TestLargeInt, tests_largeint_root_4)
     EXPECT_EQ(n.getValue(), "2074673301571409538209323192905998949900");
 }
 
+TEST_F(TestLargeInt, tests_largeint_factor_UINT64)
+{
+    std::vector<unsigned long long int> factors = LargeInt::factor(100);
+    for (auto &f : factors)
+    {
+        EXPECT_EQ((100 % f), 0);
+    }
+}
+
+TEST_F(TestLargeInt, tests_largeint_factor_LargeInt)
+{
+    LargeInt value("2074673301571409538209323192905998949900");
+    std::vector<LargeInt> factors = value.factor();
+    for (auto &f : factors)
+    {
+        EXPECT_EQ((value % f).getValue(), "0");
+    }
+}
+
 } // namespace testing
 } // namespace li
 } // namespace dn
