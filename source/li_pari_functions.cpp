@@ -27,16 +27,49 @@ namespace li
 // Mark pari support not present until user initialized pari
 bool LargeInt::_pariInitialized = false;
 
+// Large integer base value 
+long int * LargeInt::_gN_LIMIT_mVALUE = NULL;
+
+// Initial stack position of top
+unsigned long int LargeInt::_isptop = 0U;
+
 // Initialize PARI library
 void LargeInt::InitializePARI()
 {
   if (!_pariInitialized)
   {
     _pariInitialized = true;
+
+    // Initialize pari library
     pari_init(N_LIMIT_mVALUE, N_MAX_PRIME);
+
+    // Large integer base value 
+    _gN_LIMIT_mVALUE = stoi(N_LIMIT_mVALUE);
+
+    // Initial stack position of top
+    _isptop = avma;
   }
 }
 
+// Initialize PARI library
+void LargeInt::ClosePARI()
+{
+  if (_pariInitialized)
+  {
+    pari_close();
+    _pariInitialized = false;
+  }
+}
+
+// Clear PARI stack
+void LargeInt::ClearStackPARI()
+{
+  if (_pariInitialized)
+  {
+    // Clear stack
+    gerepileall(_isptop, 0);
+  }
+}
 /// Convert  GEN value to Large int
 LargeInt LargeInt::convert(GEN _g)
 {
@@ -57,9 +90,6 @@ LargeInt LargeInt::convert(GEN _g)
 /// Convert  Large int to GEN(long *)
 GEN LargeInt::convert(const LargeInt &_x)
 {
-  // Keep base value for large int
-  static const GEN gN_LIMIT_mVALUE = stoi(N_LIMIT_mVALUE);
-
   // Get Number of nodes in LargeInt
   long int _vSize = _x._nList.size();
 
@@ -73,7 +103,7 @@ GEN LargeInt::convert(const LargeInt &_x)
   }
 
   // Convert LargeInt value list to GEN t_INT
-  GEN _rp = fromdigitsu(_vpnList, gN_LIMIT_mVALUE);
+  GEN _rp = fromdigitsu(_vpnList, _gN_LIMIT_mVALUE);
 
   // Update sign value
   if(!_x.positive) _rp = negi(_rp);
@@ -85,6 +115,9 @@ GEN LargeInt::convert(const LargeInt &_x)
 // Get facors of given Large integer number
 std::vector<LargeInt> LargeInt::factor()
 {
+  // Get current stack top 
+  pari_sp _sptop = avma;
+
   GEN _xp = convert(*this);
   GEN _fList = divisors(_xp);
   std::vector<LargeInt> _result;
@@ -99,12 +132,18 @@ std::vector<LargeInt> LargeInt::factor()
     _result.emplace_back(convert(gel(_fList, i)));
   }
 
+  // Clear stack
+  gerepileall(_sptop, 0);
+
   return _result;
 }
 
 // Get facors of given unsigned integer number
 std::vector<unsigned long long int> LargeInt::factor(unsigned long long int _x)
 {
+  // Get current stack top 
+  pari_sp _sptop = avma;
+
   GEN _xp = convert(_x);
   GEN _fList = divisors(_xp);
   std::vector<unsigned long long int> _result;
@@ -118,6 +157,9 @@ std::vector<unsigned long long int> LargeInt::factor(unsigned long long int _x)
     // Store result
     _result.emplace_back(itos(gel(_fList, i)));
   }
+
+  // Clear stack
+  gerepileall(_sptop, 0);
 
   return _result;
 }

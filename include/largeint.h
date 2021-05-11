@@ -203,8 +203,14 @@ public:
   LargeInt operator--(int);
 
 #ifdef PARI
-  //Initialize PARI library
+  // Initialize PARI library
   static void InitializePARI();
+
+  // Close PARI library
+  static void ClosePARI();
+
+  // Clear PARI stack
+  static void ClearStackPARI();
 
   // Get facors of given unsigned integer number
   static std::vector<unsigned long long int> factor(unsigned long long int _x);
@@ -236,6 +242,12 @@ private:
 
   // Marker to Identify pari is already initialized
   static bool _pariInitialized;
+
+  // Large integer base value 
+  static long int * _gN_LIMIT_mVALUE;
+
+  // Initial stack position of top
+  static unsigned long int _isptop;
 
   /// Convert  GEN(long *) value to Large int
   static LargeInt convert(long *_g);

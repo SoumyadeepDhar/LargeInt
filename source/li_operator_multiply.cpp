@@ -42,6 +42,9 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
     // If large numbers are present
     if(_sList1 > 1 || _sList2 > 1)
     {
+      // Get current stack top 
+      pari_sp _sptop = avma;
+
       // Initialize pari variables
       GEN _vp, _xp;
 
@@ -51,6 +54,9 @@ LargeInt LargeInt::operator*(const LargeInt &_x)
 
       // Get result as x * y
       _result = convert(mulii(_vp, _xp));
+
+      // Clear stack
+      gerepileall(_sptop, 0);
 
       // Return computed result
       return _result;

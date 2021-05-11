@@ -17,31 +17,39 @@ namespace dn
 // Large integer
 namespace li
 {
-// Testing module    
+// Testing module
 namespace testing
 {
 
 class TestFixture
 {
 public:
-
-    // Initialization code here
-    TestFixture() 
-    {
+  // Initialization code here
+  TestFixture()
+  {
 #ifdef PARI
-        LargeInt::InitializePARI();
+    LargeInt::InitializePARI();
 #endif
-    }
+  }
 
-    // Code here will execute just before the test ensues
-    virtual void SetUp() = 0;
+  // Code here will execute just before the test ensues
+  virtual void SetUp() = 0;
 
-    // Code here will be called just after the test completes
-    // ok to through exceptions from here if need be
-    virtual void TearDown() = 0;
+  // Code here will be called just after the test completes
+  // ok to through exceptions from here if need be
+  virtual void TearDown() = 0;
 
-    // Cleanup any pending stuff, but no exceptions allowed
-    virtual ~TestFixture() {}
+  // Cleanup any pending stuff, but no exceptions allowed
+  virtual ~TestFixture()
+  {
+#ifdef PARI
+    // Clear pari stack
+    LargeInt::ClearStackPARI();
+
+    // close pari library operation support
+    LargeInt::ClosePARI();
+#endif
+  }
 };
 
 } // namespace testing

@@ -383,6 +383,9 @@ LargeInt LargeInt::pow(const unsigned int _x)
 #ifdef PARI
   if (_pariInitialized)
   {
+    // Get current stack top 
+    pari_sp _sptop = avma;
+
     // Calculate (value^_x) using pari library
     GEN _xp = powiu(convert(*this), _x);
 
@@ -390,7 +393,7 @@ LargeInt LargeInt::pow(const unsigned int _x)
     _result = convert(_xp);
 
     // Clear stack
-    // parivstack_reset();
+    gerepileall(_sptop, 0);
 
     // Return computed result
     return _result;
@@ -443,6 +446,9 @@ LargeInt LargeInt::root(const unsigned int _x)
 #ifdef PARI
   if (_pariInitialized)
   {
+    // Get current stack top 
+    pari_sp _sptop = avma;
+
     // Compute result using pari library
     GEN x = sqrtnint(convert(*this), _x);
 
@@ -450,7 +456,7 @@ LargeInt LargeInt::root(const unsigned int _x)
     _result = convert(floor_safe(x));
 
     // Clear stack
-    // parivstack_reset();
+    gerepileall(_sptop, 0);
 
     // Return integer part of the nth root
     return _result;

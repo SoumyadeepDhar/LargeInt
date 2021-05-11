@@ -34,6 +34,38 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     _MODA_AND_MODB_is_EQUAL_,
   } MODC;
 
+  // Get size information
+  unsigned int _sList1 = _v._nList.size();
+  unsigned int _sList2 = _x._nList.size();
+
+#ifdef PARI
+  if(_pariInitialized)
+  {
+    // If large numbers are present
+    if (_sList1 > 1 || _sList2 > 1)
+    {
+      // Get current stack top 
+      pari_sp _sptop = avma;
+
+      // Initialize pari variables
+      GEN _vp, _xp;
+
+      // Get result
+      _xp = convert(_x);
+      _vp = convert(*this);
+
+      // Get result as x * y
+      _v = convert(subii(_vp, _xp));
+
+      // Clear stack
+      gerepileall(_sptop, 0);
+
+      // Return computed result
+      return _v;
+    }
+  }
+#endif
+
   // Set default as equal and find comparision
   MODC state = _MODA_AND_MODB_is_EQUAL_;
 
@@ -90,8 +122,8 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     {
     case _MODA_GREATER_THAN_MODB_:
     {
+      // Get current value
       _v = *this;
-      unsigned int _sList2 = _x._nList.size();
 
       // Substract successive elements one by one in proper positions from given list
       for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
