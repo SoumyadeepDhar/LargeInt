@@ -25,7 +25,7 @@ namespace li
 /// This is the operator overloading function for comparator operator(+).
 LargeInt LargeInt::operator-(const LargeInt &_x)
 {
-  LargeInt _v;
+  LargeInt _v(*this);
 
   typedef enum _mod_compare_
   {
@@ -34,13 +34,14 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     _MODA_AND_MODB_is_EQUAL_,
   } MODC;
 
-  // Get size information
-  unsigned int _sList1 = _v._nList.size();
-  unsigned int _sList2 = _x._nList.size();
-
 #ifdef PARI
+  
   if(_pariInitialized)
   {
+    // Get size information
+    const unsigned int _sList1 = _v._nList.size();
+    const unsigned int _sList2 = _x._nList.size();
+
     // If large numbers are present
     if (_sList1 > 1 || _sList2 > 1)
     {
@@ -52,7 +53,7 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
 
       // Get result
       _xp = convert(_x);
-      _vp = convert(*this);
+      _vp = convert(_v);
 
       // Get result as x * y
       _v = convert(subii(_vp, _xp));
@@ -69,10 +70,10 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
   // Set default as equal and find comparision
   MODC state = _MODA_AND_MODB_is_EQUAL_;
 
-  unsigned int _nd = digits();
-  unsigned int _md = _x.digits();
+  const unsigned int _nd = _v.digits();
+  const unsigned int _md = _x.digits();
 
-  // Comapare absulate values
+  // Comapare absolute values
   if (_nd > _md)
   {
     state = _MODA_GREATER_THAN_MODB_;
@@ -83,15 +84,15 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
   }
   else
   {
-    for (int _s = _nList.size() - 1; _s >= 0; --_s)
+    for (int _s = _v._nList.size() - 1; _s >= 0; --_s)
     {
-      if (_nList[_s] > _x._nList[_s])
+      if (_v._nList[_s] > _x._nList[_s])
       {
         state = _MODA_GREATER_THAN_MODB_;
         break;
       }
 
-      if (_nList[_s] < _x._nList[_s])
+      if (_v._nList[_s] < _x._nList[_s])
       {
         state = _MODB_GREATER_THAN_MODA_;
         break;
@@ -100,17 +101,17 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
   }
 
   // Check sign before operation
-  if (positive && !_x.positive)
+  if (_v.positive && !_x.positive)
   {
     LargeInt _absx(_x);
     _absx.positive = true;
 
-    _v = *this + _absx;
+    _v += _absx;
     _v.positive = true;
   }
-  else if (!positive && _x.positive)
+  else if (!_v.positive && _x.positive)
   {
-    LargeInt _absv(*this);
+    LargeInt _absv(_v);
     _absv.positive = true;
 
     _v = _absv + _x;
@@ -122,8 +123,7 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     {
     case _MODA_GREATER_THAN_MODB_:
     {
-      // Get current value
-      _v = *this;
+      unsigned int _sList2 = _x._nList.size();
 
       // Substract successive elements one by one in proper positions from given list
       for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
@@ -137,10 +137,10 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     case _MODB_GREATER_THAN_MODA_:
     {
       _v = _x;
-      size_t _sList2 = _nList.size();
+      unsigned int _sList1 = _nList.size();
 
       // Substract successive elements one by one in proper positions from given list
-      for (auto nIndex = 0U; nIndex < _sList2; ++nIndex)
+      for (auto nIndex = 0U; nIndex < _sList1; ++nIndex)
       {
         _v.sub(*(_nList.begin() + nIndex), nIndex);
       }
@@ -157,7 +157,7 @@ LargeInt LargeInt::operator-(const LargeInt &_x)
     }
   }
 
-  // Remove trailing zerosif any
+  // Remove trailing zeros if any
   if (_v._nList.size() > 1U)
   {
     size_t _e = _v._nList.size() - 1;
