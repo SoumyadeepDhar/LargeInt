@@ -70,6 +70,32 @@ void LargeInt::ClearStackPARI()
     gerepileall(_isptop, 0);
   }
 }
+
+// Get pari-gp direct support using PARI command
+std::string LargeInt::EvaluatePARI(const std::string _command)
+{
+  if (_pariInitialized)
+  {
+    // Get GEN value for the command
+    GEN _v = gp_read_str(_command.c_str());
+
+    // Convert result to character buffer
+    char *_resCharBuf = GENtostr(_v);
+
+    // Create temporary string to free the allocated memory by pari
+    std::string _result(_resCharBuf);
+
+    // Free from heap
+    free(_resCharBuf);
+
+    // Return computed result
+    return _result;
+  }
+
+  // Return as not initialized
+  return "PARI not initialized ...";
+}
+
 /// Convert  GEN value to Large int
 LargeInt LargeInt::convert(GEN _g)
 {

@@ -212,11 +212,15 @@ public:
   // Clear PARI stack
   static void ClearStackPARI();
 
+  // Get pari-gp direct support using PARI command
+  static std::string EvaluatePARI(const std::string _command);
+
   // Get facors of given unsigned integer number
   static std::vector<unsigned long long int> factor(unsigned long long int _x);
 
   // Get facors of given Large integer number
   std::vector<LargeInt> factor();
+
 
 #endif
 

@@ -145,6 +145,13 @@ TEST_F(TestLargeInt, tests_largeint_factor_LargeInt)
     EXPECT_EQ((value % f).getValue(), "0");
   }
 }
+
+TEST_F(TestLargeInt, tests_largeint_evaluatePARI)
+{
+  std::string r = LargeInt::EvaluatePARI("123456789*2");
+  EXPECT_EQ(r, "246913578");
+}
+
 #endif
 
 } // namespace testing
