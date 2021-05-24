@@ -167,6 +167,31 @@ PARI itself provides all necessary large integer operations.
     LargeInt 	operator% (const LargeInt &_x)
         This is the operator overloading function for operator(%). 
     
+    LargeInt & 	operator<<= (const unsigned int _x)
+        This is the operator overloading function for assignment operator(<<). 
+    
+    LargeInt 	operator<< (const unsigned int _x) const
+        This is the operator overloading function for shift operator(<<). 
+    
+    LargeInt & 	operator>>= (const unsigned int _x)
+        This is the operator overloading function for assignment operator(>>). 
+    
+    LargeInt 	operator>> (const unsigned int _x) const
+        This is the operator overloading function for shift operator(>>). 
+    
+    LargeInt 	operator++ ()
+        This is the operator overloading function for assignment operator(++) prefix. 
+    
+    LargeInt 	operator++ (int)
+        This is the operator overloading function for assignment operator(++) postfix.
+    
+    LargeInt 	operator-- ()
+        This is the operator overloading function for assignment operator(--) prefix.
+    
+    LargeInt 	operator-- (int)
+        This is the operator overloading function for assignment operator(--) postfix.
+
+
     template<typename T >
     bool 	operator< (const T _x)
         This is the operator overloading function for comparator operator(<). 
@@ -209,28 +234,3 @@ PARI itself provides all necessary large integer operations.
     bool 	operator!= (const LargeInt &_x)
         This is the operator overloading function for comparator operator(!=). 
     
-    LargeInt & 	operator<<= (const unsigned int _x)
-        This is the operator overloading function for assignment operator(<<). 
-    
-    LargeInt 	operator<< (const unsigned int _x) const
-        This is the operator overloading function for shift operator(<<). 
-    
-    LargeInt & 	operator>>= (const unsigned int _x)
-        This is the operator overloading function for assignment operator(>>). 
-    
-    LargeInt 	operator>> (const unsigned int _x) const
-        This is the operator overloading function for shift operator(>>). 
-    
-    LargeInt 	operator++ ()
-        This is the operator overloading function for assignment operator(++) prefix. 
-    
-    LargeInt 	operator++ (int)
-        This is the operator overloading function for assignment operator(++) postfix.
-    
-    LargeInt 	operator-- ()
-        This is the operator overloading function for assignment operator(--) prefix.
-    
-    LargeInt 	operator-- (int)
-        This is the operator overloading function for assignment operator(--) postfix.
-
-            
