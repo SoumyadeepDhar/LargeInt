@@ -22,7 +22,7 @@ namespace dn
 namespace li
 {
 
-/// This is the operator overloading function for comparator operator(+).
+/// This is the operator overloading function for plus operator(+).
 LargeInt LargeInt::operator+(const LargeInt &_x)
 {
   LargeInt _v;

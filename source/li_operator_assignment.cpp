@@ -22,7 +22,7 @@ namespace dn
 namespace li
 {
 
-// Specialized for const char *
+/// This is the operator overloading function for assignment operator(=).
 template <>
 LargeInt &LargeInt::operator=(const char *_x)
 {
@@ -146,6 +146,7 @@ LargeInt &LargeInt::operator=(char *_x)
   return *this;
 }
 
+// Specialized for std::string
 template <>
 LargeInt &LargeInt::operator=(const std::string _x)
 {

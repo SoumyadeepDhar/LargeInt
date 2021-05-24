@@ -22,7 +22,7 @@ namespace dn
 namespace li
 {
 
-// This is the operator overloading function for assignment operator(*).
+// This is the operator overloading function for multiplt operator(*).
 LargeInt LargeInt::operator*(const LargeInt &_x)
 {
   // If current value is zero

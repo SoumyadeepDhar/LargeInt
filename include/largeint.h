@@ -23,7 +23,7 @@ namespace li
 // Class LargeInt
 class LargeInt
 {
-// Declaration of public member and methods
+  // Declaration of public member and methods
 public:
   /// Constructor default
   LargeInt();
@@ -32,7 +32,7 @@ public:
   template <typename T>
   LargeInt(const T _x);
 
-  /// Constructor with integer as large unsigned int
+  /// Constructor with large int value.
   LargeInt(const LargeInt &_x);
 
   /// Destructor default
@@ -181,11 +181,11 @@ public:
   /// This is the operator overloading function for assignment operator(<<).
   LargeInt &operator<<=(const unsigned int _x);
 
-  /// This is the operator overloading function for assignment operator(>>).
-  LargeInt &operator>>=(const unsigned int _x);
-
   /// This is the operator overloading function for shift operator(<<).
   LargeInt operator<<(const unsigned int _x) const;
+
+  /// This is the operator overloading function for assignment operator(>>).
+  LargeInt &operator>>=(const unsigned int _x);
 
   /// This is the operator overloading function for shift operator(>>).
   LargeInt operator>>(const unsigned int _x) const;
@@ -193,11 +193,11 @@ public:
   /// This is the operator overloading function for assignment operator(++) prefix.
   LargeInt operator++();
 
-  /// This is the operator overloading function for assignment operator(--) prefix.
-  LargeInt operator--();
-
   /// This is the operator overloading function for assignment operator(++) postfix.
   LargeInt operator++(int);
+
+  /// This is the operator overloading function for assignment operator(--) prefix.
+  LargeInt operator--();
 
   /// This is the operator overloading function for assignment operator(--) postfix.
   LargeInt operator--(int);
@@ -220,11 +220,9 @@ public:
 
   // Get facors of given Large integer number
   std::vector<LargeInt> factor();
-
-
 #endif
 
-// Declaration of private member and methods
+  // Declaration of private member and methods
 private:
   /// Sign info for the number
   bool positive;
@@ -243,22 +241,20 @@ private:
 
 // If pari support is defind
 #ifdef PARI
-
   // Marker to Identify pari is already initialized
   static bool _pariInitialized;
 
-  // Large integer base value 
-  static long int * _gN_LIMIT_mVALUE;
+  // Large integer base value
+  static long int *_gN_LIMIT_mVALUE;
 
   // Initial stack position of top
   static unsigned long int _isptop;
 
   /// Convert  GEN(long *) value to Large int
-  static LargeInt convert(long *_g);
+  static LargeInt convert(long int *_g);
 
   /// Convert  Large int to GEN(long *)
-  static long * convert(const LargeInt &_x);
-
+  static long int *convert(const LargeInt &_x);
 #endif
 };
 

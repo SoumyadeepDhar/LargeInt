@@ -51,3 +51,186 @@ If PARI library support is required then install PARI and enable it in cmake.
 PARI documentation can be found in https://pari.math.u-bordeaux.fr/ . 
 PARI itself provides all necessary large integer operations.
 
+## Public Member Functions
+
+        LargeInt ()
+        Constructor default.
+    
+    template<typename T >
+        LargeInt (const T _x)
+        Constructor with argument.
+    
+        LargeInt (const LargeInt &_x)
+        Constructor with large int value.
+    
+    virtual 	~LargeInt ()
+        Destructor default.
+
+    
+    std::string 	getSign () const
+        Get sign of the large integer as symbol (-) if negative.
+    
+    std::string 	getNodes () const
+        Get large integer as string with all the nodes information.
+    
+    std::string 	getValue () const
+        Get large integer as string without all the nodes information.
+    
+    unsigned int 	digits () const
+        Get number of digits.
+
+
+    LargeInt 	sqrt ()
+        Get sqrt of the number.
+    
+    LargeInt 	pow (const unsigned int _x)
+        Get nth power of the number.
+    
+    LargeInt 	root (const unsigned int _x)
+        Get nth root of the number.
+
+
+    template<typename T >
+    LargeInt & 	operator= (const T _x)
+        This is the operator overloading function for assignment operator(=). 
+    
+    LargeInt & 	operator= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(=). 
+    
+    template<typename T >
+    LargeInt & 	operator+= (const T _x)
+        This is the operator overloading function for assignment operator(+). 
+    
+    LargeInt & 	operator+= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(+). 
+    
+    template<typename T >
+    LargeInt 	operator+ (const T _x)
+        This is the operator overloading function for operator(+). 
+    
+    LargeInt 	operator+ (const LargeInt &_x)
+        This is the operator overloading function for operator(+). 
+    
+    template<typename T >
+    LargeInt & 	operator-= (const T _x)
+        This is the operator overloading function for assignment operator(-). 
+    
+    LargeInt & 	operator-= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(-). 
+    
+    template<typename T >
+    LargeInt 	operator- (const T _x)
+        This is the operator overloading function for operator(-). 
+    
+    LargeInt 	operator- (const LargeInt &_x)
+        This is the operator overloading function for operator(-). 
+    
+    template<typename T >
+    LargeInt & 	operator*= (const T _x)
+        This is the operator overloading function for assignment operator(*). 
+    
+    LargeInt & 	operator*= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(*). 
+    
+    template<typename T >
+    LargeInt 	operator* (const T _x)
+        This is the operator overloading function for operator(*). 
+    
+    LargeInt 	operator* (const LargeInt &_x)
+        This is the operator overloading function for operator(*). 
+    
+    template<typename T >
+    LargeInt & 	operator/= (const T _x)
+        This is the operator overloading function for assignment operator(/). 
+    
+    LargeInt & 	operator/= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(/). 
+    
+    template<typename T >
+    LargeInt 	operator/ (const T _x)
+        This is the operator overloading function for operator(/). 
+    
+    LargeInt 	operator/ (const LargeInt &_x)
+        This is the operator overloading function for operator(/). 
+    
+    template<typename T >
+    LargeInt & 	operator%= (const T _x)
+        This is the operator overloading function for assignment operator(%). 
+    
+    LargeInt & 	operator%= (const LargeInt &_x)
+        This is the operator overloading function for assignment operator(%). 
+    
+    template<typename T >
+    LargeInt 	operator% (const T _x)
+        This is the operator overloading function for operator(%). 
+    
+    LargeInt 	operator% (const LargeInt &_x)
+        This is the operator overloading function for operator(%). 
+    
+    template<typename T >
+    bool 	operator< (const T _x)
+        This is the operator overloading function for comparator operator(<). 
+    
+    bool 	operator< (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(<). 
+    
+    template<typename T >
+    bool 	operator<= (const T _x)
+        This is the operator overloading function for comparator operator(<=). 
+    
+    bool 	operator<= (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(<=). 
+    
+    template<typename T >
+    bool 	operator> (const T _x)
+        This is the operator overloading function for comparator operator(>). 
+    
+    bool 	operator> (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(>). 
+    
+    template<typename T >
+    bool 	operator>= (const T _x)
+        This is the operator overloading function for comparator operator(>=). 
+    
+    bool 	operator>= (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(>=). 
+    
+    template<typename T >
+    bool 	operator== (const T _x)
+        This is the operator overloading function for comparator operator(==). 
+    
+    bool 	operator== (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(==). 
+    
+    template<typename T >
+    bool 	operator!= (const T _x)
+        This is the operator overloading function for comparator operator(!=). 
+    
+    bool 	operator!= (const LargeInt &_x)
+        This is the operator overloading function for comparator operator(!=). 
+    
+    LargeInt & 	operator<<= (const unsigned int _x)
+        This is the operator overloading function for assignment operator(<<). 
+    
+    LargeInt 	operator<< (const unsigned int _x) const
+        This is the operator overloading function for shift operator(<<). 
+    
+    LargeInt & 	operator>>= (const unsigned int _x)
+        This is the operator overloading function for assignment operator(>>). 
+    
+    LargeInt 	operator>> (const unsigned int _x) const
+        This is the operator overloading function for shift operator(>>). 
+    
+    LargeInt 	operator++ ()
+        This is the operator overloading function for assignment operator(++) prefix. 
+    
+    LargeInt 	operator++ (int)
+        This is the operator overloading function for assignment operator(++) postfix.
+    
+    LargeInt 	operator-- ()
+        This is the operator overloading function for assignment operator(--) prefix.
+    
+    LargeInt 	operator-- (int)
+        This is the operator overloading function for assignment operator(--) postfix.
+
+            

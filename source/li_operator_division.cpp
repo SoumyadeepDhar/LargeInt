@@ -23,7 +23,7 @@ namespace dn
 namespace li
 {
 
-// This is the operator overloading function for assignment operator(*).
+// This is the operator overloading function for division operator(/).
 LargeInt LargeInt::operator/(const LargeInt &_x)
 {
   // Is diviser is zero
