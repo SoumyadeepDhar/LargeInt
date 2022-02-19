@@ -215,6 +215,9 @@ public:
   // Get pari-gp direct support using PARI command
   static std::string EvaluatePARI(const std::string _command);
 
+  // Check given number is prime or not
+  static bool IsPrimePARI(const std::string _number);
+
   // Get facors of given unsigned integer number
   static std::vector<unsigned long long int> factor(unsigned long long int _x);
 

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16.3)
 SET(PROJECT_NAME "LargeInt")
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Project information
 project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
@@ -11,13 +12,15 @@ string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 include_directories(include)
 
 # Support for pari available 
-option(PARI_SUPPORT "PARI Library support" OFF)
+option(PARI_SUPPORT "PARI Library support" ON)
 
 # Build with pari library suppot
 if(${PARI_SUPPORT})
 
     # Include default pari path
-    include_directories("/usr/local/include/pari/")
+    # /usr/local/include/pari/
+    # /usr/include/x86_64-linux-gnu/pari/
+    include_directories("/usr/include/x86_64-linux-gnu/pari/")
 
     # External library to do large int operations
     find_library(PARI_LIB NAMES pari HINTS "/usr/local/lib/")
@@ -88,7 +91,7 @@ if(${GTEST_GIT_CI})
 
     find_package(GTest REQUIRED)
     include_directories(${GTEST_INCLUDE_DIRS})
-
+    
     # Add test source files
     set(GTESTS_SOURCES  
         tests/gtests/tests_gtests.cpp
@@ -113,12 +116,18 @@ if(${GTEST_GIT_CI})
         tests/gtests/tests_operator_modulus.cpp
         )
 
+    # Compilar options
+    add_compile_options(-O3 -Wall -Wextra)
+
     # Make Gtest target
     add_executable(GTest${PROJECT_NAME} ${GTESTS_SOURCES})
 
     # Links the executable to the LargeUInt C++ library.
     target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC ${PROJECT_NAME_LOWER})
+    message("-- CMAKE PROJECT_NAME: " ${PROJECT_NAME})
     target_link_libraries (GTest${PROJECT_NAME} LINK_PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+    message("-- CMAKE GTEST_LIBRARIES: " ${GTEST_LIBRARIES})
+    message("-- CMAKE GTEST_MAIN_LIBRARIES: " ${GTEST_MAIN_LIBRARIES})
 
     # Add GTest to CI
     add_test(GTest GTest${PROJECT_NAME})

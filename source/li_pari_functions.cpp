@@ -96,6 +96,19 @@ std::string LargeInt::EvaluatePARI(const std::string _command)
   return "PARI not initialized ...";
 }
 
+// Get pari-gp direct support using PARI command
+bool LargeInt::IsPrimePARI(const std::string _number)
+{
+  if (_pariInitialized)
+  {
+    // Convert result to character buffer
+    return isprime(gp_read_str(_number.c_str())) ? true : false;
+  }
+
+  // Return as not initialized
+  return false;
+}
+
 /// Convert  GEN value to Large int
 LargeInt LargeInt::convert(GEN _g)
 {

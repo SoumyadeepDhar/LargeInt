@@ -126,6 +126,7 @@ TEST_F(TestLargeInt, tests_largeint_root_4)
   LargeInt n = m.root(4);
   EXPECT_EQ(n.getValue(), "2074673301571409538209323192905998949900");
 }
+
 #ifdef PARI
 TEST_F(TestLargeInt, tests_largeint_factor_UINT64)
 {
@@ -150,6 +151,12 @@ TEST_F(TestLargeInt, tests_largeint_evaluatePARI)
 {
   std::string r = LargeInt::EvaluatePARI("123456789*2");
   EXPECT_EQ(r, "246913578");
+}
+
+TEST_F(TestLargeInt, tests_largeint_isprimePARI)
+{
+  bool r = LargeInt::IsPrimePARI("17");
+  EXPECT_EQ(r, true);
 }
 
 #endif
