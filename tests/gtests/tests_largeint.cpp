@@ -130,17 +130,27 @@ TEST_F(TestLargeInt, tests_largeint_root_4)
 #ifdef PARI
 TEST_F(TestLargeInt, tests_largeint_factor_UINT64)
 {
-  std::vector<unsigned long long int> factors = LargeInt::factor(1000000);
+  std::vector<unsigned long long int> factors = LargeInt::Factor(1000000);
   for (auto &f : factors)
   {
     EXPECT_EQ((1000000 % f), 0);
   }
 }
 
+TEST_F(TestLargeInt, tests_largeint_factor_string)
+{
+  LargeInt value("1000000");
+  std::vector<LargeInt> factors = LargeInt::Factor("1000000");
+  for (auto &f : factors)
+  {
+    EXPECT_TRUE((value % f) == "0");
+  }
+}
+
 TEST_F(TestLargeInt, tests_largeint_factor_LargeInt)
 {
   LargeInt value("2074673301571409538209323192905998949900");
-  std::vector<LargeInt> factors = value.factor();
+  std::vector<LargeInt> factors = value.Factor();
   for (auto &f : factors)
   {
     EXPECT_EQ((value % f).getValue(), "0");
@@ -153,9 +163,16 @@ TEST_F(TestLargeInt, tests_largeint_evaluatePARI)
   EXPECT_EQ(r, "246913578");
 }
 
-TEST_F(TestLargeInt, tests_largeint_isprimePARI)
+
+TEST_F(TestLargeInt, tests_largeint_isprime_UINT64)
 {
-  bool r = LargeInt::IsPrimePARI("17");
+  bool r = LargeInt::IsPrime(17);
+  EXPECT_EQ(r, true);
+}
+
+TEST_F(TestLargeInt, tests_largeint_isprime_string)
+{
+  bool r = LargeInt::IsPrime("17");
   EXPECT_EQ(r, true);
 }
 

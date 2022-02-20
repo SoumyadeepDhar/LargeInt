@@ -84,7 +84,7 @@ add_test(CTest CTest${PROJECT_NAME})
 
 
 # GTest option
-option(GTEST_GIT_CI "GTest during git push" OFF)
+option(GTEST_GIT_CI "GTest during git push" ON)
 
 # Checks for GTest
 if(${GTEST_GIT_CI})

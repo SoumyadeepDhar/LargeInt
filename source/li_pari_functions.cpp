@@ -97,12 +97,28 @@ std::string LargeInt::EvaluatePARI(const std::string _command)
 }
 
 // Get pari-gp direct support using PARI command
-bool LargeInt::IsPrimePARI(const std::string _number)
+bool LargeInt::IsPrime(const std::string _number)
 {
   if (_pariInitialized)
   {
     // Convert result to character buffer
     return isprime(gp_read_str(_number.c_str())) ? true : false;
+  }
+
+  // Return as not initialized
+  return false;
+}
+
+// Get pari-gp direct support using PARI command
+bool LargeInt::IsPrime(unsigned long long int _number)
+{
+  if (_pariInitialized)
+  {
+    // Covert to GP type integer
+    GEN _xp = convert(_number);
+
+    // Convert result to character buffer
+    return isprime(_xp) ? true : false;
   }
 
   // Return as not initialized
@@ -152,7 +168,7 @@ GEN LargeInt::convert(const LargeInt &_x)
 }
 
 // Get facors of given Large integer number
-std::vector<LargeInt> LargeInt::factor()
+std::vector<LargeInt> LargeInt::Factor()
 {
   // Get current stack top 
   pari_sp _sptop = avma;
@@ -178,7 +194,7 @@ std::vector<LargeInt> LargeInt::factor()
 }
 
 // Get facors of given unsigned integer number
-std::vector<unsigned long long int> LargeInt::factor(unsigned long long int _x)
+std::vector<unsigned long long int> LargeInt::Factor(const unsigned long long int _x)
 {
   // Get current stack top 
   pari_sp _sptop = avma;
@@ -202,6 +218,36 @@ std::vector<unsigned long long int> LargeInt::factor(unsigned long long int _x)
 
   return _result;
 }
+
+// Get facors of given Large integer number
+std::vector<LargeInt> LargeInt::Factor(const std::string _number)
+{
+  // Get current stack top 
+  pari_sp _sptop = avma;
+
+  // Conver to large integer
+  LargeInt _x(_number);
+
+  GEN _xp = convert(_x);
+  GEN _fList = divisors(_xp);
+  std::vector<LargeInt> _result;
+
+  // Get factor count
+  long int _lx = lg(_fList);
+
+  // For all factors
+  for (auto i = 1; i < _lx; i++)
+  {
+    // Store results
+    _result.emplace_back(convert(gel(_fList, i)));
+  }
+
+  // Clear stack
+  gerepileall(_sptop, 0);
+
+  return _result;
+}
+
 #endif
 
 } // namespace li

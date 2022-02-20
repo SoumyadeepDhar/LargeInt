@@ -216,13 +216,19 @@ public:
   static std::string EvaluatePARI(const std::string _command);
 
   // Check given number is prime or not
-  static bool IsPrimePARI(const std::string _number);
+  static bool IsPrime(const std::string _number);
+
+  // Check given number is prime or not
+  static bool IsPrime(const unsigned long long int _number);
 
   // Get facors of given unsigned integer number
-  static std::vector<unsigned long long int> factor(unsigned long long int _x);
+  static std::vector<unsigned long long int> Factor(const unsigned long long int _x);
+
+  // Get facors of given large integer number presented as string
+  static std::vector<LargeInt> Factor(const std::string _number);
 
   // Get facors of given Large integer number
-  std::vector<LargeInt> factor();
+  std::vector<LargeInt> Factor();
 #endif
 
   // Declaration of private member and methods
